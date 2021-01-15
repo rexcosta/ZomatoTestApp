@@ -1,0 +1,997 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 52;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6320F0DA25B068DE002F8C23 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F0D925B068DE002F8C23 /* AppCoordinator.swift */; };
+		6320F0FB25B0B2DE002F8C23 /* BottomStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F0F625B0B2DE002F8C23 /* BottomStateViewModel.swift */; };
+		6320F0FC25B0B2DE002F8C23 /* FullScreenStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F0F725B0B2DE002F8C23 /* FullScreenStateViewModel.swift */; };
+		6320F0FD25B0B2DE002F8C23 /* BottomStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F0F925B0B2DE002F8C23 /* BottomStateView.swift */; };
+		6320F0FE25B0B2DE002F8C23 /* FullScreenStateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F0FA25B0B2DE002F8C23 /* FullScreenStateView.swift */; };
+		6320F15425B0DDE2002F8C23 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6320F14E25B0DDE2002F8C23 /* Localizable.strings */; };
+		6320F15525B0DDE2002F8C23 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6320F15025B0DDE2002F8C23 /* InfoPlist.strings */; };
+		6320F16225B0DF77002F8C23 /* LocationErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F15F25B0DF77002F8C23 /* LocationErrorViewController.swift */; };
+		6320F16325B0DF77002F8C23 /* LocationErrorViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F16125B0DF77002F8C23 /* LocationErrorViewControllerModel.swift */; };
+		6320F16825B0DF87002F8C23 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F16725B0DF87002F8C23 /* LocationManager.swift */; };
+		6320F17325B0F3F9002F8C23 /* UIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F17025B0F3F9002F8C23 /* UIConstants.swift */; };
+		6320F17425B0F3F9002F8C23 /* UILabel+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F17125B0F3F9002F8C23 /* UILabel+Style.swift */; };
+		6320F17525B0F3F9002F8C23 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F17225B0F3F9002F8C23 /* Theme.swift */; };
+		6320F17D25B105E6002F8C23 /* UIButton+Style.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6320F17C25B105E6002F8C23 /* UIButton+Style.swift */; };
+		6356477425A7C2E800A8C28B /* ZomatoTestAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6356477325A7C2E800A8C28B /* ZomatoTestAppTests.swift */; };
+		6356477F25A7C2E800A8C28B /* ZomatoTestAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6356477E25A7C2E800A8C28B /* ZomatoTestAppUITests.swift */; };
+		6356482225AB54BA00A8C28B /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 6356482125AB54BA00A8C28B /* Kingfisher */; };
+		635648F125AC8BCB00A8C28B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 635648E425AC8BCB00A8C28B /* AppDelegate.swift */; };
+		6356491025AC8C1100A8C28B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6356490525AC8C1100A8C28B /* Assets.xcassets */; };
+		6356491125AC8C1100A8C28B /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6356490625AC8C1100A8C28B /* LaunchScreen.storyboard */; };
+		6390025925B1EA9A002EE106 /* RestaurantCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390023E25B1EA9A002EE106 /* RestaurantCollectionViewCellViewModel.swift */; };
+		6390025A25B1EA9A002EE106 /* RestaurantsListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390023F25B1EA9A002EE106 /* RestaurantsListViewModel.swift */; };
+		6390025B25B1EA9A002EE106 /* RestaurantCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024025B1EA9A002EE106 /* RestaurantCollectionViewCell.swift */; };
+		6390025C25B1EA9A002EE106 /* RestaurantsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024125B1EA9A002EE106 /* RestaurantsListView.swift */; };
+		6390025D25B1EA9A002EE106 /* RestaurantCellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024325B1EA9A002EE106 /* RestaurantCellConfigurator.swift */; };
+		6390025E25B1EA9A002EE106 /* RestaurantsViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024625B1EA9A002EE106 /* RestaurantsViewControllerModel.swift */; };
+		6390025F25B1EA9A002EE106 /* RestaurantsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024725B1EA9A002EE106 /* RestaurantsViewController.swift */; };
+		6390026025B1EA9A002EE106 /* PriceRangeCollectionViewCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024B25B1EA9A002EE106 /* PriceRangeCollectionViewCellViewModel.swift */; };
+		6390026325B1EA9A002EE106 /* RestaurantsSortViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024E25B1EA9A002EE106 /* RestaurantsSortViewModel.swift */; };
+		6390026425B1EA9A002EE106 /* RestaurantsFilterByPriceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390024F25B1EA9A002EE106 /* RestaurantsFilterByPriceViewModel.swift */; };
+		6390026525B1EA9A002EE106 /* RestaurantsSortView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390025025B1EA9A002EE106 /* RestaurantsSortView.swift */; };
+		6390026625B1EA9A002EE106 /* RestaurantsFilterByPriceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390025125B1EA9A002EE106 /* RestaurantsFilterByPriceView.swift */; };
+		6390026725B1EA9A002EE106 /* PriceRangeCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390025225B1EA9A002EE106 /* PriceRangeCollectionViewCell.swift */; };
+		6390026825B1EA9A002EE106 /* PriceRangeCellConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390025425B1EA9A002EE106 /* PriceRangeCellConfigurator.swift */; };
+		6390026925B1EA9A002EE106 /* RestaurantsFilterViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390025725B1EA9A002EE106 /* RestaurantsFilterViewControllerModel.swift */; };
+		6390026A25B1EA9A002EE106 /* RestaurantsFilterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390025825B1EA9A002EE106 /* RestaurantsFilterViewController.swift */; };
+		6390027A25B1F326002EE106 /* RestaurantPriceRange+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6390027825B1F326002EE106 /* RestaurantPriceRange+Localization.swift */; };
+		63AB168F25B05A45006D31A0 /* Zomato in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB168E25B05A45006D31A0 /* Zomato */; };
+		63AB169125B05A45006D31A0 /* ZomatoFoundation in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB169025B05A45006D31A0 /* ZomatoFoundation */; };
+		63AB169325B05A45006D31A0 /* ZomatoUIKit in Frameworks */ = {isa = PBXBuildFile; productRef = 63AB169225B05A45006D31A0 /* ZomatoUIKit */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		6356477025A7C2E800A8C28B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6356475125A7C2E700A8C28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6356475825A7C2E700A8C28B;
+			remoteInfo = ZomatoTestApp;
+		};
+		6356477B25A7C2E800A8C28B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6356475125A7C2E700A8C28B /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6356475825A7C2E700A8C28B;
+			remoteInfo = ZomatoTestApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6320F0D925B068DE002F8C23 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		6320F0F625B0B2DE002F8C23 /* BottomStateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomStateViewModel.swift; sourceTree = "<group>"; };
+		6320F0F725B0B2DE002F8C23 /* FullScreenStateViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenStateViewModel.swift; sourceTree = "<group>"; };
+		6320F0F925B0B2DE002F8C23 /* BottomStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BottomStateView.swift; sourceTree = "<group>"; };
+		6320F0FA25B0B2DE002F8C23 /* FullScreenStateView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FullScreenStateView.swift; sourceTree = "<group>"; };
+		6320F14F25B0DDE2002F8C23 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6320F15125B0DDE2002F8C23 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6320F15225B0DDE2002F8C23 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		6320F15325B0DDE2002F8C23 /* pt-PT */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-PT"; path = "pt-PT.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
+		6320F15F25B0DF77002F8C23 /* LocationErrorViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationErrorViewController.swift; sourceTree = "<group>"; };
+		6320F16125B0DF77002F8C23 /* LocationErrorViewControllerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationErrorViewControllerModel.swift; sourceTree = "<group>"; };
+		6320F16725B0DF87002F8C23 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		6320F17025B0F3F9002F8C23 /* UIConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIConstants.swift; sourceTree = "<group>"; };
+		6320F17125B0F3F9002F8C23 /* UILabel+Style.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Style.swift"; sourceTree = "<group>"; };
+		6320F17225B0F3F9002F8C23 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		6320F17C25B105E6002F8C23 /* UIButton+Style.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Style.swift"; sourceTree = "<group>"; };
+		6356475925A7C2E700A8C28B /* ZomatoTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ZomatoTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		6356476F25A7C2E800A8C28B /* ZomatoTestAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZomatoTestAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6356477325A7C2E800A8C28B /* ZomatoTestAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZomatoTestAppTests.swift; sourceTree = "<group>"; };
+		6356477525A7C2E800A8C28B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6356477A25A7C2E800A8C28B /* ZomatoTestAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZomatoTestAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6356477E25A7C2E800A8C28B /* ZomatoTestAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZomatoTestAppUITests.swift; sourceTree = "<group>"; };
+		6356478025A7C2E800A8C28B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		635648A125AC806400A8C28B /* ZomatoFoundation */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ZomatoFoundation; path = Other/ZomatoFoundation; sourceTree = "<group>"; };
+		635648B425AC875000A8C28B /* ZomatoUIKit */ = {isa = PBXFileReference; lastKnownFileType = folder; name = ZomatoUIKit; path = Other/ZomatoUIKit; sourceTree = "<group>"; };
+		635648BA25AC877B00A8C28B /* Zomato */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Zomato; path = Other/Zomato; sourceTree = "<group>"; };
+		635648E425AC8BCB00A8C28B /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		6356490525AC8C1100A8C28B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6356490725AC8C1100A8C28B /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6356492825AC8C7300A8C28B /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		6356493325AC8CC600A8C28B /* ZomatoTestApp.entitlements */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.entitlements; path = ZomatoTestApp.entitlements; sourceTree = "<group>"; };
+		6390023E25B1EA9A002EE106 /* RestaurantCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
+		6390023F25B1EA9A002EE106 /* RestaurantsListViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsListViewModel.swift; sourceTree = "<group>"; };
+		6390024025B1EA9A002EE106 /* RestaurantCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantCollectionViewCell.swift; sourceTree = "<group>"; };
+		6390024125B1EA9A002EE106 /* RestaurantsListView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsListView.swift; sourceTree = "<group>"; };
+		6390024325B1EA9A002EE106 /* RestaurantCellConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantCellConfigurator.swift; sourceTree = "<group>"; };
+		6390024625B1EA9A002EE106 /* RestaurantsViewControllerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsViewControllerModel.swift; sourceTree = "<group>"; };
+		6390024725B1EA9A002EE106 /* RestaurantsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsViewController.swift; sourceTree = "<group>"; };
+		6390024B25B1EA9A002EE106 /* PriceRangeCollectionViewCellViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRangeCollectionViewCellViewModel.swift; sourceTree = "<group>"; };
+		6390024E25B1EA9A002EE106 /* RestaurantsSortViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsSortViewModel.swift; sourceTree = "<group>"; };
+		6390024F25B1EA9A002EE106 /* RestaurantsFilterByPriceViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsFilterByPriceViewModel.swift; sourceTree = "<group>"; };
+		6390025025B1EA9A002EE106 /* RestaurantsSortView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsSortView.swift; sourceTree = "<group>"; };
+		6390025125B1EA9A002EE106 /* RestaurantsFilterByPriceView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsFilterByPriceView.swift; sourceTree = "<group>"; };
+		6390025225B1EA9A002EE106 /* PriceRangeCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRangeCollectionViewCell.swift; sourceTree = "<group>"; };
+		6390025425B1EA9A002EE106 /* PriceRangeCellConfigurator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PriceRangeCellConfigurator.swift; sourceTree = "<group>"; };
+		6390025725B1EA9A002EE106 /* RestaurantsFilterViewControllerModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsFilterViewControllerModel.swift; sourceTree = "<group>"; };
+		6390025825B1EA9A002EE106 /* RestaurantsFilterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RestaurantsFilterViewController.swift; sourceTree = "<group>"; };
+		6390027825B1F326002EE106 /* RestaurantPriceRange+Localization.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "RestaurantPriceRange+Localization.swift"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6356475625A7C2E700A8C28B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				63AB169125B05A45006D31A0 /* ZomatoFoundation in Frameworks */,
+				63AB168F25B05A45006D31A0 /* Zomato in Frameworks */,
+				6356482225AB54BA00A8C28B /* Kingfisher in Frameworks */,
+				63AB169325B05A45006D31A0 /* ZomatoUIKit in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6356476C25A7C2E800A8C28B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6356477725A7C2E800A8C28B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6320F0F425B0B2DE002F8C23 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				6390027725B1F326002EE106 /* Extensions */,
+				6320F0F825B0B2DE002F8C23 /* View */,
+				6320F0F525B0B2DE002F8C23 /* ViewModel */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		6320F0F525B0B2DE002F8C23 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6320F0F625B0B2DE002F8C23 /* BottomStateViewModel.swift */,
+				6320F0F725B0B2DE002F8C23 /* FullScreenStateViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6320F0F825B0B2DE002F8C23 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6320F0F925B0B2DE002F8C23 /* BottomStateView.swift */,
+				6320F0FA25B0B2DE002F8C23 /* FullScreenStateView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6320F14D25B0DDE2002F8C23 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				6320F14E25B0DDE2002F8C23 /* Localizable.strings */,
+				6320F15025B0DDE2002F8C23 /* InfoPlist.strings */,
+			);
+			path = Localization;
+			sourceTree = "<group>";
+		};
+		6320F15C25B0DF77002F8C23 /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				6320F15D25B0DF77002F8C23 /* Manager */,
+				6320F15E25B0DF77002F8C23 /* ViewController */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
+		6320F15D25B0DF77002F8C23 /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				6320F16725B0DF87002F8C23 /* LocationManager.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		6320F15E25B0DF77002F8C23 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6320F15F25B0DF77002F8C23 /* LocationErrorViewController.swift */,
+				6320F16025B0DF77002F8C23 /* ViewModel */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		6320F16025B0DF77002F8C23 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6320F16125B0DF77002F8C23 /* LocationErrorViewControllerModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6320F16F25B0F3F9002F8C23 /* Style */ = {
+			isa = PBXGroup;
+			children = (
+				6320F17025B0F3F9002F8C23 /* UIConstants.swift */,
+				6320F17125B0F3F9002F8C23 /* UILabel+Style.swift */,
+				6320F17C25B105E6002F8C23 /* UIButton+Style.swift */,
+				6320F17225B0F3F9002F8C23 /* Theme.swift */,
+			);
+			path = Style;
+			sourceTree = "<group>";
+		};
+		6356475025A7C2E700A8C28B = {
+			isa = PBXGroup;
+			children = (
+				635648BA25AC877B00A8C28B /* Zomato */,
+				635648B425AC875000A8C28B /* ZomatoUIKit */,
+				635648A125AC806400A8C28B /* ZomatoFoundation */,
+				6356475B25A7C2E700A8C28B /* ZomatoTestApp */,
+				6356477225A7C2E800A8C28B /* ZomatoTestAppTests */,
+				6356477D25A7C2E800A8C28B /* ZomatoTestAppUITests */,
+				6356475A25A7C2E700A8C28B /* Products */,
+				635648A525AC859200A8C28B /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		6356475A25A7C2E700A8C28B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6356475925A7C2E700A8C28B /* ZomatoTestApp.app */,
+				6356476F25A7C2E800A8C28B /* ZomatoTestAppTests.xctest */,
+				6356477A25A7C2E800A8C28B /* ZomatoTestAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6356475B25A7C2E700A8C28B /* ZomatoTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				6356490425AC8C1100A8C28B /* Resources */,
+				635648DE25AC8BCB00A8C28B /* Source */,
+			);
+			path = ZomatoTestApp;
+			sourceTree = "<group>";
+		};
+		6356477225A7C2E800A8C28B /* ZomatoTestAppTests */ = {
+			isa = PBXGroup;
+			children = (
+				6356477325A7C2E800A8C28B /* ZomatoTestAppTests.swift */,
+				6356477525A7C2E800A8C28B /* Info.plist */,
+			);
+			path = ZomatoTestAppTests;
+			sourceTree = "<group>";
+		};
+		6356477D25A7C2E800A8C28B /* ZomatoTestAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				6356477E25A7C2E800A8C28B /* ZomatoTestAppUITests.swift */,
+				6356478025A7C2E800A8C28B /* Info.plist */,
+			);
+			path = ZomatoTestAppUITests;
+			sourceTree = "<group>";
+		};
+		635648A525AC859200A8C28B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		635648DE25AC8BCB00A8C28B /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				635648E325AC8BCB00A8C28B /* App */,
+				6320F0F425B0B2DE002F8C23 /* Common */,
+				6320F15C25B0DF77002F8C23 /* Location */,
+				6390023A25B1EA9A002EE106 /* Restaurant */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		635648E325AC8BCB00A8C28B /* App */ = {
+			isa = PBXGroup;
+			children = (
+				6320F0D925B068DE002F8C23 /* AppCoordinator.swift */,
+				635648E425AC8BCB00A8C28B /* AppDelegate.swift */,
+				6320F16F25B0F3F9002F8C23 /* Style */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		6356490425AC8C1100A8C28B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6356490525AC8C1100A8C28B /* Assets.xcassets */,
+				6356492825AC8C7300A8C28B /* Info.plist */,
+				6356490625AC8C1100A8C28B /* LaunchScreen.storyboard */,
+				6320F14D25B0DDE2002F8C23 /* Localization */,
+				6356493325AC8CC600A8C28B /* ZomatoTestApp.entitlements */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		6390023A25B1EA9A002EE106 /* Restaurant */ = {
+			isa = PBXGroup;
+			children = (
+				6390023B25B1EA9A002EE106 /* Search */,
+				6390024825B1EA9A002EE106 /* Filter */,
+			);
+			path = Restaurant;
+			sourceTree = "<group>";
+		};
+		6390023B25B1EA9A002EE106 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				6390023C25B1EA9A002EE106 /* View */,
+				6390024425B1EA9A002EE106 /* ViewController */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		6390023C25B1EA9A002EE106 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6390023D25B1EA9A002EE106 /* ViewModel */,
+				6390024225B1EA9A002EE106 /* CellConfigurator */,
+				6390024025B1EA9A002EE106 /* RestaurantCollectionViewCell.swift */,
+				6390024125B1EA9A002EE106 /* RestaurantsListView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6390023D25B1EA9A002EE106 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6390023E25B1EA9A002EE106 /* RestaurantCollectionViewCellViewModel.swift */,
+				6390023F25B1EA9A002EE106 /* RestaurantsListViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6390024225B1EA9A002EE106 /* CellConfigurator */ = {
+			isa = PBXGroup;
+			children = (
+				6390024325B1EA9A002EE106 /* RestaurantCellConfigurator.swift */,
+			);
+			path = CellConfigurator;
+			sourceTree = "<group>";
+		};
+		6390024425B1EA9A002EE106 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6390024725B1EA9A002EE106 /* RestaurantsViewController.swift */,
+				6390024525B1EA9A002EE106 /* ViewModel */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		6390024525B1EA9A002EE106 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6390024625B1EA9A002EE106 /* RestaurantsViewControllerModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6390024825B1EA9A002EE106 /* Filter */ = {
+			isa = PBXGroup;
+			children = (
+				6390024925B1EA9A002EE106 /* View */,
+				6390025525B1EA9A002EE106 /* ViewController */,
+			);
+			path = Filter;
+			sourceTree = "<group>";
+		};
+		6390024925B1EA9A002EE106 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				6390024A25B1EA9A002EE106 /* ViewModel */,
+				6390025325B1EA9A002EE106 /* CellConfigurator */,
+				6390025225B1EA9A002EE106 /* PriceRangeCollectionViewCell.swift */,
+				6390025125B1EA9A002EE106 /* RestaurantsFilterByPriceView.swift */,
+				6390025025B1EA9A002EE106 /* RestaurantsSortView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		6390024A25B1EA9A002EE106 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6390024B25B1EA9A002EE106 /* PriceRangeCollectionViewCellViewModel.swift */,
+				6390024E25B1EA9A002EE106 /* RestaurantsSortViewModel.swift */,
+				6390024F25B1EA9A002EE106 /* RestaurantsFilterByPriceViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6390025325B1EA9A002EE106 /* CellConfigurator */ = {
+			isa = PBXGroup;
+			children = (
+				6390025425B1EA9A002EE106 /* PriceRangeCellConfigurator.swift */,
+			);
+			path = CellConfigurator;
+			sourceTree = "<group>";
+		};
+		6390025525B1EA9A002EE106 /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+				6390025825B1EA9A002EE106 /* RestaurantsFilterViewController.swift */,
+				6390025625B1EA9A002EE106 /* ViewModel */,
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		6390025625B1EA9A002EE106 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				6390025725B1EA9A002EE106 /* RestaurantsFilterViewControllerModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		6390027725B1F326002EE106 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6390027825B1F326002EE106 /* RestaurantPriceRange+Localization.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6356475825A7C2E700A8C28B /* ZomatoTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6356478325A7C2E800A8C28B /* Build configuration list for PBXNativeTarget "ZomatoTestApp" */;
+			buildPhases = (
+				6356475525A7C2E700A8C28B /* Sources */,
+				6356475625A7C2E700A8C28B /* Frameworks */,
+				6356475725A7C2E700A8C28B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZomatoTestApp;
+			packageProductDependencies = (
+				6356482125AB54BA00A8C28B /* Kingfisher */,
+				63AB168E25B05A45006D31A0 /* Zomato */,
+				63AB169025B05A45006D31A0 /* ZomatoFoundation */,
+				63AB169225B05A45006D31A0 /* ZomatoUIKit */,
+			);
+			productName = ZomatoTestApp;
+			productReference = 6356475925A7C2E700A8C28B /* ZomatoTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6356476E25A7C2E800A8C28B /* ZomatoTestAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6356478625A7C2E800A8C28B /* Build configuration list for PBXNativeTarget "ZomatoTestAppTests" */;
+			buildPhases = (
+				6356476B25A7C2E800A8C28B /* Sources */,
+				6356476C25A7C2E800A8C28B /* Frameworks */,
+				6356476D25A7C2E800A8C28B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6356477125A7C2E800A8C28B /* PBXTargetDependency */,
+			);
+			name = ZomatoTestAppTests;
+			productName = ZomatoTestAppTests;
+			productReference = 6356476F25A7C2E800A8C28B /* ZomatoTestAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		6356477925A7C2E800A8C28B /* ZomatoTestAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6356478925A7C2E800A8C28B /* Build configuration list for PBXNativeTarget "ZomatoTestAppUITests" */;
+			buildPhases = (
+				6356477625A7C2E800A8C28B /* Sources */,
+				6356477725A7C2E800A8C28B /* Frameworks */,
+				6356477825A7C2E800A8C28B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6356477C25A7C2E800A8C28B /* PBXTargetDependency */,
+			);
+			name = ZomatoTestAppUITests;
+			productName = ZomatoTestAppUITests;
+			productReference = 6356477A25A7C2E800A8C28B /* ZomatoTestAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6356475125A7C2E700A8C28B /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					6356475825A7C2E700A8C28B = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					6356476E25A7C2E800A8C28B = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 6356475825A7C2E700A8C28B;
+					};
+					6356477925A7C2E800A8C28B = {
+						CreatedOnToolsVersion = 12.2;
+						TestTargetID = 6356475825A7C2E700A8C28B;
+					};
+				};
+			};
+			buildConfigurationList = 6356475425A7C2E700A8C28B /* Build configuration list for PBXProject "ZomatoTestApp" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+				"pt-PT",
+			);
+			mainGroup = 6356475025A7C2E700A8C28B;
+			packageReferences = (
+				6356482025AB54BA00A8C28B /* XCRemoteSwiftPackageReference "Kingfisher" */,
+			);
+			productRefGroup = 6356475A25A7C2E700A8C28B /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6356475825A7C2E700A8C28B /* ZomatoTestApp */,
+				6356476E25A7C2E800A8C28B /* ZomatoTestAppTests */,
+				6356477925A7C2E800A8C28B /* ZomatoTestAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6356475725A7C2E700A8C28B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6356491125AC8C1100A8C28B /* LaunchScreen.storyboard in Resources */,
+				6356491025AC8C1100A8C28B /* Assets.xcassets in Resources */,
+				6320F15425B0DDE2002F8C23 /* Localizable.strings in Resources */,
+				6320F15525B0DDE2002F8C23 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6356476D25A7C2E800A8C28B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6356477825A7C2E800A8C28B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6356475525A7C2E700A8C28B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6320F0DA25B068DE002F8C23 /* AppCoordinator.swift in Sources */,
+				6390026625B1EA9A002EE106 /* RestaurantsFilterByPriceView.swift in Sources */,
+				6390026525B1EA9A002EE106 /* RestaurantsSortView.swift in Sources */,
+				6390026925B1EA9A002EE106 /* RestaurantsFilterViewControllerModel.swift in Sources */,
+				6390026425B1EA9A002EE106 /* RestaurantsFilterByPriceViewModel.swift in Sources */,
+				6390025B25B1EA9A002EE106 /* RestaurantCollectionViewCell.swift in Sources */,
+				635648F125AC8BCB00A8C28B /* AppDelegate.swift in Sources */,
+				6320F0FE25B0B2DE002F8C23 /* FullScreenStateView.swift in Sources */,
+				6390026A25B1EA9A002EE106 /* RestaurantsFilterViewController.swift in Sources */,
+				6390026825B1EA9A002EE106 /* PriceRangeCellConfigurator.swift in Sources */,
+				6390026725B1EA9A002EE106 /* PriceRangeCollectionViewCell.swift in Sources */,
+				6390025D25B1EA9A002EE106 /* RestaurantCellConfigurator.swift in Sources */,
+				6320F17D25B105E6002F8C23 /* UIButton+Style.swift in Sources */,
+				6390025A25B1EA9A002EE106 /* RestaurantsListViewModel.swift in Sources */,
+				6390025E25B1EA9A002EE106 /* RestaurantsViewControllerModel.swift in Sources */,
+				6320F0FD25B0B2DE002F8C23 /* BottomStateView.swift in Sources */,
+				6320F17325B0F3F9002F8C23 /* UIConstants.swift in Sources */,
+				6390027A25B1F326002EE106 /* RestaurantPriceRange+Localization.swift in Sources */,
+				6390025C25B1EA9A002EE106 /* RestaurantsListView.swift in Sources */,
+				6390025925B1EA9A002EE106 /* RestaurantCollectionViewCellViewModel.swift in Sources */,
+				6320F17425B0F3F9002F8C23 /* UILabel+Style.swift in Sources */,
+				6390025F25B1EA9A002EE106 /* RestaurantsViewController.swift in Sources */,
+				6320F0FC25B0B2DE002F8C23 /* FullScreenStateViewModel.swift in Sources */,
+				6320F0FB25B0B2DE002F8C23 /* BottomStateViewModel.swift in Sources */,
+				6390026325B1EA9A002EE106 /* RestaurantsSortViewModel.swift in Sources */,
+				6320F16225B0DF77002F8C23 /* LocationErrorViewController.swift in Sources */,
+				6390026025B1EA9A002EE106 /* PriceRangeCollectionViewCellViewModel.swift in Sources */,
+				6320F16825B0DF87002F8C23 /* LocationManager.swift in Sources */,
+				6320F17525B0F3F9002F8C23 /* Theme.swift in Sources */,
+				6320F16325B0DF77002F8C23 /* LocationErrorViewControllerModel.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6356476B25A7C2E800A8C28B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6356477425A7C2E800A8C28B /* ZomatoTestAppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6356477625A7C2E800A8C28B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6356477F25A7C2E800A8C28B /* ZomatoTestAppUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6356477125A7C2E800A8C28B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6356475825A7C2E700A8C28B /* ZomatoTestApp */;
+			targetProxy = 6356477025A7C2E800A8C28B /* PBXContainerItemProxy */;
+		};
+		6356477C25A7C2E800A8C28B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6356475825A7C2E700A8C28B /* ZomatoTestApp */;
+			targetProxy = 6356477B25A7C2E800A8C28B /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6320F14E25B0DDE2002F8C23 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6320F14F25B0DDE2002F8C23 /* en */,
+				6320F15225B0DDE2002F8C23 /* pt-PT */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		6320F15025B0DDE2002F8C23 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6320F15125B0DDE2002F8C23 /* en */,
+				6320F15325B0DDE2002F8C23 /* pt-PT */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6356490625AC8C1100A8C28B /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6356490725AC8C1100A8C28B /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		6356478125A7C2E800A8C28B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		6356478225A7C2E800A8C28B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		6356478425A7C2E800A8C28B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZomatoTestApp/Resources/ZomatoTestApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoTestApp/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		6356478525A7C2E800A8C28B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = ZomatoTestApp/Resources/ZomatoTestApp.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoTestApp/Resources/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTS_MACCATALYST = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		6356478725A7C2E800A8C28B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoTestAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoTestAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZomatoTestApp.app/ZomatoTestApp";
+			};
+			name = Debug;
+		};
+		6356478825A7C2E800A8C28B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoTestAppTests/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoTestAppTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/ZomatoTestApp.app/ZomatoTestApp";
+			};
+			name = Release;
+		};
+		6356478A25A7C2E800A8C28B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoTestAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoTestAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ZomatoTestApp;
+			};
+			name = Debug;
+		};
+		6356478B25A7C2E800A8C28B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoTestAppUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoTestAppUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = ZomatoTestApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6356475425A7C2E700A8C28B /* Build configuration list for PBXProject "ZomatoTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6356478125A7C2E800A8C28B /* Debug */,
+				6356478225A7C2E800A8C28B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6356478325A7C2E800A8C28B /* Build configuration list for PBXNativeTarget "ZomatoTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6356478425A7C2E800A8C28B /* Debug */,
+				6356478525A7C2E800A8C28B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6356478625A7C2E800A8C28B /* Build configuration list for PBXNativeTarget "ZomatoTestAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6356478725A7C2E800A8C28B /* Debug */,
+				6356478825A7C2E800A8C28B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		6356478925A7C2E800A8C28B /* Build configuration list for PBXNativeTarget "ZomatoTestAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6356478A25A7C2E800A8C28B /* Debug */,
+				6356478B25A7C2E800A8C28B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		6356482025AB54BA00A8C28B /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/onevcat/Kingfisher.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 6.0.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		6356482125AB54BA00A8C28B /* Kingfisher */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 6356482025AB54BA00A8C28B /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
+		};
+		63AB168E25B05A45006D31A0 /* Zomato */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = Zomato;
+		};
+		63AB169025B05A45006D31A0 /* ZomatoFoundation */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ZomatoFoundation;
+		};
+		63AB169225B05A45006D31A0 /* ZomatoUIKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ZomatoUIKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = 6356475125A7C2E700A8C28B /* Project object */;
+}

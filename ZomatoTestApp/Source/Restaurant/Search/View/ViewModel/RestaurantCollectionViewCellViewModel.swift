@@ -1,0 +1,98 @@
+//
+// The MIT License (MIT)
+//
+// Copyright (c) 2021 David Costa Gonçalves
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+
+import Foundation
+import ZomatoFoundation
+import Zomato
+import UIKit
+
+final class RestaurantCollectionViewCellViewModel {
+    
+    private var favouriteObserverToken: ObserverToken?
+    
+    let thumbnailImage = Property<URL?>(nil)
+    let name = Property<String?>(nil)
+    let cuisines = Property<String?>(nil)
+    let timings = Property<String?>(nil)
+    let priceRange = Property<String?>(nil)
+    let isFavouriteButtonHidden = Property<Bool>(true)
+    let isFavouriteButtonImage = Property<UIImage?>(nil)
+    private var onUserDidPressFavouriteActionClosure: (() -> Void)?
+    
+    func set(
+        restaurant: RestaurantModelProtocol,
+        restaurantManager: RestaurantManagerProtocol
+    ) {
+        thumbnailImage.value = restaurant.thumbnailUrl
+        if restaurant.thumbnailUrl == nil {
+            Log.verbose(
+                "RestaurantCollectionViewCellViewModel",
+                "Restaurant \(restaurant.name) dont have thumb"
+            )
+        }
+        
+        name.value = restaurant.name
+        cuisines.value = restaurant.cuisines.joined(separator: ",")
+        timings.value = restaurant.timings
+        priceRange.value = restaurant.priceRange.localized
+        
+        favouriteObserverToken = restaurant.isFavourite.observeWhileTokenAndTargetAliveOnMainContext(
+            fire: true,
+            target: self
+        ) { (me, status) in
+            switch status {
+            case .unknown:
+                me.isFavouriteButtonHidden.value = true
+                me.isFavouriteButtonImage.value = nil
+                
+            case .favourite:
+                me.isFavouriteButtonHidden.value = false
+                me.isFavouriteButtonImage.value = UIImage(named: "like-fill")
+                
+            case .notFavourite:
+                me.isFavouriteButtonHidden.value = false
+                me.isFavouriteButtonImage.value = UIImage(named: "like-empty")
+            }
+        }
+        
+        onUserDidPressFavouriteActionClosure = {
+            switch restaurant.isFavourite.value {
+            case .favourite:
+                restaurant.isFavourite.value = .notFavourite
+            case .notFavourite:
+                restaurant.isFavourite.value = .favourite
+            case .unknown:
+                return
+            }
+            restaurantManager.save(restaurant: restaurant) { _ in
+                // Ignoring error, but could have a layout to indicate the error while saving
+            }
+        }
+    }
+    
+    func onUserDidPressFavouriteAction() {
+        onUserDidPressFavouriteActionClosure?()
+    }
+    
+}
