@@ -48,21 +48,33 @@ final class RestaurantsViewControllerModel {
         restaurantsCollection.readOnlyLoadingState.observeOnMainContext(
             fire: true,
             whileTargetAlive: self
-        ) { (me, state) in
-            switch state {
-            case .uninitialized, .refreshing, .errorRefreshing, .errorLoadingNextPage, .loadingNextPage, .filtering, .empty:
-                me.isFilterButtonEnabled.value = false
-                
-            case .withData:
-                me.isFilterButtonEnabled.value = true
-            }
-        }
+        ) { (me, _) in me.updateFilterButtonEnabled() }
     }
     
     func onFilterOptionsAction() {
         coordinator.showRestaurantFilterOptions(
             restaurantsCollection: restaurantsListViewModel.restaurantsCollection
         )
+    }
+    
+    private func updateFilterButtonEnabled() {
+        let restaurantsCollection = restaurantsListViewModel.restaurantsCollection
+        switch restaurantsCollection.readOnlyLoadingState.value {
+        case .uninitialized, .refreshing, .errorRefreshing, .errorLoadingNextPage, .loadingNextPage, .filtering:
+            isFilterButtonEnabled.value = false
+            
+        case .empty:
+            // We have a list empty but we are filtering
+            // User can choose to remove filter to have results again
+            if restaurantsCollection.readOnlyFilter.value != nil {
+                isFilterButtonEnabled.value = true
+            } else {
+                isFilterButtonEnabled.value = false
+            }
+            
+        case .withData:
+            isFilterButtonEnabled.value = true
+        }
     }
     
 }
