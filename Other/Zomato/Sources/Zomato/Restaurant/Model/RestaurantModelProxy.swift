@@ -38,6 +38,10 @@ struct RestaurantModelProxy: RestaurantModelProtocol {
         return restaurantModel.name
     }
     
+    var location: LocationModel? {
+        return restaurantModel.location
+    }
+    
     var priceRange: RestaurantPriceRange {
         return restaurantModel.priceRange
     }

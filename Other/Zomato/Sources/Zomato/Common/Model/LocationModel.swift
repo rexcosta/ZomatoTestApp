@@ -23,38 +23,9 @@
 //
 
 import Foundation
-import ZomatoFoundation
 
-struct RestaurantModel: RestaurantModelProtocol {
+public struct LocationModel {
     
-    let id: String
-    let name: String
-    let location: LocationModel?
-    let priceRange: RestaurantPriceRange
-    let thumbnailUrl: URL?
-    let timings: String?
-    let cuisines: [String]
-    let phoneNumbers: [String]
-    let isFavourite = Property<RestaurantFavouriteStatus>(.unknown)
-    
-    init(
-        id: String,
-        name: String,
-        location: LocationModel?,
-        priceRange: RestaurantPriceRange,
-        thumbnailUrl: URL?,
-        timings: String?,
-        cuisines: [String]?,
-        phoneNumbers: [String]?
-    ) {
-        self.id = id
-        self.name = name
-        self.location = location
-        self.priceRange = priceRange
-        self.thumbnailUrl = thumbnailUrl
-        self.timings = timings
-        self.cuisines = cuisines ?? [String]()
-        self.phoneNumbers = phoneNumbers ?? [String]()
-    }
+    public let coordinate: CoordinateModel
     
 }

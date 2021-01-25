@@ -27,6 +27,8 @@ import ZomatoFoundation
 
 struct RestaurantsDtoModelMapper: ObjectMapper {
     
+    private let locationDtoModelMapper = LocationDtoModelMapper()
+    
     func mapInput(_ input: SearchResultDTO<RestaurantDto>) -> PageModel<RestaurantModel> {
         return PageModel(
             totalResults: input.resultsFound,
@@ -65,6 +67,7 @@ struct RestaurantsDtoModelMapper: ObjectMapper {
         return RestaurantModel(
             id: restaurantDto.id,
             name: restaurantDto.name,
+            location: locationDtoModelMapper.mapInput(restaurantDto.location),
             priceRange: priceRange,
             thumbnailUrl: thumbnailUrl,
             timings: restaurantDto.timings,

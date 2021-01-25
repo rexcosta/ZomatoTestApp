@@ -43,6 +43,7 @@ public enum RestaurantFavouriteStatus {
 public protocol RestaurantModelProtocol {
     var id: String { get }
     var name: String { get }
+    var location: LocationModel? { get }
     var priceRange: RestaurantPriceRange { get }
     var thumbnailUrl: URL? { get }
     var timings: String? { get }
