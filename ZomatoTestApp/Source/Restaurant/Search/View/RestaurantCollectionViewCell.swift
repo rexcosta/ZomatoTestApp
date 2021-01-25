@@ -47,6 +47,11 @@ final class RestaurantCollectionViewCell: UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = Theme.shared.primaryColor
     }
+    private let distanceLabel = RoundEdgesLabel().with {
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        _ = $0.label.withLabelStyle
+    }
+    
     private let nameLabel = UILabel().withTitleStyle
     private let cuisinesLabel = UILabel().withTextStyle
     private let timingsLabel = UILabel().withTextStyle.with {
@@ -108,6 +113,7 @@ extension RestaurantCollectionViewCell {
         contentView.addSubviews(
             thumbnailImageView,
             favouriteButton,
+            distanceLabel,
             contentStackView
         )
         contentStackView.addArrangedSubviews(
@@ -137,6 +143,9 @@ extension RestaurantCollectionViewCell {
             favouriteButton.heightAnchor.constraint(equalToConstant: 40),
             favouriteButton.widthAnchor.constraint(equalTo: favouriteButton.heightAnchor),
             
+            distanceLabel.rightAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.rightAnchor, constant: -8),
+            distanceLabel.bottomAnchor.constraint(equalTo: thumbnailImageView.bottomAnchor, constant: -8),
+            
             contentStackView.leftAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.leftAnchor),
             contentStackView.rightAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.rightAnchor),
             contentStackView.bottomAnchor.constraint(lessThanOrEqualTo: contentView.safeAreaLayoutGuide.bottomAnchor)
@@ -144,6 +153,8 @@ extension RestaurantCollectionViewCell {
     }
     
     private func bind(to viewModel: RestaurantCollectionViewCellViewModel) {
+        distanceLabel.label.bindText(to: viewModel.distance)
+        distanceLabel.bindBackgroundColor(to: viewModel.distanceColor)
         nameLabel.bindText(to: viewModel.name)
         cuisinesLabel.bindText(to: viewModel.cuisines)
         timingsLabel.bindText(to: viewModel.timings)

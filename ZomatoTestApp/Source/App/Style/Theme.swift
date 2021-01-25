@@ -65,4 +65,19 @@ struct Theme {
         dark: UIColor(red: 0.12, green: 0.53, blue: 0.90, alpha: 1.00)
     )
     
+    let distance = (
+        near: UIColor.theme(
+            light: UIColor(red: 0.30, green: 0.69, blue: 0.31, alpha: 1.00),
+            dark: UIColor(red: 0.11, green: 0.37, blue: 0.13, alpha: 1.00)
+        ),
+        nearby: UIColor.theme(
+            light: UIColor(red: 1.00, green: 0.92, blue: 0.23, alpha: 1.00),
+            dark: UIColor(red: 0.96, green: 0.50, blue: 0.09, alpha: 1.00)
+        ),
+        far: UIColor.theme(
+            light: UIColor(red: 0.96, green: 0.26, blue: 0.21, alpha: 1.00),
+            dark: UIColor(red: 0.72, green: 0.11, blue: 0.11, alpha: 1.00)
+        )
+    )
+    
 }

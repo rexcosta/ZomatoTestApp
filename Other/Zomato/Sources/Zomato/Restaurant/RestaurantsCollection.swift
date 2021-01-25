@@ -43,7 +43,7 @@ public final class RestaurantsCollection {
     private var filteredElements = [RestaurantModelProtocol]()
     private var currentPage: PageModel<RestaurantModelProtocol>?
     
-    private var userLocation: CoordinateModel?
+    public private(set) var userLocation: CoordinateModel?
     
     private let sort = Property<Sort>(Sort.dontSort)
     public var readOnlySort: ReadOnlyProperty<Sort> {

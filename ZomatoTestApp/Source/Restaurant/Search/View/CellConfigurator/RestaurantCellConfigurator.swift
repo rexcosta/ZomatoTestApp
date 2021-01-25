@@ -39,8 +39,7 @@ struct RestaurantCellConfigurator {
     func dequeueReusableCell(
         _ collectionView: UICollectionView,
         cellForItemAt indexPath: IndexPath,
-        restaurantManager: RestaurantManagerProtocol?,
-        restaurant: RestaurantModelProtocol?
+        viewModel: RestaurantsListViewModel?
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
                 withReuseIdentifier: "restaurant-cell",
@@ -49,14 +48,17 @@ struct RestaurantCellConfigurator {
             fatalError()
         }
         
-        guard let restaurantManager = restaurantManager,
-              let restaurant = restaurant else {
+        guard
+            let viewModel = viewModel,
+            let restaurant = viewModel.restaurant(at: indexPath.item)
+        else {
             return cell
         }
         
         cell.viewModel.set(
+            userCoordinate: viewModel.userLocation,
             restaurant: restaurant,
-            restaurantManager: restaurantManager
+            restaurantManager: viewModel.restaurantManager
         )
         return cell
     }

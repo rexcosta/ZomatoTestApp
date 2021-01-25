@@ -62,6 +62,10 @@ final class RestaurantsListViewModel {
     
     let appCoordinator: AppCoordinator
     
+    var userLocation: CoordinateModel? {
+        return restaurantsCollection.userLocation
+    }
+    
     init(
         restaurantManager: RestaurantManagerProtocol,
         restaurantsCollection: RestaurantsCollection,

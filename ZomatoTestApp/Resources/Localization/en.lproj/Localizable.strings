@@ -10,6 +10,8 @@
 "screen.restaurants.status.loadingmore.error"="Ups! Something went wrong while retrieving more results";
 "screen.restaurants.status.empty"="Nothing to see in your area. Maybe you should talk with your local restaurants to sign in! Thanks!";
 "screen.restaurants.status.acquiring.location"="Trying to acquire your location to present you the restaurants near you.";
+"screen.restaurants.list.element.distance"="${distance}m away";
+"screen.restaurants.list.element.nodistance"="Distance not available";
 
 "screen.restaurants.filter.title"="Filter";
 "screen.restaurants.filter.sort.location"="Sort using location";

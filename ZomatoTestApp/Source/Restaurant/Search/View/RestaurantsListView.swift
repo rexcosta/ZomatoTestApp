@@ -120,8 +120,7 @@ extension RestaurantsListView: UICollectionViewDataSource {
         return restaurantCellConfigurator.dequeueReusableCell(
             collectionView,
             cellForItemAt: indexPath,
-            restaurantManager: viewModel?.restaurantManager,
-            restaurant: viewModel?.restaurant(at: indexPath.item)
+            viewModel: viewModel
         )
     }
     

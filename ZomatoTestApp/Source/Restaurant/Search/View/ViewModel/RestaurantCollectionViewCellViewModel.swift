@@ -33,6 +33,8 @@ final class RestaurantCollectionViewCellViewModel {
     
     let thumbnailImage = Property<URL?>(nil)
     let name = Property<String?>(nil)
+    let distance = Property<String?>(nil)
+    let distanceColor = Property<UIColor?>(nil)
     let cuisines = Property<String?>(nil)
     let timings = Property<String?>(nil)
     let priceRange = Property<String?>(nil)
@@ -41,6 +43,7 @@ final class RestaurantCollectionViewCellViewModel {
     private var onUserDidPressFavouriteActionClosure: (() -> Void)?
     
     func set(
+        userCoordinate: CoordinateModel?,
         restaurant: RestaurantModelProtocol,
         restaurantManager: RestaurantManagerProtocol
     ) {
@@ -52,6 +55,10 @@ final class RestaurantCollectionViewCellViewModel {
             )
         }
         
+        updateDistance(
+            userCoordinate: userCoordinate,
+            restaurantCoordinate: restaurant.location?.coordinate
+        )
         name.value = restaurant.name
         cuisines.value = restaurant.cuisines.joined(separator: ",")
         timings.value = restaurant.timings
@@ -93,6 +100,35 @@ final class RestaurantCollectionViewCellViewModel {
     
     func onUserDidPressFavouriteAction() {
         onUserDidPressFavouriteActionClosure?()
+    }
+    
+    private func updateDistance(
+        userCoordinate: CoordinateModel?,
+        restaurantCoordinate: CoordinateModel?
+    ) {
+        guard
+            let userCoordinate = userCoordinate,
+            let restaurantCoordinate = restaurantCoordinate
+        else {
+            distance.value = "screen.restaurants.list.element.nodistance".localized
+            distanceColor.value = Theme.shared.distance.far
+            return
+        }
+        
+        let distanceInMeters = userCoordinate.distanceInMeters(to: restaurantCoordinate)
+        distance.value = "screen.restaurants.list.element.distance".localized(
+            name: "${distance}",
+            value: String(format: "%.0f", distanceInMeters)
+        )
+        
+        switch distanceInMeters {
+        case 0..<300:
+            distanceColor.value = Theme.shared.distance.near
+        case 300..<600:
+            distanceColor.value = Theme.shared.distance.nearby
+        default:
+            distanceColor.value = Theme.shared.distance.far
+        }
     }
     
 }
