@@ -39,11 +39,22 @@ public struct CoordinateModel {
 
 import CoreLocation
 
+// MARK: - CoreLocation Helpers
 extension CoordinateModel {
     
     public init(coordinate: CLLocationCoordinate2D) {
         self.latitude = coordinate.latitude
         self.longitude = coordinate.longitude
+    }
+    
+    public func distanceInMeters(to: CoordinateModel) -> CLLocationDistance {
+        return CoordinateModel.distanceInMeters(from: self, to: to)
+    }
+    
+    public static func distanceInMeters(from: CoordinateModel, to: CoordinateModel) -> CLLocationDistance {
+        let from = CLLocation(latitude: from.latitude, longitude: from.longitude)
+        let to = CLLocation(latitude: to.latitude, longitude: to.longitude)
+        return from.distance(from: to)
     }
     
 }
