@@ -24,10 +24,42 @@
 
 import Foundation
 
+public struct LocalizedReplacer {
+    let name: String
+    let value: String
+}
+
 extension String {
     
     public var localized: String {
         return NSLocalizedString(self, comment: "")
+    }
+    
+    public func localized(
+        name: String,
+        value: String
+    ) -> String {
+        return localized(
+            replacer: LocalizedReplacer(
+                name: name,
+                value: value
+            )
+        )
+    }
+    
+    public func localized(replacer: LocalizedReplacer) -> String {
+        return localized(replacers: [replacer])
+    }
+    
+    public func localized(replacers: [LocalizedReplacer]) -> String {
+        var localizedString = NSLocalizedString(self, comment: "")
+        replacers.forEach {
+            localizedString = localizedString.replacingOccurrences(
+                of: $0.name,
+                with: $0.value
+            )
+        }
+        return localizedString
     }
     
 }
