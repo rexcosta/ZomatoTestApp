@@ -27,6 +27,14 @@ import ZomatoFoundation
 
 extension UIView {
     
+    public func bindBackgroundColor<BindTo>(
+        to property: BindTo
+    ) where BindTo: Observable, BindTo.ElementType == UIColor? {
+        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
+            me.backgroundColor = newValue
+        }
+    }
+    
     public func bindIsHidden<BindTo>(
         to property: BindTo
     ) where BindTo: Observable, BindTo.ElementType == Bool {
