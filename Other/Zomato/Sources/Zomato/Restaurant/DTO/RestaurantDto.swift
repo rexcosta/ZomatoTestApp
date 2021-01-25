@@ -39,7 +39,7 @@ struct RestaurantDto {
     let deeplink: String?
     
     /// (ResLocation, optional): Restaurant location details
-    //let location: ResLocation?
+    let location: LocationDto?
     
     /// /// (integer, optional): Price bracket of the restaurant (1 being pocket friendly and 4 being the costliest)
     let priceRange: Int?

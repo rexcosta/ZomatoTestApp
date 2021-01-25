@@ -27,6 +27,8 @@ import ZomatoFoundation
 
 struct RestaurantsDataDtoMapper: ObjectMapper {
     
+    private let locationDtoMapper = LocationDtoMapper()
+    
     func mapInput(_ input: (Data, URLResponse)) -> SearchResultDTO<RestaurantDto> {
         let data = input.0
         
@@ -76,6 +78,9 @@ struct RestaurantsDataDtoMapper: ObjectMapper {
             name: name,
             url: restaurantRawObject["url"] as? String,
             deeplink: restaurantRawObject["deeplink"] as? String,
+            location: locationDtoMapper.mapInput(
+                restaurantRawObject["location"] as? [String : Any]
+            ),
             priceRange: restaurantRawObject["price_range"] as? Int,
             currency: restaurantRawObject["currency"] as? String,
             thumb: restaurantRawObject["thumb"] as? String,
