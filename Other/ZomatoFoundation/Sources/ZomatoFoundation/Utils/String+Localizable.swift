@@ -24,6 +24,21 @@
 
 import Foundation
 
+public struct LocalizedString {
+    
+    public let key: String
+    public let value: String
+    
+    public init(
+        key: String,
+        value: String
+    ) {
+        self.key = key
+        self.value = value
+    }
+    
+}
+
 public struct LocalizedReplacer {
     let name: String
     let value: String
