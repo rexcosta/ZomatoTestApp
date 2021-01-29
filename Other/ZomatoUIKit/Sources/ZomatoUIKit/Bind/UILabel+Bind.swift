@@ -27,11 +27,28 @@ import ZomatoFoundation
 
 extension UILabel {
     
+    public func bindTextAndAccessibilityValue<BindTo>(
+        to property: BindTo
+    ) where BindTo: Observable, BindTo.ElementType == String? {
+        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
+            me.text = newValue
+            me.accessibilityValue = newValue
+        }
+    }
+    
     public func bindText<BindTo>(
         to property: BindTo
     ) where BindTo: Observable, BindTo.ElementType == String? {
         property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
             me.text = newValue
+        }
+    }
+    
+    public func bindAccessibilityValue<BindTo>(
+        to property: BindTo
+    ) where BindTo: Observable, BindTo.ElementType == String? {
+        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
+            me.accessibilityValue = newValue
         }
     }
     
