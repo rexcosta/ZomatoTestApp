@@ -1,0 +1,13 @@
+strings:
+  inputs: 
+    - ../ZomatoTestApp/Resources/Localization/en.lproj/Localizable.strings 
+    - ../ZomatoTestApp/Resources/Localization/en.lproj/Accessibility.strings 
+  outputs:
+    - templatePath: templates/structured-swift5.stencil
+      output: ../ZomatoTestApp/Resources/Generated/GeneratedStrings.swift
+xcassets:
+  inputs:
+    - ../ZomatoTestApp/Resources/Assets.xcassets
+  outputs:
+    - templateName: swift4
+      output: ../ZomatoTestApp/Resources/Generated/GeneratedAssets.swift

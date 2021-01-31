@@ -3,6 +3,12 @@
 "global.button.cancel"="Cancel";
 "global.button.retry"="Retry";
 
+"global.restaurant.pricerange.cheap"="Cheap";
+"global.restaurant.pricerange.moderate"="Moderate";
+"global.restaurant.pricerange.expensive"="Expensive";
+"global.restaurant.pricerange.veryExpensive"="Very Expensive";
+"global.restaurant.pricerange.unknow"="No cost provided";
+
 "screen.restaurants.title"="Zomato";
 "screen.restaurants.status.refreshing"="Hi! Please wait a bit while we load you data based in your location. Can we retry?";
 "screen.restaurants.status.refreshing.error"="Ups! Something went wrong";
@@ -16,11 +22,6 @@
 "screen.restaurants.filter.title"="Filter";
 "screen.restaurants.filter.sort.location"="Sort using location";
 "screen.restaurants.filter.pricerange"="Filter by price range";
-"screen.restaurants.filter.pricerange.cheap"="Cheap";
-"screen.restaurants.filter.pricerange.moderate"="Moderate";
-"screen.restaurants.filter.pricerange.expensive"="Expensive";
-"screen.restaurants.filter.pricerange.veryexpensive"="Very Expensive";
-"screen.restaurants.filter.pricerange.unknow"="No cost provided";
 "screen.restaurants.filter.applyfilter"="Apply";
 
 "screen.permissions.location.title"="Location";

@@ -1,0 +1,10 @@
+
+"screen.restaurants.filterButton"="Filter restaurants";
+
+"screen.restaurants.list.element.buttonLike"="Like this restaurant";
+"screen.restaurants.list.element.buttonDislike"="Dislike this restaurant";
+"screen.restaurants.list.element.labelDistance"="Distance to the restaurant";
+"screen.restaurants.list.element.labelName"="The name of the restaurant";
+"screen.restaurants.list.element.labelCuisines"="The cuisines of the restaurant";
+"screen.restaurants.list.element.labelTimings"="The timings of the restaurant";
+"screen.restaurants.list.element.labelPriceRange"="The price of the restaurant";

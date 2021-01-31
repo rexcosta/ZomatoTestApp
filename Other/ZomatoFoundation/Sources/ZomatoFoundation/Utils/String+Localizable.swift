@@ -24,7 +24,7 @@
 
 import Foundation
 
-public struct LocalizedString {
+public struct LocalizedString: Hashable {
     
     public let key: String
     public let value: String
