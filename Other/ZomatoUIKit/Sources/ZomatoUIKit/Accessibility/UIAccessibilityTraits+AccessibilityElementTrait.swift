@@ -25,23 +25,32 @@
 import UIKit
 import ZomatoFoundation
 
-extension UIAccessibilityIdentification where Self: NSObject {
+extension UIAccessibilityTraits {
     
-    public func setAccessibility(
-        _ accessibility: LocalizedString
-    ) {
-        setAccessibility(
-            identifier: accessibility.key,
-            label: accessibility.value
-        )
+    static func convert(trait: AccessibilityElementModel.Trait) -> UIAccessibilityTraits {
+        switch trait {
+        case .none:
+            return .none
+        case .text:
+            return .staticText
+        case .button:
+            return .button
+        case .image:
+            return .image
+        case .link:
+            return .link
+        case .selected:
+            return .selected
+        }
     }
     
-    public func setAccessibility(
-        identifier: String,
-        label: String
-    ) {
-        accessibilityIdentifier = identifier
-        accessibilityLabel = label
+    static func convert(traits: Set<AccessibilityElementModel.Trait>) -> UIAccessibilityTraits {
+        var result = UIAccessibilityTraits.none
+        traits.forEach {
+            let converted = UIAccessibilityTraits.convert(trait: $0)
+            result.insert(converted)
+        }
+        return result
     }
     
 }
