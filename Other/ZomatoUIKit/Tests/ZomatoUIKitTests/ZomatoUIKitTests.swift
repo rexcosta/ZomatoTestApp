@@ -34,6 +34,6 @@ final class ZomatoUIKitTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }

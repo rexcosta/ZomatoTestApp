@@ -53,5 +53,4 @@ final class RestaurantsSortViewModel {
         isSortActive.toggle()
     }
     
-    
 }

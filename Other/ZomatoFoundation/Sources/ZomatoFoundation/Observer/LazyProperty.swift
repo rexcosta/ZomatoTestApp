@@ -32,6 +32,14 @@ public class LazyProperty<T>: Observable {
     private var savedValue: T
     
     public var value: T {
+        get {
+            propertyLoader?(self)
+            // Only load once
+            propertyLoader = nil
+            
+            return savedValue
+        }
+        
         set {
             savedValue = newValue
             
@@ -42,14 +50,6 @@ public class LazyProperty<T>: Observable {
             observers = observers.filter { observer -> Bool in
                 return observer(value) == .retain
             }
-        }
-        
-        get {
-            propertyLoader?(self)
-            // Only load once
-            propertyLoader = nil
-            
-            return savedValue
         }
     }
     

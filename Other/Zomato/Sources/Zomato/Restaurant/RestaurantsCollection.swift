@@ -83,7 +83,7 @@ public final class RestaurantsCollection {
             // Nothing changed
             Log.info("RestaurantsCollection", "Filter didnt change both nil")
             
-        case (.none, .some(_)):
+        case (.none, .some):
             // We have changes need to apply filter
             Log.info("RestaurantsCollection", "Need to remove filter")
             self.filter.value = nil

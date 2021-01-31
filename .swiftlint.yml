@@ -1,0 +1,17 @@
+trailing_whitespace:
+ ignores_empty_lines: true
+
+identifier_name:
+ min_length: 2
+
+type_name:
+ min_length: 3
+ max_length: 60
+
+line_length: 180
+
+function_body_length: 60
+
+file_length:
+ warning: 600
+ error: 1000

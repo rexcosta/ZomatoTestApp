@@ -66,7 +66,7 @@ public struct NetworkRequest {
 // MARK: Hashable & Equatable
 extension NetworkRequest: Hashable {
     
-    public static func ==(lhs: NetworkRequest, rhs: NetworkRequest) -> Bool {
+    public static func == (lhs: NetworkRequest, rhs: NetworkRequest) -> Bool {
         return lhs.allowsCellularAccess == rhs.allowsCellularAccess &&
             lhs.timeout == rhs.timeout &&
             lhs.cachePolicy == rhs.cachePolicy &&

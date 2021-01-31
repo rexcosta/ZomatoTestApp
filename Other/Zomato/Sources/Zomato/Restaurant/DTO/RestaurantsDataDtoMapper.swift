@@ -79,7 +79,7 @@ struct RestaurantsDataDtoMapper: ObjectMapper {
             url: restaurantRawObject["url"] as? String,
             deeplink: restaurantRawObject["deeplink"] as? String,
             location: locationDtoMapper.mapInput(
-                restaurantRawObject["location"] as? [String : Any]
+                restaurantRawObject["location"] as? [String: Any]
             ),
             priceRange: restaurantRawObject["price_range"] as? Int,
             currency: restaurantRawObject["currency"] as? String,

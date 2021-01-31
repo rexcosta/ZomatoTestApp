@@ -145,7 +145,7 @@ extension SqliteDatabase {
     
     public func execute(
         statement: String,
-        doBindings: ((SqliteStatement) throws -> ())? = nil,
+        doBindings: ((SqliteStatement) throws -> Void)? = nil,
         handleRow: ((SqliteStatement) throws -> Void)? = nil
     ) throws {
         let database = try validateDatabaseState()
@@ -155,7 +155,7 @@ extension SqliteDatabase {
         
         try doBindings?(sqlStatement)
         try processRow(sqlStatement: sqlStatement, database: database, handleRow: handleRow)
-        let _ = try sqlStatement.reset()
+        _ = try sqlStatement.reset()
     }
     
 }

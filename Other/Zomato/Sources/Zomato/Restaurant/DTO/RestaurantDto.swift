@@ -51,7 +51,7 @@ struct RestaurantDto {
     let thumb: String?
     
     /// (string, optional): URL of the high resolution header image of restaurant
-    //let featured_image: String?
+    // let featured_image: String?
     
     let timings: String?
     
@@ -74,10 +74,10 @@ struct RestaurantDto {
     let cuisines: String?
     
     /// (integer, optional): [Partner access] Number of reviews for the restaurant
-    //let all_reviews_count: Int?
+    // let all_reviews_count: Int?
     
     /// (integer, optional): [Partner access] Total number of photos for the restaurant, at max 10 photos for partner access
-    //let photo_count: Int?
+    // let photo_count: Int?
     
     /// (string, optional): [Partner access] Restaurant's contact numbers in csv format
     let phoneNumbers: String?

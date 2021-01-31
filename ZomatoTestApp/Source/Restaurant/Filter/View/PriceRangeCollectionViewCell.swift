@@ -101,7 +101,7 @@ extension PriceRangeCollectionViewCell {
             priceLabel.bottomAnchor.constraint(
                 equalTo: contentView.safeAreaLayoutGuide.bottomAnchor,
                 constant: -UIConstants.defaultPadding.bottom
-            ),
+            )
         ])
     }
     

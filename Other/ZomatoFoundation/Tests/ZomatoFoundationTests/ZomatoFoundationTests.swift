@@ -34,6 +34,6 @@ final class ZomatoFoundationTests: XCTestCase {
     }
 
     static var allTests = [
-        ("testExample", testExample),
+        ("testExample", testExample)
     ]
 }

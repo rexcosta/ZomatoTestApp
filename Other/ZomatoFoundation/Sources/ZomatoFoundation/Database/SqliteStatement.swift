@@ -30,7 +30,7 @@ public final class SqliteStatement {
     private let database: OpaquePointer
     private var sqlStatement: OpaquePointer?
     
-    typealias sqlite_destructor = @convention(c) (UnsafeMutableRawPointer?) -> Void
+    typealias SqliteDestructor = @convention(c) (UnsafeMutableRawPointer?) -> Void
     
     deinit {
         finalize()
@@ -90,7 +90,7 @@ extension SqliteStatement {
             getBindPosition(position),
             value,
             Int32(value.utf8.count),
-            unsafeBitCast(OpaquePointer(bitPattern: -1), to: sqlite_destructor.self)
+            unsafeBitCast(OpaquePointer(bitPattern: -1), to: SqliteDestructor.self)
         )
         
         try validateSqliteCode(sqlResult)

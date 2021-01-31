@@ -35,4 +35,3 @@ struct UIConstants {
     static let defaultMargins = UIEdgeInsets(top: 12, left: 12, bottom: 12, right: 12)
     
 }
-
