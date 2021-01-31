@@ -28,7 +28,7 @@ import Zomato
 
 final class RestaurantsSortViewModel {
     
-    let sortByLocationTitle = "screen.restaurants.filter.sort.location".localized
+    let sortByLocationTitle = L10n.Localizable.Screen.Restaurants.Filter.Sort.location.value
     private(set)var isSortActive: Bool
     
     var sort: Sort {

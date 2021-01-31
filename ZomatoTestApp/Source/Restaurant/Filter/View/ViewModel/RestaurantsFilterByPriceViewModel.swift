@@ -28,7 +28,7 @@ import Zomato
 
 final class RestaurantsFilterByPriceViewModel {
     
-    let filterByPriceRangeTitle = "screen.restaurants.filter.pricerange".localized
+    let filterByPriceRangeTitle = L10n.Localizable.Screen.Restaurants.Filter.priceRange.value
     private let possiblePrices = [
         PriceRangeCollectionViewCellViewModel(priceRange: .cheap),
         PriceRangeCollectionViewCellViewModel(priceRange: .moderate),

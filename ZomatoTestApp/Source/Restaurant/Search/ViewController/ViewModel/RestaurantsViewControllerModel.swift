@@ -28,7 +28,7 @@ import Zomato
 
 final class RestaurantsViewControllerModel {
     
-    let title = "screen.restaurants.title".localized
+    let title = L10n.Localizable.Screen.Restaurants.title.value
     let restaurantsListViewModel: RestaurantsListViewModel
     private let coordinator: AppCoordinator
     

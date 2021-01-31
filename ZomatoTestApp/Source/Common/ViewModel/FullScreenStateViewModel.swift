@@ -41,8 +41,8 @@ final class FullScreenStateViewModel {
         onButtonActionClosure: (() -> Void)? = nil
     ) {
         self.isLoading.value = isLoading
-        self.message.value = message?.localized
-        self.buttonTitle.value = buttonTitle?.localized
+        self.message.value = message
+        self.buttonTitle.value = buttonTitle
         self.isButtonHidden.value = isButtonHidden
         self.onButtonActionClosure = onButtonActionClosure
     }

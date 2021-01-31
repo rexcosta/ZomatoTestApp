@@ -108,7 +108,7 @@ extension RestaurantCollectionViewCell {
             for: .touchUpInside
         )
         
-        let doubleTap = UITapGestureRecognizer.init(target: self, action: #selector(onUserDidPressFavouriteAction))
+        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(onUserDidPressFavouriteAction))
         doubleTap.numberOfTapsRequired = 2
         doubleTap.delaysTouchesBegan = true
         contentView.addGestureRecognizer(doubleTap)

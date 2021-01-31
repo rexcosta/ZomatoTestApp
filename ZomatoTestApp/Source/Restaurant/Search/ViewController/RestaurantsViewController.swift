@@ -34,7 +34,7 @@ final class RestaurantsViewController: UIViewController {
     }
     
     private lazy var filterButton = UIBarButtonItem(
-        image: UIImage(named: "filter"),
+        image: Asset.filter.image,
         style: .plain,
         target: self,
         action: #selector(onUserDidPressFilterOptions)

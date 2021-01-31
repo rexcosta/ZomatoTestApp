@@ -184,12 +184,12 @@ extension RestaurantsListViewModel {
         switch state {
         case .acquiringLocation:
             showFullScreen(
-                message: "screen.restaurants.status.acquiring.location"
+                message: L10n.Localizable.Screen.Restaurants.Status.acquiringLocation.value
             )
             
         case .refreshing:
             showFullScreen(
-                message: "screen.restaurants.status.refreshing"
+                message: L10n.Localizable.Screen.Restaurants.Status.refreshing.value
             )
             
         case .errorRefreshing:
@@ -197,7 +197,7 @@ extension RestaurantsListViewModel {
             
         case .loadingNextPage:
             showBottom(
-                message: "screen.restaurants.status.loadingmore"
+                message: L10n.Localizable.Screen.Restaurants.Status.loadingMore.value
             )
             
         case .errorLoadingNextPage:
@@ -233,7 +233,7 @@ extension RestaurantsListViewModel {
     private func showEmptyMessage() {
         fullScreenState.set(
             isLoading: false,
-            message: "screen.restaurants.status.empty"
+            message: L10n.Localizable.Screen.Restaurants.Status.empty.value
         )
         fullScreenStateVisible.value = true
         
@@ -260,8 +260,8 @@ extension RestaurantsListViewModel {
     private func showErrorRefreshing() {
         fullScreenState.set(
             isLoading: false,
-            message: "screen.restaurants.status.refreshing.error",
-            buttonTitle: "global.button.retry",
+            message: L10n.Localizable.Screen.Restaurants.Status.Refreshing.error.value,
+            buttonTitle: L10n.Localizable.Global.Button.retry.value,
             isButtonHidden: false,
             onButtonActionClosure: { [weak self] in
                 self?.restaurantsCollection.refreshCollection()
@@ -279,8 +279,8 @@ extension RestaurantsListViewModel {
         
         bottomScreenState.set(
             isLoading: false,
-            message: "screen.restaurants.status.loadingmore.error",
-            buttonTitle: "global.button.retry",
+            message: L10n.Localizable.Screen.Restaurants.Status.LoadingMore.error.value,
+            buttonTitle: L10n.Localizable.Global.Button.retry.value,
             isButtonHidden: false,
             onButtonActionClosure: { [weak self] in
                 self?.restaurantsCollection.retryNextPage()

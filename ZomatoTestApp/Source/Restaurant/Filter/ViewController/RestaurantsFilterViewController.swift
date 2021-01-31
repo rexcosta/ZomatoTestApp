@@ -43,7 +43,10 @@ final class RestaurantsFilterViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     private let applyButton = UIButton().withPrimaryStyle.with {
-        $0.setTitle("screen.restaurants.filter.applyfilter".localized, for: .normal)
+        $0.setTitle(
+            L10n.Localizable.Screen.Restaurants.Filter.applyFilter.value,
+            for: .normal
+        )
     }
     
     var viewModel: RestaurantsFilterViewControllerModel?
@@ -76,7 +79,7 @@ extension RestaurantsFilterViewController {
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
-                title: "global.button.cancel".localized,
+                title: L10n.Localizable.Global.Button.cancel.value,
                 style: .plain,
                 target: self,
                 action: #selector(onUserDidPressCloseFilterOptions)

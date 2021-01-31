@@ -55,7 +55,7 @@ extension LocationErrorViewController {
         
         navigationItem.rightBarButtonItems = [
             UIBarButtonItem(
-                title: "global.button.ok".localized,
+                title: L10n.Localizable.Global.Button.ok.value,
                 style: .plain,
                 target: self,
                 action: #selector(onUserDidPresscloseFilterOptions)

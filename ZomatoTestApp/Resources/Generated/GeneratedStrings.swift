@@ -76,9 +76,9 @@ internal enum L10n {
         internal static let title = L10n.tr("Localizable", "screen.restaurants.title")
         internal enum Filter {
           /// Apply
-          internal static let applyfilter = L10n.tr("Localizable", "screen.restaurants.filter.applyfilter")
+          internal static let applyFilter = L10n.tr("Localizable", "screen.restaurants.filter.applyFilter")
           /// Filter by price range
-          internal static let pricerange = L10n.tr("Localizable", "screen.restaurants.filter.pricerange")
+          internal static let priceRange = L10n.tr("Localizable", "screen.restaurants.filter.priceRange")
           /// Filter
           internal static let title = L10n.tr("Localizable", "screen.restaurants.filter.title")
           internal enum Sort {
@@ -91,23 +91,21 @@ internal enum L10n {
             /// ${distance}m away
             internal static let distance = L10n.tr("Localizable", "screen.restaurants.list.element.distance")
             /// Distance not available
-            internal static let nodistance = L10n.tr("Localizable", "screen.restaurants.list.element.nodistance")
+            internal static let noDistance = L10n.tr("Localizable", "screen.restaurants.list.element.noDistance")
           }
         }
         internal enum Status {
+          /// Trying to acquire your location to present you the restaurants near you.
+          internal static let acquiringLocation = L10n.tr("Localizable", "screen.restaurants.status.acquiringLocation")
           /// Nothing to see in your area. Maybe you should talk with your local restaurants to sign in! Thanks!
           internal static let empty = L10n.tr("Localizable", "screen.restaurants.status.empty")
           /// Fetching more content for you to see!
-          internal static let loadingmore = L10n.tr("Localizable", "screen.restaurants.status.loadingmore")
+          internal static let loadingMore = L10n.tr("Localizable", "screen.restaurants.status.loadingMore")
           /// Hi! Please wait a bit while we load you data based in your location. Can we retry?
           internal static let refreshing = L10n.tr("Localizable", "screen.restaurants.status.refreshing")
-          internal enum Acquiring {
-            /// Trying to acquire your location to present you the restaurants near you.
-            internal static let location = L10n.tr("Localizable", "screen.restaurants.status.acquiring.location")
-          }
-          internal enum Loadingmore {
+          internal enum LoadingMore {
             /// Ups! Something went wrong while retrieving more results
-            internal static let error = L10n.tr("Localizable", "screen.restaurants.status.loadingmore.error")
+            internal static let error = L10n.tr("Localizable", "screen.restaurants.status.loadingMore.error")
           }
           internal enum Refreshing {
             /// Ups! Something went wrong

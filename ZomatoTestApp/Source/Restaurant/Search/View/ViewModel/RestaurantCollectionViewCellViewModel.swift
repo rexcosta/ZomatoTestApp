@@ -46,7 +46,7 @@ final class RestaurantCollectionViewCellViewModel {
     
     let thumbnailImage = Property<URL?>(nil)
     let distance = Property<Distance>(
-        .unknown("screen.restaurants.list.element.nodistance".localized)
+        .unknown(L10n.Localizable.Screen.Restaurants.List.Element.noDistance.value)
     )
     let name = Property<String?>(nil)
     let cuisines = Property<String?>(nil)
@@ -136,7 +136,7 @@ extension RestaurantCollectionViewCellViewModel {
             let restaurantCoordinate = restaurantCoordinate
         else {
             distance.value = .unknown(
-                "screen.restaurants.list.element.nodistance".localized
+                L10n.Localizable.Screen.Restaurants.List.Element.noDistance.value
             )
             return
         }

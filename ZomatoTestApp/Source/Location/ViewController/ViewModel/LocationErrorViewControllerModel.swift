@@ -28,8 +28,8 @@ import Zomato
 
 final class LocationErrorViewControllerModel {
     
-    let title = "screen.permissions.location.title".localized
-    let errorMessage = "screen.permissions.location.error".localized
+    let title = L10n.Localizable.Screen.Permissions.Location.title.value
+    let errorMessage = L10n.Localizable.Screen.Permissions.Location.error.value
     private let coordinator: AppCoordinator
     
     init(coordinator: AppCoordinator, error: LocationManager.LocationError) {
