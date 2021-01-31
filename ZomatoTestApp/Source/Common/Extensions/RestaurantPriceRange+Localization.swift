@@ -31,15 +31,15 @@ extension RestaurantPriceRange {
     var localized: String? {
         switch self {
         case .cheap:
-            return "global.restaurant.pricerange.cheap".localized
+            return L10n.Localizable.Global.Restaurant.Pricerange.cheap.value
         case .moderate:
-            return "global.restaurant.pricerange.moderate".localized
+            return L10n.Localizable.Global.Restaurant.Pricerange.moderate.value
         case .expensive:
-            return "global.restaurant.pricerange.expensive".localized
+            return L10n.Localizable.Global.Restaurant.Pricerange.expensive.value
         case .veryExpensive:
-            return "global.restaurant.pricerange.veryexpensive".localized
+            return L10n.Localizable.Global.Restaurant.Pricerange.veryExpensive.value
         case .unknow:
-            return "global.restaurant.pricerange.unknow".localized
+            return L10n.Localizable.Global.Restaurant.Pricerange.unknow.value
         }
     }
     

@@ -45,12 +45,24 @@ public struct AccessibilityElementModel: Hashable {
         identifier: String? = nil,
         label: String? = nil,
         value: String? = nil,
-        traits: Set<Trait> = Set<Trait>()
+        traits: Set<Trait>
     ) {
         self.identifier = identifier
         self.label = label
         self.value = value
-        self.traits = traits
+        self.traits = Set(traits)
+    }
+    
+    public init(
+        identifier: String? = nil,
+        label: String? = nil,
+        value: String? = nil,
+        traits: [Trait] = [Trait]()
+    ) {
+        self.identifier = identifier
+        self.label = label
+        self.value = value
+        self.traits = Set(traits)
     }
     
 }
@@ -65,7 +77,7 @@ extension AccessibilityElementModel {
         self.init(
             identifier: accessibilityString.key,
             label: accessibilityString.value,
-            traits: Set(traits)
+            traits: traits
         )
     }
     

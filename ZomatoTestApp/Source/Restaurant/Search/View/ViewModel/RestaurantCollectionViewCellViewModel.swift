@@ -22,24 +22,37 @@
 // SOFTWARE.
 //
 
-import Foundation
-import ZomatoFoundation
-import Zomato
 import UIKit
+import ZomatoFoundation
+import ZomatoUIKit
+import Zomato
 
 final class RestaurantCollectionViewCellViewModel {
+    
+    enum Distance: Equatable {
+        case near(_ title: String)
+        case nearby(_ title: String)
+        case far(_ title: String)
+        case unknown(_ title: String)
+    }
+    
+    enum FavouriteButton: Equatable {
+        case unknown(isHidden: Bool, image: UIImage?)
+        case favourite(isHidden: Bool, image: UIImage?)
+        case notFavourite(isHidden: Bool, image: UIImage?)
+    }
     
     private var favouriteObserverToken: ObserverToken?
     
     let thumbnailImage = Property<URL?>(nil)
+    let distance = Property<Distance>(
+        .unknown("screen.restaurants.list.element.nodistance".localized)
+    )
     let name = Property<String?>(nil)
-    let distance = Property<String?>(nil)
-    let distanceColor = Property<UIColor?>(nil)
     let cuisines = Property<String?>(nil)
     let timings = Property<String?>(nil)
     let priceRange = Property<String?>(nil)
-    let isFavouriteButtonHidden = Property<Bool>(true)
-    let isFavouriteButtonImage = Property<UIImage?>(nil)
+    let favouriteButton = Property<FavouriteButton>(.unknown(isHidden: true, image: nil))
     private var onUserDidPressFavouriteActionClosure: (() -> Void)?
     
     func set(
@@ -59,6 +72,7 @@ final class RestaurantCollectionViewCellViewModel {
             userCoordinate: userCoordinate,
             restaurantCoordinate: restaurant.location?.coordinate
         )
+        
         name.value = restaurant.name
         cuisines.value = restaurant.cuisines.joined(separator: ",")
         timings.value = restaurant.timings
@@ -70,16 +84,22 @@ final class RestaurantCollectionViewCellViewModel {
         ) { (me, status) in
             switch status {
             case .unknown:
-                me.isFavouriteButtonHidden.value = true
-                me.isFavouriteButtonImage.value = nil
+                me.favouriteButton.value = .unknown(
+                    isHidden: true,
+                    image: nil
+                )
                 
             case .favourite:
-                me.isFavouriteButtonHidden.value = false
-                me.isFavouriteButtonImage.value = UIImage(named: "like-fill")
+                me.favouriteButton.value = .favourite(
+                    isHidden: false,
+                    image: Asset.likeFill.image
+                )
                 
             case .notFavourite:
-                me.isFavouriteButtonHidden.value = false
-                me.isFavouriteButtonImage.value = UIImage(named: "like-empty")
+                me.favouriteButton.value = .notFavourite(
+                    isHidden: false,
+                    image: Asset.likeEmpty.image
+                )
             }
         }
         
@@ -102,6 +122,11 @@ final class RestaurantCollectionViewCellViewModel {
         onUserDidPressFavouriteActionClosure?()
     }
     
+}
+
+// MARK: Helpers
+extension RestaurantCollectionViewCellViewModel {
+    
     private func updateDistance(
         userCoordinate: CoordinateModel?,
         restaurantCoordinate: CoordinateModel?
@@ -110,24 +135,25 @@ final class RestaurantCollectionViewCellViewModel {
             let userCoordinate = userCoordinate,
             let restaurantCoordinate = restaurantCoordinate
         else {
-            distance.value = "screen.restaurants.list.element.nodistance".localized
-            distanceColor.value = Theme.shared.distance.far
+            distance.value = .unknown(
+                "screen.restaurants.list.element.nodistance".localized
+            )
             return
         }
         
         let distanceInMeters = userCoordinate.distanceInMeters(to: restaurantCoordinate)
-        distance.value = "screen.restaurants.list.element.distance".localized(
+        let distanceTitle = "screen.restaurants.list.element.distance".localized(
             name: "${distance}",
             value: String(format: "%.0f", distanceInMeters)
         )
         
         switch distanceInMeters {
         case 0..<300:
-            distanceColor.value = Theme.shared.distance.near
+            distance.value = .near(distanceTitle)
         case 300..<600:
-            distanceColor.value = Theme.shared.distance.nearby
+            distance.value = .nearby(distanceTitle)
         default:
-            distanceColor.value = Theme.shared.distance.far
+            distance.value = .far(distanceTitle)
         }
     }
     

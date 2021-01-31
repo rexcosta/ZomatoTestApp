@@ -68,4 +68,9 @@ public final class RoundEdgesLabel: UIView {
         rightConstraint?.constant = -halfHeight
     }
     
+    public func set(text: String?, backgroundColor: UIColor?) {
+        label.text = text
+        self.backgroundColor = backgroundColor
+    }
+    
 }

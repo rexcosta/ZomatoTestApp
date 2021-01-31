@@ -51,7 +51,6 @@ final class RestaurantCollectionViewCell: UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         _ = $0.label.withLabelStyle
     }
-    
     private let nameLabel = UILabel().withTitleStyle
     private let cuisinesLabel = UILabel().withTextStyle
     private let timingsLabel = UILabel().withTextStyle.with {
@@ -60,6 +59,7 @@ final class RestaurantCollectionViewCell: UICollectionViewCell {
     private let priceRangeLabel = UILabel().withTextStyle
     
     let viewModel = RestaurantCollectionViewCellViewModel()
+    let accessibilityModel = RestaurantCollectionViewCellAccessibilityModel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -67,7 +67,12 @@ final class RestaurantCollectionViewCell: UICollectionViewCell {
         setupViews()
         setupViewHierarchy()
         setupConstraints()
+        
         bind(to: viewModel)
+        bind(
+            accessibilityModel: accessibilityModel,
+            to: viewModel
+        )
     }
     
     required init?(coder: NSCoder) {
@@ -152,30 +157,90 @@ extension RestaurantCollectionViewCell {
         ])
     }
     
+}
+
+// MARK: Bind
+extension RestaurantCollectionViewCell {
+    
+    private func bind(
+        accessibilityModel: RestaurantCollectionViewCellAccessibilityModel,
+        to viewModel: RestaurantCollectionViewCellViewModel
+    ) {
+        accessibilityModel.bind(viewModel: viewModel)
+        
+        distanceLabel.label.bindAccessibility(to: accessibilityModel.distanceAccessibility)
+        nameLabel.bindAccessibility(to: accessibilityModel.nameAccessibility)
+        cuisinesLabel.bindAccessibility(to: accessibilityModel.cuisinesAccessibility)
+        timingsLabel.bindAccessibility(to: accessibilityModel.timingsAccessibility)
+        priceRangeLabel.bindAccessibility(to: accessibilityModel.priceRangeAccessibility)
+        favouriteButton.bindAccessibility(to: accessibilityModel.favouriteButtonAccessibility)
+    }
+    
     private func bind(to viewModel: RestaurantCollectionViewCellViewModel) {
-        distanceLabel.label.bindText(to: viewModel.distance)
-        distanceLabel.bindBackgroundColor(to: viewModel.distanceColor)
         nameLabel.bindText(to: viewModel.name)
         cuisinesLabel.bindText(to: viewModel.cuisines)
         timingsLabel.bindText(to: viewModel.timings)
         priceRangeLabel.bindText(to: viewModel.priceRange)
-        favouriteButton.bindIsHidden(to: viewModel.isFavouriteButtonHidden)
         
-        viewModel.isFavouriteButtonImage.observeOnMainContext(
+        viewModel.distance.observeOnMainContext(
+            fire: true,
+            whileTargetAlive: distanceLabel
+        ) { (distanceLabel, distance) in
+            switch distance {
+            case .near(let title):
+                distanceLabel.set(
+                    text: title,
+                    backgroundColor: Theme.shared.distance.near
+                )
+                
+            case .nearby(let title):
+                distanceLabel.set(
+                    text: title,
+                    backgroundColor: Theme.shared.distance.nearby
+                )
+                
+            case .far(let title):
+                distanceLabel.set(
+                    text: title,
+                    backgroundColor: Theme.shared.distance.far
+                )
+                
+            case .unknown(let title):
+                distanceLabel.set(
+                    text: title,
+                    backgroundColor: Theme.shared.distance.far
+                )
+            }
+        }
+        
+        viewModel.favouriteButton.observeOnMainContext(
             fire: true,
             whileTargetAlive: favouriteButton
-        ) { (me, newValue) in
-            me.setImage(newValue, for: .normal)
-            me.fastBounce()
+        ) { (favouriteButton, newValue) in
+            switch newValue {
+            case .unknown(let isHidden, let image):
+                favouriteButton.isHidden = isHidden
+                favouriteButton.setImage(image, for: .normal)
+                
+            case .favourite(let isHidden, let image):
+                favouriteButton.isHidden = isHidden
+                favouriteButton.setImage(image, for: .normal)
+                favouriteButton.fastBounce()
+                
+            case .notFavourite(let isHidden, let image):
+                favouriteButton.isHidden = isHidden
+                favouriteButton.setImage(image, for: .normal)
+                favouriteButton.fastBounce()
+            }
         }
         
         viewModel.thumbnailImage.observeOnMainContext(
             fire: true,
             whileTargetAlive: thumbnailImageView
-        ) { (imageView, url) in
-            imageView.kf.setImage(
+        ) { (thumbnailImageView, url) in
+            thumbnailImageView.kf.setImage(
                 with: url,
-                placeholder: UIImage(named: "placeholder")
+                placeholder: Asset.placeholder.image
             )
         }
     }
