@@ -1,0 +1,39 @@
+PODS:
+  - Kingfisher (6.0.1)
+  - RxSwift (6.0.0)
+  - Zomato (0.0.1):
+    - RxSwift
+    - ZomatoFoundation
+  - ZomatoFoundation (0.0.1)
+  - ZomatoUIKit (0.0.1):
+    - ZomatoFoundation
+
+DEPENDENCIES:
+  - Kingfisher (= 6.0.1)
+  - Zomato (from `Other/Zomato/Zomato.podspec`)
+  - ZomatoFoundation (from `Other/ZomatoFoundation/ZomatoFoundation.podspec`)
+  - ZomatoUIKit (from `Other/ZomatoUIKit/ZomatoUIKit.podspec`)
+
+SPEC REPOS:
+  trunk:
+    - Kingfisher
+    - RxSwift
+
+EXTERNAL SOURCES:
+  Zomato:
+    :path: Other/Zomato/Zomato.podspec
+  ZomatoFoundation:
+    :path: Other/ZomatoFoundation/ZomatoFoundation.podspec
+  ZomatoUIKit:
+    :path: Other/ZomatoUIKit/ZomatoUIKit.podspec
+
+SPEC CHECKSUMS:
+  Kingfisher: adde87a4f74f6a3845395769354efff593581740
+  RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
+  Zomato: 69f514300a9b18e05e4793ce4be21fb6426e2c28
+  ZomatoFoundation: 86595909f2267003ef0ae45d7cc6482f8e11b1d7
+  ZomatoUIKit: 64c47f9274acaf942fb36de963d9bb6c1bebe9a6
+
+PODFILE CHECKSUM: d528af21dc1049bf31792aedc051697e05115e31
+
+COCOAPODS: 1.10.1
