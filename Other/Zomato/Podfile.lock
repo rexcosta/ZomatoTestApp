@@ -1,0 +1,16 @@
+PODS:
+  - ZomatoFoundation (0.0.1)
+
+DEPENDENCIES:
+  - ZomatoFoundation (from `../ZomatoFoundation/ZomatoFoundation.podspec`)
+
+EXTERNAL SOURCES:
+  ZomatoFoundation:
+    :path: "../ZomatoFoundation/ZomatoFoundation.podspec"
+
+SPEC CHECKSUMS:
+  ZomatoFoundation: f61f5b1466e5ecb74baa35214626c0a20c2a46ff
+
+PODFILE CHECKSUM: 906ed00714f6939cd75c448b801f6a4803d7772e
+
+COCOAPODS: 1.10.1

@@ -1,3 +1,6 @@
+excluded:
+ - Pods
+
 trailing_whitespace:
  ignores_empty_lines: true
 
