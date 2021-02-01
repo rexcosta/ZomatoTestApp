@@ -1,7 +1,16 @@
 Pods
+
 ZomatoTestApp.xcworkspace/xcuserdata
+ZomatoTestApp.xcodeproj/project.xcworkspace/xcuserdata
+ZomatoTestApp.xcodeproj/xcuserdata
+
 Other/ZomatoFoundation/ZomatoFoundation.xcodeproj/project.xcworkspace/xcuserdata
 Other/ZomatoFoundation/ZomatoFoundation.xcodeproj/xcuserdata
+
+Other/ZomatoUIKit/ZomatoUIKit.xcworkspace/xcuserdata
 Other/ZomatoUIKit/ZomatoUIKit.xcodeproj/project.xcworkspace/xcuserdata
 Other/ZomatoUIKit/ZomatoUIKit.xcodeproj/xcuserdata
-Other/ZomatoUIKit/ZomatoUIKit.xcworkspace/xcuserdata
+
+Other/Zomato/Zomato.xcworkspace/xcuserdata
+Other/Zomato/Zomato.xcodeproj/project.xcworkspace/xcuserdata
+Other/Zomato/Zomato.xcodeproj/xcuserdata

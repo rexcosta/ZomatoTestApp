@@ -22,10 +22,14 @@
 // SOFTWARE.
 //
 
-import XCTest
+#import <Foundation/Foundation.h>
 
-import ZomatoTests
+//! Project version number for Zomato.
+FOUNDATION_EXPORT double ZomatoVersionNumber;
 
-var tests = [XCTestCaseEntry]()
-tests += ZomatoTests.allTests()
-XCTMain(tests)
+//! Project version string for Zomato.
+FOUNDATION_EXPORT const unsigned char ZomatoVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <Zomato/PublicHeader.h>
+
+

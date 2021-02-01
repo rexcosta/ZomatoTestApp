@@ -1,3 +1,0 @@
-# Zomato
-
-Zomato SDK
