@@ -1,0 +1,636 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		632C1EBE25C8A31B00530AE2 /* ZomatoFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 632C1EB425C8A31B00530AE2 /* ZomatoFoundation.framework */; };
+		632C1EC325C8A31B00530AE2 /* ZomatoFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EC225C8A31B00530AE2 /* ZomatoFoundationTests.swift */; };
+		632C1EC525C8A31B00530AE2 /* ZomatoFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 632C1EB725C8A31B00530AE2 /* ZomatoFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		632C1EF525C8A37000530AE2 /* SqliteDatabase+Error.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1ED225C8A37000530AE2 /* SqliteDatabase+Error.swift */; };
+		632C1EF625C8A37000530AE2 /* ConcurrentSqliteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1ED325C8A37000530AE2 /* ConcurrentSqliteDatabase.swift */; };
+		632C1EF725C8A37000530AE2 /* SqliteDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1ED425C8A37000530AE2 /* SqliteDatabase.swift */; };
+		632C1EF825C8A37000530AE2 /* SqliteStatement.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1ED525C8A37000530AE2 /* SqliteStatement.swift */; };
+		632C1EF925C8A37000530AE2 /* NetworkProtocol+ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1ED825C8A37000530AE2 /* NetworkProtocol+ObjectMapper.swift */; };
+		632C1EFA25C8A37000530AE2 /* HttpClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1ED925C8A37000530AE2 /* HttpClient.swift */; };
+		632C1EFB25C8A37000530AE2 /* HttpContentType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EDB25C8A37000530AE2 /* HttpContentType.swift */; };
+		632C1EFC25C8A37000530AE2 /* HttpQueryParameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EDC25C8A37000530AE2 /* HttpQueryParameter.swift */; };
+		632C1EFD25C8A37000530AE2 /* HttpMethod.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EDD25C8A37000530AE2 /* HttpMethod.swift */; };
+		632C1EFE25C8A37000530AE2 /* HttpHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EDE25C8A37000530AE2 /* HttpHeader.swift */; };
+		632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EDF25C8A37000530AE2 /* NetworkRequest.swift */; };
+		632C1F0025C8A37000530AE2 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */; };
+		632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE125C8A37000530AE2 /* NetworkError.swift */; };
+		632C1F0225C8A37000530AE2 /* Observable+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE325C8A37000530AE2 /* Observable+Queue.swift */; };
+		632C1F0325C8A37000530AE2 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE425C8A37000530AE2 /* Property.swift */; };
+		632C1F0425C8A37000530AE2 /* ReadOnlyProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE525C8A37000530AE2 /* ReadOnlyProperty.swift */; };
+		632C1F0525C8A37000530AE2 /* Observable+TargetLifeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE625C8A37000530AE2 /* Observable+TargetLifeTime.swift */; };
+		632C1F0625C8A37000530AE2 /* LazyProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE725C8A37000530AE2 /* LazyProperty.swift */; };
+		632C1F0725C8A37000530AE2 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE825C8A37000530AE2 /* Observable.swift */; };
+		632C1F0825C8A37000530AE2 /* Observable+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE925C8A37000530AE2 /* Observable+Map.swift */; };
+		632C1F0925C8A37000530AE2 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEB25C8A37000530AE2 /* String+Localizable.swift */; };
+		632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEC25C8A37000530AE2 /* Withable.swift */; };
+		632C1F0B25C8A37000530AE2 /* ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EED25C8A37000530AE2 /* ObjectMapper.swift */; };
+		632C1F0C25C8A37000530AE2 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEE25C8A37000530AE2 /* Weak.swift */; };
+		632C1F0D25C8A37000530AE2 /* CancellableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EF025C8A37000530AE2 /* CancellableProtocol.swift */; };
+		632C1F0E25C8A37000530AE2 /* EmptyCancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EF125C8A37000530AE2 /* EmptyCancellable.swift */; };
+		632C1F0F25C8A37000530AE2 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EF325C8A37000530AE2 /* Log.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		632C1EBF25C8A31B00530AE2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 632C1EAB25C8A31B00530AE2 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 632C1EB325C8A31B00530AE2;
+			remoteInfo = ZomatoFoundation;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		632C1EB425C8A31B00530AE2 /* ZomatoFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZomatoFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		632C1EB725C8A31B00530AE2 /* ZomatoFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZomatoFoundation.h; sourceTree = "<group>"; };
+		632C1EB825C8A31B00530AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		632C1EBD25C8A31B00530AE2 /* ZomatoFoundationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ZomatoFoundationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		632C1EC225C8A31B00530AE2 /* ZomatoFoundationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZomatoFoundationTests.swift; sourceTree = "<group>"; };
+		632C1EC425C8A31B00530AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		632C1ED225C8A37000530AE2 /* SqliteDatabase+Error.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SqliteDatabase+Error.swift"; sourceTree = "<group>"; };
+		632C1ED325C8A37000530AE2 /* ConcurrentSqliteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcurrentSqliteDatabase.swift; sourceTree = "<group>"; };
+		632C1ED425C8A37000530AE2 /* SqliteDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SqliteDatabase.swift; sourceTree = "<group>"; };
+		632C1ED525C8A37000530AE2 /* SqliteStatement.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SqliteStatement.swift; sourceTree = "<group>"; };
+		632C1ED825C8A37000530AE2 /* NetworkProtocol+ObjectMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NetworkProtocol+ObjectMapper.swift"; sourceTree = "<group>"; };
+		632C1ED925C8A37000530AE2 /* HttpClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpClient.swift; sourceTree = "<group>"; };
+		632C1EDB25C8A37000530AE2 /* HttpContentType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpContentType.swift; sourceTree = "<group>"; };
+		632C1EDC25C8A37000530AE2 /* HttpQueryParameter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpQueryParameter.swift; sourceTree = "<group>"; };
+		632C1EDD25C8A37000530AE2 /* HttpMethod.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpMethod.swift; sourceTree = "<group>"; };
+		632C1EDE25C8A37000530AE2 /* HttpHeader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HttpHeader.swift; sourceTree = "<group>"; };
+		632C1EDF25C8A37000530AE2 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
+		632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
+		632C1EE125C8A37000530AE2 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		632C1EE325C8A37000530AE2 /* Observable+Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Queue.swift"; sourceTree = "<group>"; };
+		632C1EE425C8A37000530AE2 /* Property.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
+		632C1EE525C8A37000530AE2 /* ReadOnlyProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyProperty.swift; sourceTree = "<group>"; };
+		632C1EE625C8A37000530AE2 /* Observable+TargetLifeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+TargetLifeTime.swift"; sourceTree = "<group>"; };
+		632C1EE725C8A37000530AE2 /* LazyProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyProperty.swift; sourceTree = "<group>"; };
+		632C1EE825C8A37000530AE2 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
+		632C1EE925C8A37000530AE2 /* Observable+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Map.swift"; sourceTree = "<group>"; };
+		632C1EEB25C8A37000530AE2 /* String+Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
+		632C1EEC25C8A37000530AE2 /* Withable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Withable.swift; sourceTree = "<group>"; };
+		632C1EED25C8A37000530AE2 /* ObjectMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectMapper.swift; sourceTree = "<group>"; };
+		632C1EEE25C8A37000530AE2 /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
+		632C1EF025C8A37000530AE2 /* CancellableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableProtocol.swift; sourceTree = "<group>"; };
+		632C1EF125C8A37000530AE2 /* EmptyCancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCancellable.swift; sourceTree = "<group>"; };
+		632C1EF325C8A37000530AE2 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		632C1EB125C8A31B00530AE2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		632C1EBA25C8A31B00530AE2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632C1EBE25C8A31B00530AE2 /* ZomatoFoundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		632C1EAA25C8A31B00530AE2 = {
+			isa = PBXGroup;
+			children = (
+				632C1EB625C8A31B00530AE2 /* ZomatoFoundation */,
+				632C1EC125C8A31B00530AE2 /* ZomatoFoundationTests */,
+				632C1EB525C8A31B00530AE2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		632C1EB525C8A31B00530AE2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EB425C8A31B00530AE2 /* ZomatoFoundation.framework */,
+				632C1EBD25C8A31B00530AE2 /* ZomatoFoundationTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		632C1EB625C8A31B00530AE2 /* ZomatoFoundation */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EB725C8A31B00530AE2 /* ZomatoFoundation.h */,
+				632C1EB825C8A31B00530AE2 /* Info.plist */,
+				632C1ED025C8A37000530AE2 /* Source */,
+			);
+			path = ZomatoFoundation;
+			sourceTree = "<group>";
+		};
+		632C1EC125C8A31B00530AE2 /* ZomatoFoundationTests */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EC225C8A31B00530AE2 /* ZomatoFoundationTests.swift */,
+				632C1EC425C8A31B00530AE2 /* Info.plist */,
+			);
+			path = ZomatoFoundationTests;
+			sourceTree = "<group>";
+		};
+		632C1ED025C8A37000530AE2 /* Source */ = {
+			isa = PBXGroup;
+			children = (
+				632C1ED125C8A37000530AE2 /* Database */,
+				632C1ED625C8A37000530AE2 /* Network */,
+				632C1EE225C8A37000530AE2 /* Observer */,
+				632C1EEA25C8A37000530AE2 /* Utils */,
+				632C1EEF25C8A37000530AE2 /* Cancellable */,
+				632C1EF225C8A37000530AE2 /* Log */,
+			);
+			path = Source;
+			sourceTree = "<group>";
+		};
+		632C1ED125C8A37000530AE2 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				632C1ED225C8A37000530AE2 /* SqliteDatabase+Error.swift */,
+				632C1ED325C8A37000530AE2 /* ConcurrentSqliteDatabase.swift */,
+				632C1ED425C8A37000530AE2 /* SqliteDatabase.swift */,
+				632C1ED525C8A37000530AE2 /* SqliteStatement.swift */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		632C1ED625C8A37000530AE2 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				632C1ED725C8A37000530AE2 /* Extension */,
+				632C1ED925C8A37000530AE2 /* HttpClient.swift */,
+				632C1EDA25C8A37000530AE2 /* Model */,
+				632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */,
+				632C1EE125C8A37000530AE2 /* NetworkError.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		632C1ED725C8A37000530AE2 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				632C1ED825C8A37000530AE2 /* NetworkProtocol+ObjectMapper.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		632C1EDA25C8A37000530AE2 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EDB25C8A37000530AE2 /* HttpContentType.swift */,
+				632C1EDC25C8A37000530AE2 /* HttpQueryParameter.swift */,
+				632C1EDD25C8A37000530AE2 /* HttpMethod.swift */,
+				632C1EDE25C8A37000530AE2 /* HttpHeader.swift */,
+				632C1EDF25C8A37000530AE2 /* NetworkRequest.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		632C1EE225C8A37000530AE2 /* Observer */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EE325C8A37000530AE2 /* Observable+Queue.swift */,
+				632C1EE425C8A37000530AE2 /* Property.swift */,
+				632C1EE525C8A37000530AE2 /* ReadOnlyProperty.swift */,
+				632C1EE625C8A37000530AE2 /* Observable+TargetLifeTime.swift */,
+				632C1EE725C8A37000530AE2 /* LazyProperty.swift */,
+				632C1EE825C8A37000530AE2 /* Observable.swift */,
+				632C1EE925C8A37000530AE2 /* Observable+Map.swift */,
+			);
+			path = Observer;
+			sourceTree = "<group>";
+		};
+		632C1EEA25C8A37000530AE2 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EEB25C8A37000530AE2 /* String+Localizable.swift */,
+				632C1EEC25C8A37000530AE2 /* Withable.swift */,
+				632C1EED25C8A37000530AE2 /* ObjectMapper.swift */,
+				632C1EEE25C8A37000530AE2 /* Weak.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		632C1EEF25C8A37000530AE2 /* Cancellable */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EF025C8A37000530AE2 /* CancellableProtocol.swift */,
+				632C1EF125C8A37000530AE2 /* EmptyCancellable.swift */,
+			);
+			path = Cancellable;
+			sourceTree = "<group>";
+		};
+		632C1EF225C8A37000530AE2 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				632C1EF325C8A37000530AE2 /* Log.swift */,
+			);
+			path = Log;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		632C1EAF25C8A31B00530AE2 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632C1EC525C8A31B00530AE2 /* ZomatoFoundation.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		632C1EB325C8A31B00530AE2 /* ZomatoFoundation */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 632C1EC825C8A31B00530AE2 /* Build configuration list for PBXNativeTarget "ZomatoFoundation" */;
+			buildPhases = (
+				632C1EAF25C8A31B00530AE2 /* Headers */,
+				632C1EB025C8A31B00530AE2 /* Sources */,
+				632C1EB125C8A31B00530AE2 /* Frameworks */,
+				632C1EB225C8A31B00530AE2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ZomatoFoundation;
+			productName = ZomatoFoundation;
+			productReference = 632C1EB425C8A31B00530AE2 /* ZomatoFoundation.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		632C1EBC25C8A31B00530AE2 /* ZomatoFoundationTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 632C1ECB25C8A31B00530AE2 /* Build configuration list for PBXNativeTarget "ZomatoFoundationTests" */;
+			buildPhases = (
+				632C1EB925C8A31B00530AE2 /* Sources */,
+				632C1EBA25C8A31B00530AE2 /* Frameworks */,
+				632C1EBB25C8A31B00530AE2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				632C1EC025C8A31B00530AE2 /* PBXTargetDependency */,
+			);
+			name = ZomatoFoundationTests;
+			productName = ZomatoFoundationTests;
+			productReference = 632C1EBD25C8A31B00530AE2 /* ZomatoFoundationTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		632C1EAB25C8A31B00530AE2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1220;
+				LastUpgradeCheck = 1220;
+				TargetAttributes = {
+					632C1EB325C8A31B00530AE2 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+					632C1EBC25C8A31B00530AE2 = {
+						CreatedOnToolsVersion = 12.2;
+					};
+				};
+			};
+			buildConfigurationList = 632C1EAE25C8A31B00530AE2 /* Build configuration list for PBXProject "ZomatoFoundation" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 632C1EAA25C8A31B00530AE2;
+			productRefGroup = 632C1EB525C8A31B00530AE2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				632C1EB325C8A31B00530AE2 /* ZomatoFoundation */,
+				632C1EBC25C8A31B00530AE2 /* ZomatoFoundationTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		632C1EB225C8A31B00530AE2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		632C1EBB25C8A31B00530AE2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		632C1EB025C8A31B00530AE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632C1F0E25C8A37000530AE2 /* EmptyCancellable.swift in Sources */,
+				632C1F0725C8A37000530AE2 /* Observable.swift in Sources */,
+				632C1F0F25C8A37000530AE2 /* Log.swift in Sources */,
+				632C1F0825C8A37000530AE2 /* Observable+Map.swift in Sources */,
+				632C1F0B25C8A37000530AE2 /* ObjectMapper.swift in Sources */,
+				632C1F0325C8A37000530AE2 /* Property.swift in Sources */,
+				632C1F0D25C8A37000530AE2 /* CancellableProtocol.swift in Sources */,
+				632C1EF725C8A37000530AE2 /* SqliteDatabase.swift in Sources */,
+				632C1F0C25C8A37000530AE2 /* Weak.swift in Sources */,
+				632C1EFB25C8A37000530AE2 /* HttpContentType.swift in Sources */,
+				632C1EFC25C8A37000530AE2 /* HttpQueryParameter.swift in Sources */,
+				632C1F0625C8A37000530AE2 /* LazyProperty.swift in Sources */,
+				632C1F0425C8A37000530AE2 /* ReadOnlyProperty.swift in Sources */,
+				632C1EF925C8A37000530AE2 /* NetworkProtocol+ObjectMapper.swift in Sources */,
+				632C1EFD25C8A37000530AE2 /* HttpMethod.swift in Sources */,
+				632C1EF525C8A37000530AE2 /* SqliteDatabase+Error.swift in Sources */,
+				632C1EFE25C8A37000530AE2 /* HttpHeader.swift in Sources */,
+				632C1EF625C8A37000530AE2 /* ConcurrentSqliteDatabase.swift in Sources */,
+				632C1F0025C8A37000530AE2 /* NetworkProtocol.swift in Sources */,
+				632C1F0525C8A37000530AE2 /* Observable+TargetLifeTime.swift in Sources */,
+				632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */,
+				632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */,
+				632C1EFA25C8A37000530AE2 /* HttpClient.swift in Sources */,
+				632C1F0225C8A37000530AE2 /* Observable+Queue.swift in Sources */,
+				632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */,
+				632C1EF825C8A37000530AE2 /* SqliteStatement.swift in Sources */,
+				632C1F0925C8A37000530AE2 /* String+Localizable.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		632C1EB925C8A31B00530AE2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632C1EC325C8A31B00530AE2 /* ZomatoFoundationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		632C1EC025C8A31B00530AE2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 632C1EB325C8A31B00530AE2 /* ZomatoFoundation */;
+			targetProxy = 632C1EBF25C8A31B00530AE2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		632C1EC625C8A31B00530AE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		632C1EC725C8A31B00530AE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		632C1EC925C8A31B00530AE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ZomatoFoundation/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoFoundation;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		632C1ECA25C8A31B00530AE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				INFOPLIST_FILE = ZomatoFoundation/Info.plist;
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoFoundation;
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		632C1ECC25C8A31B00530AE2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoFoundationTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoFoundationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		632C1ECD25C8A31B00530AE2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = ZomatoFoundationTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = effectivelikeaboss.com.ZomatoFoundationTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		632C1EAE25C8A31B00530AE2 /* Build configuration list for PBXProject "ZomatoFoundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				632C1EC625C8A31B00530AE2 /* Debug */,
+				632C1EC725C8A31B00530AE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		632C1EC825C8A31B00530AE2 /* Build configuration list for PBXNativeTarget "ZomatoFoundation" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				632C1EC925C8A31B00530AE2 /* Debug */,
+				632C1ECA25C8A31B00530AE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		632C1ECB25C8A31B00530AE2 /* Build configuration list for PBXNativeTarget "ZomatoFoundationTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				632C1ECC25C8A31B00530AE2 /* Debug */,
+				632C1ECD25C8A31B00530AE2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 632C1EAB25C8A31B00530AE2 /* Project object */;
+}
