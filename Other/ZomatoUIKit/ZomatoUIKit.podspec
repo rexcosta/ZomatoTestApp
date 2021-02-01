@@ -10,7 +10,7 @@ Pod::Spec.new do |s|
   s.platforms     = { :ios => "12.0", :osx => "11.0" }
   s.source        = { :git => "https://github.com/rexcosta/ZomatoTestApp" }
 
-  s.source_files  = "Sources/**/*.{swift}"
+  s.source_files  = "ZomatoUIKit/Source/**/*.{swift}"
 
   s.dependency "ZomatoFoundation"
 

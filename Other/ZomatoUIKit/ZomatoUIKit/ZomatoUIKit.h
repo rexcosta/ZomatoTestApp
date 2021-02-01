@@ -22,18 +22,14 @@
 // SOFTWARE.
 //
 
-import XCTest
-@testable import ZomatoUIKit
+#import <Foundation/Foundation.h>
 
-final class ZomatoUIKitTests: XCTestCase {
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(ZomatoUIKit().text, "Hello, World!")
-    }
+//! Project version number for ZomatoUIKit.
+FOUNDATION_EXPORT double ZomatoUIKitVersionNumber;
 
-    static var allTests = [
-        ("testExample", testExample)
-    ]
-}
+//! Project version string for ZomatoUIKit.
+FOUNDATION_EXPORT const unsigned char ZomatoUIKitVersionString[];
+
+// In this header, you should import all the public headers of your framework using statements like #import <ZomatoUIKit/PublicHeader.h>
+
+
