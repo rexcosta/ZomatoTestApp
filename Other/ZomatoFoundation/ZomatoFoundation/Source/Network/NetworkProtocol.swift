@@ -23,15 +23,12 @@
 //
 
 import Foundation
+import RxSwift
 
 public protocol NetworkProtocol {
     
-    typealias RequestResult = Result<(data: Data, httpResponse: URLResponse), NetworkError>
-    typealias RequestCompletion = (_ result: RequestResult) -> Void
-    
     func request(
-        _ request: NetworkRequest,
-        completion: @escaping RequestCompletion
-    ) -> Cancellable
+        _ request: NetworkRequest
+    ) -> Single<(data: Data, httpResponse: HTTPURLResponse)>
     
 }

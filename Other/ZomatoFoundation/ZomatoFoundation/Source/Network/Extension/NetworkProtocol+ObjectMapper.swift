@@ -22,32 +22,22 @@
 // SOFTWARE.
 //
 
-import Combine
 import Foundation
+import RxSwift
 
 // MARK: - NetworkProtocol + Map response and error
 extension NetworkProtocol {
     
-    public func request<Mapper, ErrorMapper>(
+    public func request<Mapper>(
         _ request: NetworkRequest,
-        objectMapper: Mapper,
-        errorMapper: ErrorMapper,
-        completion: @escaping (_ result: Result<Mapper.Output, ErrorMapper.Output>) -> Void
-    ) -> Cancellable
+        objectMapper: Mapper
+    ) -> Single<Mapper.Output>
     where
         Mapper: ObjectMapper,
-        ErrorMapper: ObjectMapper,
-        ErrorMapper.Input == NetworkError,
         Mapper.Input == (Data, URLResponse) {
         
-        return self.request(request) { result in
-            switch result {
-            case .failure(let networkError):
-                completion(.failure(errorMapper.mapInput(networkError)))
-                
-            case .success(let tuple):
-                completion(.success(objectMapper.mapInput(tuple)))
-            }
+        return self.request(request).map { tuple -> Mapper.Output in
+            return objectMapper.mapInput(tuple)
         }
     }
     

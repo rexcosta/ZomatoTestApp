@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		176D68FA1E77D37668B17A33 /* libPods-ZomatoFoundationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 47E1C25894E282259177F080 /* libPods-ZomatoFoundationTests.a */; };
 		632C1EBE25C8A31B00530AE2 /* ZomatoFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 632C1EB425C8A31B00530AE2 /* ZomatoFoundation.framework */; };
 		632C1EC325C8A31B00530AE2 /* ZomatoFoundationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EC225C8A31B00530AE2 /* ZomatoFoundationTests.swift */; };
 		632C1EC525C8A31B00530AE2 /* ZomatoFoundation.h in Headers */ = {isa = PBXBuildFile; fileRef = 632C1EB725C8A31B00530AE2 /* ZomatoFoundation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -23,20 +24,13 @@
 		632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EDF25C8A37000530AE2 /* NetworkRequest.swift */; };
 		632C1F0025C8A37000530AE2 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */; };
 		632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE125C8A37000530AE2 /* NetworkError.swift */; };
-		632C1F0225C8A37000530AE2 /* Observable+Queue.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE325C8A37000530AE2 /* Observable+Queue.swift */; };
-		632C1F0325C8A37000530AE2 /* Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE425C8A37000530AE2 /* Property.swift */; };
-		632C1F0425C8A37000530AE2 /* ReadOnlyProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE525C8A37000530AE2 /* ReadOnlyProperty.swift */; };
-		632C1F0525C8A37000530AE2 /* Observable+TargetLifeTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE625C8A37000530AE2 /* Observable+TargetLifeTime.swift */; };
-		632C1F0625C8A37000530AE2 /* LazyProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE725C8A37000530AE2 /* LazyProperty.swift */; };
-		632C1F0725C8A37000530AE2 /* Observable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE825C8A37000530AE2 /* Observable.swift */; };
-		632C1F0825C8A37000530AE2 /* Observable+Map.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE925C8A37000530AE2 /* Observable+Map.swift */; };
 		632C1F0925C8A37000530AE2 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEB25C8A37000530AE2 /* String+Localizable.swift */; };
 		632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEC25C8A37000530AE2 /* Withable.swift */; };
 		632C1F0B25C8A37000530AE2 /* ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EED25C8A37000530AE2 /* ObjectMapper.swift */; };
 		632C1F0C25C8A37000530AE2 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEE25C8A37000530AE2 /* Weak.swift */; };
-		632C1F0D25C8A37000530AE2 /* CancellableProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EF025C8A37000530AE2 /* CancellableProtocol.swift */; };
-		632C1F0E25C8A37000530AE2 /* EmptyCancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EF125C8A37000530AE2 /* EmptyCancellable.swift */; };
 		632C1F0F25C8A37000530AE2 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EF325C8A37000530AE2 /* Log.swift */; };
+		6367F5AC25CF3ED8006446C6 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6367F5AB25CF3ED8006446C6 /* HttpClientTests.swift */; };
+		BA477F0343C12F1B6537D333 /* libPods-ZomatoFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4425EBBDFEFCC37159A1D504 /* libPods-ZomatoFoundation.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -50,6 +44,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4425EBBDFEFCC37159A1D504 /* libPods-ZomatoFoundation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZomatoFoundation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		47E1C25894E282259177F080 /* libPods-ZomatoFoundationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ZomatoFoundationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		50A8A83E37E16F97FCA9761F /* Pods-ZomatoFoundation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundation.release.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundation/Pods-ZomatoFoundation.release.xcconfig"; sourceTree = "<group>"; };
+		55743C33B2F2CA43A93AEA1B /* Pods-ZomatoFoundation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundation.debug.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundation/Pods-ZomatoFoundation.debug.xcconfig"; sourceTree = "<group>"; };
 		632C1EB425C8A31B00530AE2 /* ZomatoFoundation.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZomatoFoundation.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		632C1EB725C8A31B00530AE2 /* ZomatoFoundation.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZomatoFoundation.h; sourceTree = "<group>"; };
 		632C1EB825C8A31B00530AE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -69,20 +67,14 @@
 		632C1EDF25C8A37000530AE2 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		632C1EE125C8A37000530AE2 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		632C1EE325C8A37000530AE2 /* Observable+Queue.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Queue.swift"; sourceTree = "<group>"; };
-		632C1EE425C8A37000530AE2 /* Property.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Property.swift; sourceTree = "<group>"; };
-		632C1EE525C8A37000530AE2 /* ReadOnlyProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyProperty.swift; sourceTree = "<group>"; };
-		632C1EE625C8A37000530AE2 /* Observable+TargetLifeTime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+TargetLifeTime.swift"; sourceTree = "<group>"; };
-		632C1EE725C8A37000530AE2 /* LazyProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyProperty.swift; sourceTree = "<group>"; };
-		632C1EE825C8A37000530AE2 /* Observable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Observable.swift; sourceTree = "<group>"; };
-		632C1EE925C8A37000530AE2 /* Observable+Map.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Map.swift"; sourceTree = "<group>"; };
 		632C1EEB25C8A37000530AE2 /* String+Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
 		632C1EEC25C8A37000530AE2 /* Withable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Withable.swift; sourceTree = "<group>"; };
 		632C1EED25C8A37000530AE2 /* ObjectMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectMapper.swift; sourceTree = "<group>"; };
 		632C1EEE25C8A37000530AE2 /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
-		632C1EF025C8A37000530AE2 /* CancellableProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CancellableProtocol.swift; sourceTree = "<group>"; };
-		632C1EF125C8A37000530AE2 /* EmptyCancellable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EmptyCancellable.swift; sourceTree = "<group>"; };
 		632C1EF325C8A37000530AE2 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
+		6367F5AB25CF3ED8006446C6 /* HttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
+		E43864690F68C6DF939C0F47 /* Pods-ZomatoFoundationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.debug.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.debug.xcconfig"; sourceTree = "<group>"; };
+		ED341AB1EE8B0C53D175953C /* Pods-ZomatoFoundationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.release.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -90,6 +82,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BA477F0343C12F1B6537D333 /* libPods-ZomatoFoundation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -98,18 +91,32 @@
 			buildActionMask = 2147483647;
 			files = (
 				632C1EBE25C8A31B00530AE2 /* ZomatoFoundation.framework in Frameworks */,
+				176D68FA1E77D37668B17A33 /* libPods-ZomatoFoundationTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		24CE81E22837C46CB18F868A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				55743C33B2F2CA43A93AEA1B /* Pods-ZomatoFoundation.debug.xcconfig */,
+				50A8A83E37E16F97FCA9761F /* Pods-ZomatoFoundation.release.xcconfig */,
+				E43864690F68C6DF939C0F47 /* Pods-ZomatoFoundationTests.debug.xcconfig */,
+				ED341AB1EE8B0C53D175953C /* Pods-ZomatoFoundationTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		632C1EAA25C8A31B00530AE2 = {
 			isa = PBXGroup;
 			children = (
 				632C1EB625C8A31B00530AE2 /* ZomatoFoundation */,
 				632C1EC125C8A31B00530AE2 /* ZomatoFoundationTests */,
 				632C1EB525C8A31B00530AE2 /* Products */,
+				24CE81E22837C46CB18F868A /* Pods */,
+				7C7516A8A2C460BA9491AF93 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -136,6 +143,7 @@
 			isa = PBXGroup;
 			children = (
 				632C1EC225C8A31B00530AE2 /* ZomatoFoundationTests.swift */,
+				6367F5AB25CF3ED8006446C6 /* HttpClientTests.swift */,
 				632C1EC425C8A31B00530AE2 /* Info.plist */,
 			);
 			path = ZomatoFoundationTests;
@@ -145,11 +153,9 @@
 			isa = PBXGroup;
 			children = (
 				632C1ED125C8A37000530AE2 /* Database */,
-				632C1ED625C8A37000530AE2 /* Network */,
-				632C1EE225C8A37000530AE2 /* Observer */,
-				632C1EEA25C8A37000530AE2 /* Utils */,
-				632C1EEF25C8A37000530AE2 /* Cancellable */,
 				632C1EF225C8A37000530AE2 /* Log */,
+				632C1ED625C8A37000530AE2 /* Network */,
+				632C1EEA25C8A37000530AE2 /* Utils */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -169,10 +175,10 @@
 			isa = PBXGroup;
 			children = (
 				632C1ED725C8A37000530AE2 /* Extension */,
-				632C1ED925C8A37000530AE2 /* HttpClient.swift */,
 				632C1EDA25C8A37000530AE2 /* Model */,
-				632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */,
+				632C1ED925C8A37000530AE2 /* HttpClient.swift */,
 				632C1EE125C8A37000530AE2 /* NetworkError.swift */,
+				632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -197,20 +203,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		632C1EE225C8A37000530AE2 /* Observer */ = {
-			isa = PBXGroup;
-			children = (
-				632C1EE325C8A37000530AE2 /* Observable+Queue.swift */,
-				632C1EE425C8A37000530AE2 /* Property.swift */,
-				632C1EE525C8A37000530AE2 /* ReadOnlyProperty.swift */,
-				632C1EE625C8A37000530AE2 /* Observable+TargetLifeTime.swift */,
-				632C1EE725C8A37000530AE2 /* LazyProperty.swift */,
-				632C1EE825C8A37000530AE2 /* Observable.swift */,
-				632C1EE925C8A37000530AE2 /* Observable+Map.swift */,
-			);
-			path = Observer;
-			sourceTree = "<group>";
-		};
 		632C1EEA25C8A37000530AE2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
@@ -222,21 +214,21 @@
 			path = Utils;
 			sourceTree = "<group>";
 		};
-		632C1EEF25C8A37000530AE2 /* Cancellable */ = {
-			isa = PBXGroup;
-			children = (
-				632C1EF025C8A37000530AE2 /* CancellableProtocol.swift */,
-				632C1EF125C8A37000530AE2 /* EmptyCancellable.swift */,
-			);
-			path = Cancellable;
-			sourceTree = "<group>";
-		};
 		632C1EF225C8A37000530AE2 /* Log */ = {
 			isa = PBXGroup;
 			children = (
 				632C1EF325C8A37000530AE2 /* Log.swift */,
 			);
 			path = Log;
+			sourceTree = "<group>";
+		};
+		7C7516A8A2C460BA9491AF93 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4425EBBDFEFCC37159A1D504 /* libPods-ZomatoFoundation.a */,
+				47E1C25894E282259177F080 /* libPods-ZomatoFoundationTests.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -257,6 +249,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 632C1EC825C8A31B00530AE2 /* Build configuration list for PBXNativeTarget "ZomatoFoundation" */;
 			buildPhases = (
+				9F5EB3DB94D765E85BFB491D /* [CP] Check Pods Manifest.lock */,
 				632C1EAF25C8A31B00530AE2 /* Headers */,
 				632C1EB025C8A31B00530AE2 /* Sources */,
 				632C1EB125C8A31B00530AE2 /* Frameworks */,
@@ -275,6 +268,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 632C1ECB25C8A31B00530AE2 /* Build configuration list for PBXNativeTarget "ZomatoFoundationTests" */;
 			buildPhases = (
+				27781FA84881B5665A368C2E /* [CP] Check Pods Manifest.lock */,
 				632C1EB925C8A31B00530AE2 /* Sources */,
 				632C1EBA25C8A31B00530AE2 /* Frameworks */,
 				632C1EBB25C8A31B00530AE2 /* Resources */,
@@ -342,35 +336,73 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		27781FA84881B5665A368C2E /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ZomatoFoundationTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		9F5EB3DB94D765E85BFB491D /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ZomatoFoundation-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		632C1EB025C8A31B00530AE2 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				632C1F0E25C8A37000530AE2 /* EmptyCancellable.swift in Sources */,
-				632C1F0725C8A37000530AE2 /* Observable.swift in Sources */,
 				632C1F0F25C8A37000530AE2 /* Log.swift in Sources */,
-				632C1F0825C8A37000530AE2 /* Observable+Map.swift in Sources */,
 				632C1F0B25C8A37000530AE2 /* ObjectMapper.swift in Sources */,
-				632C1F0325C8A37000530AE2 /* Property.swift in Sources */,
-				632C1F0D25C8A37000530AE2 /* CancellableProtocol.swift in Sources */,
 				632C1EF725C8A37000530AE2 /* SqliteDatabase.swift in Sources */,
 				632C1F0C25C8A37000530AE2 /* Weak.swift in Sources */,
 				632C1EFB25C8A37000530AE2 /* HttpContentType.swift in Sources */,
 				632C1EFC25C8A37000530AE2 /* HttpQueryParameter.swift in Sources */,
-				632C1F0625C8A37000530AE2 /* LazyProperty.swift in Sources */,
-				632C1F0425C8A37000530AE2 /* ReadOnlyProperty.swift in Sources */,
 				632C1EF925C8A37000530AE2 /* NetworkProtocol+ObjectMapper.swift in Sources */,
 				632C1EFD25C8A37000530AE2 /* HttpMethod.swift in Sources */,
 				632C1EF525C8A37000530AE2 /* SqliteDatabase+Error.swift in Sources */,
 				632C1EFE25C8A37000530AE2 /* HttpHeader.swift in Sources */,
 				632C1EF625C8A37000530AE2 /* ConcurrentSqliteDatabase.swift in Sources */,
 				632C1F0025C8A37000530AE2 /* NetworkProtocol.swift in Sources */,
-				632C1F0525C8A37000530AE2 /* Observable+TargetLifeTime.swift in Sources */,
 				632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */,
 				632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */,
 				632C1EFA25C8A37000530AE2 /* HttpClient.swift in Sources */,
-				632C1F0225C8A37000530AE2 /* Observable+Queue.swift in Sources */,
 				632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */,
 				632C1EF825C8A37000530AE2 /* SqliteStatement.swift in Sources */,
 				632C1F0925C8A37000530AE2 /* String+Localizable.swift in Sources */,
@@ -381,6 +413,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6367F5AC25CF3ED8006446C6 /* HttpClientTests.swift in Sources */,
 				632C1EC325C8A31B00530AE2 /* ZomatoFoundationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -448,7 +481,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -506,7 +539,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -520,6 +553,7 @@
 		};
 		632C1EC925C8A31B00530AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 55743C33B2F2CA43A93AEA1B /* Pods-ZomatoFoundation.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -543,6 +577,7 @@
 		};
 		632C1ECA25C8A31B00530AE2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 50A8A83E37E16F97FCA9761F /* Pods-ZomatoFoundation.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				DEFINES_MODULE = YES;
@@ -566,8 +601,8 @@
 		};
 		632C1ECC25C8A31B00530AE2 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E43864690F68C6DF939C0F47 /* Pods-ZomatoFoundationTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZomatoFoundationTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -584,8 +619,8 @@
 		};
 		632C1ECD25C8A31B00530AE2 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED341AB1EE8B0C53D175953C /* Pods-ZomatoFoundationTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZomatoFoundationTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

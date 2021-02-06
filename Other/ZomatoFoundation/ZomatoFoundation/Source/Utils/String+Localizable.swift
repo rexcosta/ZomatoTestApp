@@ -40,8 +40,18 @@ public struct LocalizedString: Hashable {
 }
 
 public struct LocalizedReplacer {
-    let name: String
-    let value: String
+    
+    public let name: String
+    public let value: String
+    
+    public init(
+        name: String,
+        value: String
+    ) {
+        self.name = name
+        self.value = value
+    }
+    
 }
 
 extension String {

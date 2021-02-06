@@ -1,0 +1,26 @@
+PODS:
+  - RxBlocking (6.0.0):
+    - RxSwift (= 6.0.0)
+  - RxSwift (6.0.0)
+  - RxTest (6.0.0):
+    - RxSwift (= 6.0.0)
+
+DEPENDENCIES:
+  - RxBlocking (= 6.0.0)
+  - RxSwift (= 6.0.0)
+  - RxTest (= 6.0.0)
+
+SPEC REPOS:
+  trunk:
+    - RxBlocking
+    - RxSwift
+    - RxTest
+
+SPEC CHECKSUMS:
+  RxBlocking: c025b8c6fe08c5b18c039b5b11d41ec413f8a59e
+  RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
+  RxTest: ddef4052e63cb116f5b73510488c3113c37c62e5
+
+PODFILE CHECKSUM: 40c853e09a2fbe9997deb095d961096950ebb28b
+
+COCOAPODS: 1.10.1

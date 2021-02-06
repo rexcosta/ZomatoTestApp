@@ -23,6 +23,7 @@
 //
 
 import Foundation
+import RxSwift
 
 public final class HttpClient {
     
@@ -50,67 +51,50 @@ public final class HttpClient {
 extension HttpClient: NetworkProtocol {
     
     public func request(
-        _ request: NetworkRequest,
-        completion: @escaping RequestCompletion
-    ) -> Cancellable {
+        _ request: NetworkRequest
+    ) -> Single<(data: Data, httpResponse: HTTPURLResponse)> {
         guard let urlRequest = requestTranformer(request) else {
-            session.delegateQueue.addOperation {
-                completion(.failure(NetworkError.unableToBuildRequest(request)))
-            }
-            return EmptyCancellable()
+            return Single.error(
+                NetworkError.unableToBuildRequest(request)
+            )
         }
         
-        Log.verbose("HttpClient", "Will request \(urlRequest)")
-        
-        let task = session.dataTask(with: urlRequest) { (data, response, error) in
-            if let error = error {
-                if let urlError = error as? URLError {
-                    Log.error("HttpClient", "Received URLError \(urlError) for \(urlRequest)")
-                    completion(.failure(NetworkError.networkError(cause: urlError)))
+        return Single.create { single in
+            let task = self.session.dataTask(with: urlRequest) { (data, response, error) in
+                
+                if let networkError = NetworkError.from(error: error) {
+                    Log.error("HttpClient", "Received error \(networkError) for \(urlRequest)")
+                    single(.failure(networkError))
                     return
                 }
-                Log.error("HttpClient", "Received unknown \(error) for \(urlRequest)")
-                completion(.failure(NetworkError.unknown(cause: error)))
-                return
+                
+                guard let httpResponse = response as? HTTPURLResponse else {
+                    assertionFailure("[HttpClient] Response must be HTTPURLResponse for \(urlRequest)")
+                    single(.failure(NetworkError.unknown(cause: nil)))
+                    return
+                }
+                
+                guard 200..<300 ~= httpResponse.statusCode else {
+                    Log.error("HttpClient", "Invalid status code received \(httpResponse.statusCode) for \(urlRequest)")
+                    single(.failure(NetworkError.invalidStatusCode(code: httpResponse.statusCode)))
+                    return
+                }
+                
+                guard let data = data else {
+                    Log.error("HttpClient", "Didnt received any data for \(urlRequest)")
+                    single(.failure(NetworkError.unknown(cause: nil)))
+                    return
+                }
+                
+                single(.success((data: data, httpResponse: httpResponse)))
             }
             
-            guard let httpResponse = response as? HTTPURLResponse else {
-                assertionFailure("[HttpClient] Response must be HTTPURLResponse for \(urlRequest)")
-                completion(.failure(NetworkError.unknown(cause: nil)))
-                return
-            }
+            task.resume()
             
-            guard 200..<300 ~= httpResponse.statusCode else {
-                Log.error("HttpClient", "Invalid status code received \(httpResponse.statusCode) for \(urlRequest)")
-                completion(.failure(NetworkError.invalidStatusCode(code: httpResponse.statusCode)))
-                return
+            return Disposables.create {
+                task.cancel()
             }
-            
-            guard let data = data else {
-                Log.error("HttpClient", "Didnt received any data for \(urlRequest)")
-                completion(.failure(NetworkError.unknown(cause: nil)))
-                return
-            }
-            
-            completion(.success((data: data, httpResponse: httpResponse)))
         }
-        task.resume()
-        return NetworkDataTask(task: task)
-    }
-    
-}
-
-// MARK: - NetworkDataTask
-private struct NetworkDataTask: Cancellable {
-    
-    private let task: URLSessionDataTask
-    
-    init(task: URLSessionDataTask) {
-        self.task = task
-    }
-    
-    func cancel() {
-        task.cancel()
     }
     
 }
