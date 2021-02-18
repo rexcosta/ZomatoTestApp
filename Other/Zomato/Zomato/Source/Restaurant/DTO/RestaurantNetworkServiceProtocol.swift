@@ -24,6 +24,7 @@
 
 import Foundation
 import ZomatoFoundation
+import RxSwift
 
 protocol RestaurantNetworkServiceProtocol {
     
@@ -31,8 +32,7 @@ protocol RestaurantNetworkServiceProtocol {
         offset: Int,
         pageSize: Int,
         position: CoordinateModel,
-        sort: Sort,
-        completion: @escaping (Result<SearchResultDTO<RestaurantDto>, ZomatoError>) -> Void
-    ) -> Cancellable
+        sort: Sort
+    ) -> Single<SearchResultDTO<RestaurantDto>>
     
 }

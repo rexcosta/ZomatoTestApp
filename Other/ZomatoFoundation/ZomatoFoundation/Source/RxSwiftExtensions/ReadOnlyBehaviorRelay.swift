@@ -32,9 +32,7 @@ public final class ReadOnlyBehaviorRelay<Element> {
     
     /// Current readonly value of behavior subject
     public var value: Element {
-        get {
-            return behaviorRelay.value
-        }
+        return behaviorRelay.value
     }
     
     /// Initializes behavior relay with initial value.

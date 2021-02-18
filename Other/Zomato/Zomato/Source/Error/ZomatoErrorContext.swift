@@ -22,44 +22,28 @@
 // SOFTWARE.
 //
 
-import Foundation
+import ZomatoFoundation
 
-public struct LocalizedString: Hashable {
+// MARK: ZomatoErrorContext
+public struct ZomatoErrorContext {
     
-    public let key: String
-    public var value: String
+    public static let unknown = ZomatoErrorContext("Unknown", -1)
     
-    public init(
-        key: String,
-        value: String
-    ) {
-        self.key = key
-        self.value = value
+    public let name: String
+    public let code: Int
+    
+    public init(_ name: String, _ code: Int) {
+        self.name = name
+        self.code = code
     }
     
 }
 
-extension LocalizedString {
+// MARK: ZomatoErrorContext Equatable
+extension ZomatoErrorContext: Equatable {
     
-    public func apply(replacerName: String, replacerValue: String) -> LocalizedString {
-        return apply(
-            replacers: [LocalizedReplacer(name: replacerName, value: replacerValue)]
-        )
-    }
-    
-    public func apply(replacer: LocalizedReplacer) -> LocalizedString {
-        return apply(replacers: [replacer])
-    }
-    
-    public func apply(replacers: [LocalizedReplacer]) -> LocalizedString {
-        var localizedString = value
-        replacers.forEach {
-            localizedString = localizedString.replacingOccurrences(
-                of: $0.name,
-                with: $0.value
-            )
-        }
-        return LocalizedString(key: key, value: localizedString)
+    public static func == (lhs: ZomatoErrorContext, rhs: ZomatoErrorContext) -> Bool {
+        return lhs.name == rhs.name && lhs.code == rhs.code
     }
     
 }

@@ -5,6 +5,16 @@ target 'Zomato' do
     use_frameworks!
     
     pod 'ZomatoFoundation', :path => '../ZomatoFoundation/ZomatoFoundation.podspec'
+
+    pod 'RxSwift', '6.1.0'
+    pod 'RxRelay', '6.1.0'
+
+    target 'ZomatoTests' do
+        inherit! :search_paths
+        
+        pod 'RxBlocking', '6.1.0'
+        pod 'RxTest', '6.1.0'
+    end
     
 end
 

@@ -22,41 +22,44 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxRelay
 import ZomatoFoundation
 
 public final class RestaurantsCollection {
     
     private let restaurantManager: RestaurantManagerProtocol
     
-    private let loadingState = Property<LoadingState>(.uninitialized)
-    public var readOnlyLoadingState: ReadOnlyProperty<LoadingState> {
-        return loadingState.readOnly
-    }
-    
-    private let dataState = Property<DataState>(.uninitialized)
-    public var readOnlyDataState: ReadOnlyProperty<DataState> {
-        return dataState.readOnly
-    }
-    
     private var elements = [RestaurantModelProtocol]()
     private var filteredElements = [RestaurantModelProtocol]()
     private var currentPage: PageModel<RestaurantModelProtocol>?
+    private var currentRequestDisposable: Disposable?
+    
+    private let loadingState = BehaviorRelay<LoadingState>(value: .uninitialized)
+    public var loadingStateReadOnly: ReadOnlyBehaviorRelay<LoadingState> {
+        return loadingState.readOnly
+    }
+    
+    private let dataState = BehaviorRelay<DataState>(value: .uninitialized)
+    public var dataStateReadOnly: ReadOnlyBehaviorRelay<DataState> {
+        return dataState.readOnly
+    }
     
     public private(set) var userLocation: CoordinateModel?
     
-    private let sort = Property<Sort>(Sort.dontSort)
-    public var readOnlySort: ReadOnlyProperty<Sort> {
+    private let sort = BehaviorRelay<Sort>(value: .dontSort)
+    public var sortReadOnly: ReadOnlyBehaviorRelay<Sort> {
         return sort.readOnly
     }
     
-    private let filter = Property<RestaurantFilterModel?>(nil)
-    public var readOnlyFilter: ReadOnlyProperty<RestaurantFilterModel?> {
+    private let filter = BehaviorRelay<RestaurantFilterModel?>(value: nil)
+    public var filterReadOnly: ReadOnlyBehaviorRelay<RestaurantFilterModel?> {
         return filter.readOnly
     }
     
     public init(restaurantManager: RestaurantManagerProtocol) {
         self.restaurantManager = restaurantManager
+        
     }
     
     public func set(filter: RestaurantFilterModel?) {
@@ -72,8 +75,8 @@ public final class RestaurantsCollection {
         // Because we changed sort, we need to request new data
         if self.sort.value != sort {
             Log.info("RestaurantsCollection", "Will apply sort \(sort)")
-            self.sort.value = sort
-            self.filter.value = filter
+            self.sort.accept(sort)
+            self.filter.accept(filter)
             refreshCollection(position: userLocation)
             return
         }
@@ -86,20 +89,20 @@ public final class RestaurantsCollection {
         case (.none, .some):
             // We have changes need to apply filter
             Log.info("RestaurantsCollection", "Need to remove filter")
-            self.filter.value = nil
+            self.filter.accept(nil)
             applyFilter()
             
         case (.some(let newFilter), .none):
             // We have changes need to apply filter
             Log.info("RestaurantsCollection", "Need to add new filter")
-            self.filter.value = newFilter
+            self.filter.accept(newFilter)
             applyFilter()
             
         case (.some(let newFilter), .some(let oldFilter)):
             if newFilter != oldFilter {
                 // We have changes need to apply new filter
                 Log.info("RestaurantsCollection", "Need to replace with new filter")
-                self.filter.value = newFilter
+                self.filter.accept(newFilter)
                 applyFilter()
             }
         }
@@ -245,7 +248,7 @@ extension RestaurantsCollection {
         currentPage = nil
         elements.removeAll()
         filteredElements.removeAll()
-        dataState.value = .dataCleared
+        dataState.accept(.dataCleared)
         
         load(
             offset: 0,
@@ -274,9 +277,9 @@ extension RestaurantsCollection {
     private func load(offset: Int, position: CoordinateModel, sort: Sort) {
         let isFirstPage = offset == 0
         if isFirstPage {
-            loadingState.value = .refreshing
+            loadingState.accept(.refreshing)
         } else {
-            loadingState.value = .loadingNextPage
+            loadingState.accept(.loadingNextPage)
         }
         
         let updateElements = { [weak self] (_ newElements: [RestaurantModelProtocol]) in
@@ -286,53 +289,49 @@ extension RestaurantsCollection {
             self.filteredElements.append(contentsOf: newElements)
             
             if self.filteredElements.isEmpty {
-                self.loadingState.value = .empty
-                self.dataState.value = .dataCleared
+                self.loadingState.accept(.empty)
+                self.dataState.accept(.dataCleared)
                 
             } else {
-                self.loadingState.value = .withData
+                self.loadingState.accept(.withData)
                 
                 let currentCount = self.filteredElements.count
-                self.dataState.value = .newDataAvailable(
-                    range: previousCount..<currentCount
+                self.dataState.accept(
+                    .newDataAvailable(range: previousCount..<currentCount)
                 )
             }
         }
         
-        _ = restaurantManager.searchRestaurants(
-            offset: offset,
-            position: position,
-            sort: sort
-        ) { [weak self] result in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                
-                switch result {
-                case .failure(let error):
-                    if isFirstPage {
-                        self.loadingState.value = .errorRefreshing(error: error)
-                    } else {
-                        self.loadingState.value = .errorLoadingNextPage
-                    }
+        currentRequestDisposable = restaurantManager
+            .searchRestaurants(
+                offset: offset,
+                position: position,
+                sort: sort
+            )
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                with: self,
+                onSuccess: { (me, page) in
+                    me.currentPage = page
                     
-                case .success(let page):
-                    self.currentPage = page
+                    me.elements.append(contentsOf: page.elements)
                     
-                    self.elements.append(contentsOf: page.elements)
-                    
-                    guard let filter = self.filter.value else {
+                    guard let filter = me.filter.value else {
                         updateElements(page.elements)
                         return
                     }
                     
-                    self.filterInBackground(
+                    me.filterInBackground(
                         filter: filter,
                         elements: page.elements,
                         completion: updateElements
                     )
+                },
+                onFailure: { (me, error) in
+                    let zomatoError = AppErrorMapper().mapInput(error)
+                    me.loadingState.accept(.errorRefreshing(error: zomatoError))
                 }
-            }
-        }
+            )
     }
     
     private func applyFilter() {
@@ -340,12 +339,12 @@ extension RestaurantsCollection {
             guard let self = self else { return }
             self.filteredElements = newElements
             if self.filteredElements.isEmpty {
-                self.loadingState.value = .empty
-                self.dataState.value = .dataCleared
+                self.loadingState.accept(.empty)
+                self.dataState.accept(.dataCleared)
                 
             } else {
-                self.loadingState.value = .withData
-                self.dataState.value = .dataFiltered
+                self.loadingState.accept(.withData)
+                self.dataState.accept(.dataFiltered)
             }
         }
         
@@ -355,7 +354,7 @@ extension RestaurantsCollection {
             return
         }
         
-        self.loadingState.value = .filtering
+        loadingState.accept(.filtering)
         filterInBackground(
             filter: filter,
             elements: elements,

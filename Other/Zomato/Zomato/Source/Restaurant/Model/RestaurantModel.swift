@@ -22,7 +22,8 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxRelay
 import ZomatoFoundation
 
 struct RestaurantModel: RestaurantModelProtocol {
@@ -35,7 +36,7 @@ struct RestaurantModel: RestaurantModelProtocol {
     let timings: String?
     let cuisines: [String]
     let phoneNumbers: [String]
-    let isFavourite = Property<RestaurantFavouriteStatus>(.unknown)
+    let isFavourite = BehaviorRelay<RestaurantFavouriteStatus>(value: .unknown)
     
     init(
         id: String,

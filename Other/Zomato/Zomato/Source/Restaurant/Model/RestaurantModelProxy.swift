@@ -22,13 +22,14 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxRelay
 import ZomatoFoundation
 
 struct RestaurantModelProxy: RestaurantModelProtocol {
     
     private let restaurantModel: RestaurantModel
-    private let lazyLoadIsFavouriteProperty: LazyPropertyLoader
+    private let isFavouriteLazyPropertyLoader: LazyPropertyLoader<RestaurantModelProtocol, RestaurantFavouriteStatus>
     
     var id: String {
         return restaurantModel.id
@@ -62,38 +63,34 @@ struct RestaurantModelProxy: RestaurantModelProtocol {
         return restaurantModel.phoneNumbers
     }
     
-    var isFavourite: Property<RestaurantFavouriteStatus> {
-        lazyLoadIsFavouriteProperty.load(restaurantModel: restaurantModel)
+    var isFavourite: BehaviorRelay<RestaurantFavouriteStatus> {
+        isFavouriteLazyPropertyLoader.loadOnce(input: restaurantModel)
         return restaurantModel.isFavourite
     }
     
     init(
         restaurantModel: RestaurantModel,
-        lazyLoadFavourite: @escaping (_ restaurantModel: RestaurantModel) -> Void
+        isFavouriteLazyPropertyLoader: LazyPropertyLoader<RestaurantModelProtocol, RestaurantFavouriteStatus>
     ) {
         self.restaurantModel = restaurantModel
-        self.lazyLoadIsFavouriteProperty = LazyPropertyLoader(
-            lazyLoadProperty: lazyLoadFavourite
-        )
+        self.isFavouriteLazyPropertyLoader = isFavouriteLazyPropertyLoader
     }
     
 }
 
 extension RestaurantModelProxy {
     
-    private class LazyPropertyLoader {
-        
-        private var lazyLoadProperty: ((_ restaurantModel: RestaurantModel) -> Void)?
-        
-        init(lazyLoadProperty: @escaping (_ restaurantModel: RestaurantModel) -> Void) {
-            self.lazyLoadProperty = lazyLoadProperty
-        }
-        
-        func load(restaurantModel: RestaurantModel) {
-            lazyLoadProperty?(restaurantModel)
-            lazyLoadProperty = nil
-        }
-        
+    static func makeProxy(
+        restaurantModel: RestaurantModel,
+        isFavouritePropertyLoader: @escaping (_ input: RestaurantModelProtocol) -> Infallible<RestaurantFavouriteStatus>
+    ) -> RestaurantModelProxy {
+        return RestaurantModelProxy(
+            restaurantModel: restaurantModel,
+            isFavouriteLazyPropertyLoader: LazyPropertyLoader(
+                propertyLoader: isFavouritePropertyLoader,
+                propertySetter: { $0.isFavourite.accept($1) }
+            )
+        )
     }
     
 }
