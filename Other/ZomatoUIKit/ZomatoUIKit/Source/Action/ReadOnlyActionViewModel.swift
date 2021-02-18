@@ -22,25 +22,25 @@
 // SOFTWARE.
 //
 
-import UIKit
-import ZomatoFoundation
+import RxSwift
+import RxCocoa
 
-extension UILabel {
+public struct ReadOnlyActionViewModel {
     
-    public func bindText<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == String? {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.text = newValue
-        }
-    }
+    public let title: Driver<String?>
+    public let image: Driver<UIImage?>
+    public let isEnabled: Driver<Bool>
+    public let isHidden: Driver<Bool>
+    public let action: PublishSubject<Void>
     
-    public func bindAccessibilityValue<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == String? {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.accessibilityValue = newValue
-        }
+    public init(
+        actionModel: ActionViewModel
+    ) {
+        self.title = actionModel.title.asDriver()
+        self.image = actionModel.image.asDriver()
+        self.isEnabled = actionModel.isEnabled.asDriver()
+        self.isHidden = actionModel.isHidden.asDriver()
+        self.action = actionModel.action
     }
     
 }

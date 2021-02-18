@@ -22,27 +22,18 @@
 // SOFTWARE.
 //
 
-import UIKit
-import ZomatoFoundation
+import RxSwift
+import RxCocoa
 
-extension UIButton {
+extension BehaviorRelay {
     
-    public func bindImage<BindTo>(
-        to property: BindTo,
-        for state: UIControl.State
-    ) where BindTo: Observable, BindTo.ElementType == UIImage? {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.setImage(newValue, for: state)
-        }
-    }
-    
-    public func bindTitle<BindTo>(
-        to property: BindTo,
-        for state: UIControl.State
-    ) where BindTo: Observable, BindTo.ElementType == String? {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.setTitle(newValue, for: state)
-        }
+    public func twoWayBind(to property: ControlProperty<Element>) -> Disposable {
+        let bindToUIDisposable = self.bind(to: property)
+        let bindToRelay = property.subscribe(
+            onNext: { self.accept($0) },
+            onCompleted: { bindToUIDisposable.dispose() }
+        )
+        return Disposables.create(bindToUIDisposable, bindToRelay)
     }
     
 }

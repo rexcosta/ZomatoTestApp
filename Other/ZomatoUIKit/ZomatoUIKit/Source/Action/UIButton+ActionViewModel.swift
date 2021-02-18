@@ -22,17 +22,29 @@
 // SOFTWARE.
 //
 
-import UIKit
-import ZomatoFoundation
+import RxSwift
+import RxCocoa
 
-extension UIBarButtonItem {
+extension UIButton {
     
-    public func bindIsEnabled<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == Bool {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.isEnabled = newValue
-        }
+    public func bind(action: ActionViewModel) -> Disposable {
+        return CompositeDisposable(
+            action.title.asDriver().drive(rx.title(for: .normal)),
+            action.image.asDriver().drive(rx.image(for: .normal)),
+            action.isEnabled.asDriver().drive(rx.isEnabled),
+            action.isHidden.asDriver().drive(rx.isHidden),
+            rx.controlEvent(.touchUpInside).subscribe(action.action)
+        )
+    }
+    
+    public func bind(action: ReadOnlyActionViewModel) -> Disposable {
+        return CompositeDisposable(
+            action.title.drive(rx.title(for: .normal)),
+            action.image.drive(rx.image(for: .normal)),
+            action.isEnabled.drive(rx.isEnabled),
+            action.isHidden.drive(rx.isHidden),
+            rx.controlEvent(.touchUpInside).subscribe(action.action)
+        )
     }
     
 }

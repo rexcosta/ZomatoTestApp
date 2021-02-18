@@ -6,6 +6,16 @@ target 'ZomatoUIKit' do
     
     pod 'ZomatoFoundation', :path => '../ZomatoFoundation/ZomatoFoundation.podspec'
     
+    pod 'RxSwift', '6.1.0'
+    pod 'RxCocoa', '6.1.0'
+
+    target 'ZomatoUIKitTests' do
+        inherit! :search_paths
+        
+        pod 'RxBlocking', '6.1.0'
+        pod 'RxTest', '6.1.0'
+    end
+
 end
 
 post_install do |pi|

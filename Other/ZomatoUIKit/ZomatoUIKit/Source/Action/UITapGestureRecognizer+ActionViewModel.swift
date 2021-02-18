@@ -22,21 +22,23 @@
 // SOFTWARE.
 //
 
-import UIKit
-import ZomatoFoundation
+import RxSwift
+import RxCocoa
 
-extension UIActivityIndicatorView {
+extension UITapGestureRecognizer {
     
-    public func bindIsAnimating<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == Bool {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            if newValue {
-                me.startAnimating()
-            } else {
-                me.stopAnimating()
-            }
-        }
+    public func bind(action: ActionViewModel) -> Disposable {
+        return CompositeDisposable(
+            rx.event.mapToVoid().subscribe(action.action),
+            action.isEnabled.asDriver().drive(rx.isEnabled)
+        )
+    }
+    
+    public func bind(action: ReadOnlyActionViewModel) -> Disposable {
+        return CompositeDisposable(
+            rx.event.mapToVoid().subscribe(action.action),
+            action.isEnabled.drive(rx.isEnabled)
+        )
     }
     
 }

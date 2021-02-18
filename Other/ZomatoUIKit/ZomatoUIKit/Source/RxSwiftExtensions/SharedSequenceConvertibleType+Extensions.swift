@@ -22,25 +22,22 @@
 // SOFTWARE.
 //
 
-import UIKit
-import ZomatoFoundation
+import RxSwift
+import RxCocoa
 
-extension UIView {
+extension SharedSequenceConvertibleType {
     
-    public func bindBackgroundColor<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == UIColor? {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.backgroundColor = newValue
-        }
+    public func mapToVoid() -> SharedSequence<SharingStrategy, Void> {
+        return map { _ in }
     }
     
-    public func bindIsHidden<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == Bool {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.isHidden = newValue
-        }
+}
+
+// MARK: SharedSequenceConvertibleType as Bool
+extension SharedSequenceConvertibleType where Element == Bool {
+    
+    public func not() -> SharedSequence<SharingStrategy, Bool> {
+        return self.map(!)
     }
     
 }

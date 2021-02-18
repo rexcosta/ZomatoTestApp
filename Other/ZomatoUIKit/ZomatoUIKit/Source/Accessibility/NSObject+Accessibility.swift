@@ -22,65 +22,23 @@
 // SOFTWARE.
 //
 
-import UIKit
-import ZomatoFoundation
-
-// MARK: - UIAccessibility + AccessibilityElementModel
-extension UIAccessibilityIdentification where Self: NSObject {
-    
-    public func bindAccessibility<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == AccessibilityElementModel {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.setAccessibility(newValue)
-        }
-    }
-    
-    public func setAccessibility(
-        _ accessibility: AccessibilityElementModel
-    ) {
-        let traits = UIAccessibilityTraits.convert(
-            traits: accessibility.traits
-        )
-        
-        setAccessibility(
-            identifier: accessibility.identifier,
-            label: accessibility.label,
-            value: accessibility.value,
-            traits: traits
-        )
-    }
-    
-    public func setAccessibility(
-        identifier: String?,
-        label: String?,
-        value: String?,
-        traits: UIAccessibilityTraits
-    ) {
-        accessibilityIdentifier = identifier
-        accessibilityLabel = label
-        accessibilityValue = value
-        accessibilityTraits = traits
-    }
-    
-}
+import RxSwift
+import RxCocoa
 
 // MARK: - UIAccessibility + LocalizedString
 extension UIAccessibilityIdentification where Self: NSObject {
     
-    public func bindAccessibility<BindTo>(
-        to property: BindTo
-    ) where BindTo: Observable, BindTo.ElementType == LocalizedString {
-        property.observeOnMainContext(fire: true, whileTargetAlive: self) { (me, newValue) in
-            me.setAccessibility(newValue)
-        }
-    }
-    
-    public func setAccessibility(
-        _ accessibilityString: LocalizedString
-    ) {
-        setAccessibility(
-            AccessibilityElementModel(accessibilityString)
+    public func bind(
+        accessibilityModel: AccessibilityElementModel
+    ) -> Disposable {
+        return CompositeDisposable(
+            accessibilityModel.identifier.asDriver().drive(rx.accessibilityIdentifier),
+            accessibilityModel.label.asDriver().drive(rx.accessibilityLabel),
+            accessibilityModel.value.asDriver().drive(rx.accessibilityValue),
+            accessibilityModel.traits
+                .asDriver()
+                .map { UIAccessibilityTraits.convert(traits: $0) }
+                .drive(rx.accessibilityTraits)
         )
     }
     
