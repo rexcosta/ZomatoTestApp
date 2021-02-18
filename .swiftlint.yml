@@ -1,5 +1,8 @@
 excluded:
  - Pods
+ - Other/ZomatoFoundation/Pods
+ - Other/ZomatoUIKit/Pods
+ - Other/Zomato/Pods
 
 trailing_whitespace:
  ignores_empty_lines: true
