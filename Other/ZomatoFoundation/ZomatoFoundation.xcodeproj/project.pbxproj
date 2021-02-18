@@ -24,12 +24,16 @@
 		632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EDF25C8A37000530AE2 /* NetworkRequest.swift */; };
 		632C1F0025C8A37000530AE2 /* NetworkProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */; };
 		632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EE125C8A37000530AE2 /* NetworkError.swift */; };
-		632C1F0925C8A37000530AE2 /* String+Localizable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEB25C8A37000530AE2 /* String+Localizable.swift */; };
 		632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEC25C8A37000530AE2 /* Withable.swift */; };
 		632C1F0B25C8A37000530AE2 /* ObjectMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EED25C8A37000530AE2 /* ObjectMapper.swift */; };
 		632C1F0C25C8A37000530AE2 /* Weak.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EEE25C8A37000530AE2 /* Weak.swift */; };
 		632C1F0F25C8A37000530AE2 /* Log.swift in Sources */ = {isa = PBXBuildFile; fileRef = 632C1EF325C8A37000530AE2 /* Log.swift */; };
 		6367F5AC25CF3ED8006446C6 /* HttpClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6367F5AB25CF3ED8006446C6 /* HttpClientTests.swift */; };
+		6374CC7A25D1F0EE003EDDE0 /* ObservableType+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6374CC7825D1F0EE003EDDE0 /* ObservableType+Extensions.swift */; };
+		6374CC7B25D1F0EE003EDDE0 /* ReadOnlyBehaviorRelay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6374CC7925D1F0EE003EDDE0 /* ReadOnlyBehaviorRelay.swift */; };
+		6395F21125DF0BA900B1F8E4 /* LazyPropertyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21025DF0BA900B1F8E4 /* LazyPropertyLoader.swift */; };
+		6395F21725DF0BAF00B1F8E4 /* LocalizedReplacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21525DF0BAF00B1F8E4 /* LocalizedReplacer.swift */; };
+		6395F21825DF0BAF00B1F8E4 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */; };
 		BA477F0343C12F1B6537D333 /* libPods-ZomatoFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4425EBBDFEFCC37159A1D504 /* libPods-ZomatoFoundation.a */; };
 /* End PBXBuildFile section */
 
@@ -67,12 +71,16 @@
 		632C1EDF25C8A37000530AE2 /* NetworkRequest.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkRequest.swift; sourceTree = "<group>"; };
 		632C1EE025C8A37000530AE2 /* NetworkProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkProtocol.swift; sourceTree = "<group>"; };
 		632C1EE125C8A37000530AE2 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
-		632C1EEB25C8A37000530AE2 /* String+Localizable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Localizable.swift"; sourceTree = "<group>"; };
 		632C1EEC25C8A37000530AE2 /* Withable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Withable.swift; sourceTree = "<group>"; };
 		632C1EED25C8A37000530AE2 /* ObjectMapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ObjectMapper.swift; sourceTree = "<group>"; };
 		632C1EEE25C8A37000530AE2 /* Weak.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weak.swift; sourceTree = "<group>"; };
 		632C1EF325C8A37000530AE2 /* Log.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Log.swift; sourceTree = "<group>"; };
 		6367F5AB25CF3ED8006446C6 /* HttpClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HttpClientTests.swift; sourceTree = "<group>"; };
+		6374CC7825D1F0EE003EDDE0 /* ObservableType+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableType+Extensions.swift"; sourceTree = "<group>"; };
+		6374CC7925D1F0EE003EDDE0 /* ReadOnlyBehaviorRelay.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyBehaviorRelay.swift; sourceTree = "<group>"; };
+		6395F21025DF0BA900B1F8E4 /* LazyPropertyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyPropertyLoader.swift; sourceTree = "<group>"; };
+		6395F21525DF0BAF00B1F8E4 /* LocalizedReplacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedReplacer.swift; sourceTree = "<group>"; };
+		6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		E43864690F68C6DF939C0F47 /* Pods-ZomatoFoundationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.debug.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED341AB1EE8B0C53D175953C /* Pods-ZomatoFoundationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.release.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -153,8 +161,10 @@
 			isa = PBXGroup;
 			children = (
 				632C1ED125C8A37000530AE2 /* Database */,
+				6395F21425DF0BAF00B1F8E4 /* Localization */,
 				632C1EF225C8A37000530AE2 /* Log */,
 				632C1ED625C8A37000530AE2 /* Network */,
+				63612D7B25D0559B002A8EBC /* RxSwiftExtensions */,
 				632C1EEA25C8A37000530AE2 /* Utils */,
 			);
 			path = Source;
@@ -163,9 +173,9 @@
 		632C1ED125C8A37000530AE2 /* Database */ = {
 			isa = PBXGroup;
 			children = (
-				632C1ED225C8A37000530AE2 /* SqliteDatabase+Error.swift */,
 				632C1ED325C8A37000530AE2 /* ConcurrentSqliteDatabase.swift */,
 				632C1ED425C8A37000530AE2 /* SqliteDatabase.swift */,
+				632C1ED225C8A37000530AE2 /* SqliteDatabase+Error.swift */,
 				632C1ED525C8A37000530AE2 /* SqliteStatement.swift */,
 			);
 			path = Database;
@@ -206,10 +216,10 @@
 		632C1EEA25C8A37000530AE2 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				632C1EEB25C8A37000530AE2 /* String+Localizable.swift */,
-				632C1EEC25C8A37000530AE2 /* Withable.swift */,
+				6395F21025DF0BA900B1F8E4 /* LazyPropertyLoader.swift */,
 				632C1EED25C8A37000530AE2 /* ObjectMapper.swift */,
 				632C1EEE25C8A37000530AE2 /* Weak.swift */,
+				632C1EEC25C8A37000530AE2 /* Withable.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -220,6 +230,24 @@
 				632C1EF325C8A37000530AE2 /* Log.swift */,
 			);
 			path = Log;
+			sourceTree = "<group>";
+		};
+		63612D7B25D0559B002A8EBC /* RxSwiftExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				6374CC7825D1F0EE003EDDE0 /* ObservableType+Extensions.swift */,
+				6374CC7925D1F0EE003EDDE0 /* ReadOnlyBehaviorRelay.swift */,
+			);
+			path = RxSwiftExtensions;
+			sourceTree = "<group>";
+		};
+		6395F21425DF0BAF00B1F8E4 /* Localization */ = {
+			isa = PBXGroup;
+			children = (
+				6395F21525DF0BAF00B1F8E4 /* LocalizedReplacer.swift */,
+				6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */,
+			);
+			path = Localization;
 			sourceTree = "<group>";
 		};
 		7C7516A8A2C460BA9491AF93 /* Frameworks */ = {
@@ -390,22 +418,26 @@
 			files = (
 				632C1F0F25C8A37000530AE2 /* Log.swift in Sources */,
 				632C1F0B25C8A37000530AE2 /* ObjectMapper.swift in Sources */,
+				6395F21825DF0BAF00B1F8E4 /* LocalizedString.swift in Sources */,
 				632C1EF725C8A37000530AE2 /* SqliteDatabase.swift in Sources */,
 				632C1F0C25C8A37000530AE2 /* Weak.swift in Sources */,
 				632C1EFB25C8A37000530AE2 /* HttpContentType.swift in Sources */,
 				632C1EFC25C8A37000530AE2 /* HttpQueryParameter.swift in Sources */,
 				632C1EF925C8A37000530AE2 /* NetworkProtocol+ObjectMapper.swift in Sources */,
+				6395F21125DF0BA900B1F8E4 /* LazyPropertyLoader.swift in Sources */,
 				632C1EFD25C8A37000530AE2 /* HttpMethod.swift in Sources */,
 				632C1EF525C8A37000530AE2 /* SqliteDatabase+Error.swift in Sources */,
 				632C1EFE25C8A37000530AE2 /* HttpHeader.swift in Sources */,
 				632C1EF625C8A37000530AE2 /* ConcurrentSqliteDatabase.swift in Sources */,
+				6374CC7A25D1F0EE003EDDE0 /* ObservableType+Extensions.swift in Sources */,
+				6374CC7B25D1F0EE003EDDE0 /* ReadOnlyBehaviorRelay.swift in Sources */,
 				632C1F0025C8A37000530AE2 /* NetworkProtocol.swift in Sources */,
 				632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */,
 				632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */,
 				632C1EFA25C8A37000530AE2 /* HttpClient.swift in Sources */,
 				632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */,
+				6395F21725DF0BAF00B1F8E4 /* LocalizedReplacer.swift in Sources */,
 				632C1EF825C8A37000530AE2 /* SqliteStatement.swift in Sources */,
-				632C1F0925C8A37000530AE2 /* String+Localizable.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
