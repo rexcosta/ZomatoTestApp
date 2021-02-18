@@ -88,8 +88,10 @@ internal enum L10n {
         }
         internal enum List {
           internal enum Element {
-            /// ${distance}m away
-            internal static let distance = L10n.tr("Localizable", "screen.restaurants.list.element.distance")
+            /// %.0fm away
+            internal static func distance(_ p1: Float) -> LocalizedString {
+              return L10n.tr("Localizable", "screen.restaurants.list.element.distance", p1)
+            }
             /// Distance not available
             internal static let noDistance = L10n.tr("Localizable", "screen.restaurants.list.element.noDistance")
           }
