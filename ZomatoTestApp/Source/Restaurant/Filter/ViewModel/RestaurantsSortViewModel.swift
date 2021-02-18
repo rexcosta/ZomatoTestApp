@@ -22,35 +22,35 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import Zomato
 
-@main
-final class AppDelegate: UIResponder, UIApplicationDelegate {
+final class RestaurantsSortViewModel {
     
-    private var appCoordinator: AppCoordinator?
+    var sort: Sort {
+        if isSortActive.value {
+            return .distance
+        } else {
+            return .dontSort
+        }
+    }
     
-    var window: UIWindow?
+    let title = BehaviorRelay<String?>(
+        value: L10n.Localizable.Screen.Restaurants.Filter.Sort.location.value
+    ).asDriver()
     
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        Log.logAppInfo()
-        
-        let zomato = Zomato(
-            apiKey: "",
-            userAgent: "dummy user agent",
-            network: HttpClient(
-                session: URLSession.shared
-            )
-        )
-        
-        appCoordinator = AppCoordinator(zomato: zomato)
-        window = appCoordinator?.appLaunch(launchOptions)
-        
-        return true
+    let isSortActive: BehaviorRelay<Bool>
+    
+    init(restaurantsCollection: RestaurantsCollection) {
+        switch restaurantsCollection.sortReadOnly.value {
+        case .distance:
+            isSortActive = BehaviorRelay<Bool>(value: true)
+            
+        case .dontSort:
+            isSortActive = BehaviorRelay<Bool>(value: false)
+        }
     }
     
 }

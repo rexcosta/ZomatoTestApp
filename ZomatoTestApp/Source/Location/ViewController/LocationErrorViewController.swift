@@ -22,16 +22,25 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
 
 final class LocationErrorViewController: UIViewController {
     
+    private let okButton = UIBarButtonItem(
+        title: L10n.Localizable.Global.Button.ok.value,
+        style: .plain,
+        target: nil,
+        action: nil
+    )
+    
     private let messageLabel = UILabel().withSubTitleStyle
     
-    var viewModel: LocationErrorViewControllerModel?
+    private var disposeBag = DisposeBag()
+    var viewModel: LocationErrorViewControllerModelProtocol?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,8 +49,9 @@ final class LocationErrorViewController: UIViewController {
         setupViewHierarchy()
         setupConstraints()
         
+        disposeBag = DisposeBag()
         if let viewModel = viewModel {
-            bind(to: viewModel)
+            bind(to: viewModel, disposeBag: disposeBag)
         }
     }
     
@@ -54,12 +64,7 @@ extension LocationErrorViewController {
         view.backgroundColor = Theme.shared.backgroundColor
         
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(
-                title: L10n.Localizable.Global.Button.ok.value,
-                style: .plain,
-                target: self,
-                action: #selector(onUserDidPresscloseFilterOptions)
-            )
+            okButton
         ]
     }
     
@@ -82,19 +87,16 @@ extension LocationErrorViewController {
         ])
     }
     
-    private func bind(to viewModel: LocationErrorViewControllerModel) {
-        title = viewModel.title
-        messageLabel.text = viewModel.errorMessage
-    }
-    
-}
-
-// MARK: Listeners
-extension LocationErrorViewController {
-    
-    @objc
-    private func onUserDidPresscloseFilterOptions() {
-        viewModel?.onCloseLocationErrorAction()
+    private func bind(
+        to viewModel: LocationErrorViewControllerModelProtocol,
+        disposeBag: DisposeBag
+    ) {
+        disposeBag.insert(
+            viewModel.title.drive(rx.title),
+            
+            okButton.rx.tap
+                .subscribe(viewModel.closeAction)
+        )
     }
     
 }

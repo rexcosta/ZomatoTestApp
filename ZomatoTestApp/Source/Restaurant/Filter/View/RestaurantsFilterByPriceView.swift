@@ -22,9 +22,11 @@
 // SOFTWARE.
 //
 
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
+import ZomatoUIKit
 import Zomato
-import UIKit
 
 final class RestaurantsFilterByPriceView: UIView {
     
@@ -48,17 +50,18 @@ final class RestaurantsFilterByPriceView: UIView {
     
     private let priceRangeCellConfigurator = PriceRangeCellConfigurator()
     
+    private var disposeBag = DisposeBag()
     var viewModel: RestaurantsFilterByPriceViewModel? {
         didSet {
+            disposeBag = DisposeBag()
             if let viewModel = viewModel {
-                bind(to: viewModel)
+                bind(to: viewModel, disposeBag: disposeBag)
             }
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
         setupViewHierarchy()
         setupConstraints()
         
@@ -120,24 +123,20 @@ extension RestaurantsFilterByPriceView: UICollectionViewDelegate {
         _ collectionView: UICollectionView,
         didSelectItemAt indexPath: IndexPath
     ) {
-        viewModel?.selectedPrice(at: indexPath.item)
+        viewModel?.selectPrice(at: indexPath.item, selected: true)
     }
     
     func collectionView(
         _ collectionView: UICollectionView,
         didDeselectItemAt indexPath: IndexPath
     ) {
-        viewModel?.deselectedPrice(at: indexPath.item)
+        viewModel?.selectPrice(at: indexPath.item, selected: false)
     }
     
 }
 
 // MARK: Private
 extension RestaurantsFilterByPriceView {
-    
-    private func setupViews() {
-        
-    }
     
     private func setupViewHierarchy() {
         addSubviews(
@@ -162,10 +161,13 @@ extension RestaurantsFilterByPriceView {
         ])
     }
     
-    private func bind(to viewModel: RestaurantsFilterByPriceViewModel) {
-        
-        filterByPriceRangeLabel.text = viewModel.filterByPriceRangeTitle
-        
+    private func bind(
+        to viewModel: RestaurantsFilterByPriceViewModel,
+        disposeBag: DisposeBag
+    ) {
+        disposeBag.insert(
+            viewModel.title.drive(filterByPriceRangeLabel.rx.text)
+        )
     }
     
 }

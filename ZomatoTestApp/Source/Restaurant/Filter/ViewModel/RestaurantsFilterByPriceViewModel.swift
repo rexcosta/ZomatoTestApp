@@ -22,33 +22,36 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import Zomato
 
 final class RestaurantsFilterByPriceViewModel {
     
-    let filterByPriceRangeTitle = L10n.Localizable.Screen.Restaurants.Filter.priceRange.value
-    private let possiblePrices = [
-        PriceRangeCollectionViewCellViewModel(priceRange: .cheap),
-        PriceRangeCollectionViewCellViewModel(priceRange: .moderate),
-        PriceRangeCollectionViewCellViewModel(priceRange: .expensive),
-        PriceRangeCollectionViewCellViewModel(priceRange: .veryExpensive)
-    ]
+    private let possiblePrices: [PriceRangeCollectionViewCellViewModel]
     
-    private let restaurantsCollection: RestaurantsCollection
+    let title = BehaviorRelay<String?>(
+        value: L10n.Localizable.Screen.Restaurants.Filter.priceRange.value
+    ).asDriver()
     
     init(restaurantsCollection: RestaurantsCollection) {
-        self.restaurantsCollection = restaurantsCollection
+        possiblePrices = [
+            PriceRangeCollectionViewCellViewModel(priceRange: .cheap),
+            PriceRangeCollectionViewCellViewModel(priceRange: .moderate),
+            PriceRangeCollectionViewCellViewModel(priceRange: .expensive),
+            PriceRangeCollectionViewCellViewModel(priceRange: .veryExpensive)
+        ]
         
-        guard let filter = restaurantsCollection.readOnlyFilter.value else {
+        guard let filter = restaurantsCollection.filterReadOnly.value else {
             return
         }
         
         possiblePrices.forEach { possiblePriceModel in
-            possiblePriceModel.isSelected.value = filter.shouldFilter(
+            let shouldFilter = filter.shouldFilter(
                 priceRange: possiblePriceModel.priceRange
             )
+            possiblePriceModel.isSelected.accept(shouldFilter)
         }
     }
     
@@ -70,12 +73,8 @@ extension RestaurantsFilterByPriceViewModel {
         return possiblePrices[index]
     }
     
-    func selectedPrice(at index: Int) {
-        possiblePrices[index].isSelected.value = true
-    }
-    
-    func deselectedPrice(at index: Int) {
-        possiblePrices[index].isSelected.value = false
+    func selectPrice(at index: Int, selected: Bool) {
+        possiblePrices[index].isSelected.accept(selected)
     }
     
 }

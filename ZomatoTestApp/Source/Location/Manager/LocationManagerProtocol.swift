@@ -22,21 +22,23 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxCocoa
+import CoreLocation
 import ZomatoFoundation
-import Zomato
-import UIKit
+import ZomatoUIKit
 
-final class PriceRangeCollectionViewCellViewModel {
+struct Location {
     
-    let priceRange: RestaurantPriceRange
-    let title = Property<String?>(nil)
-    let isSelected = Property<Bool>(false)
-    
-    init(priceRange: RestaurantPriceRange, isSelected: Bool = false) {
-        self.priceRange = priceRange
-        self.isSelected.value = isSelected
-        title.value = priceRange.localized
+    enum LocationError: Error {
+        case restricted
+        case denied
+        case noLocationsFound
+        case unknown
     }
     
+}
+
+protocol LocationManagerProtocol {
+    var userLocationReadOnly: BehaviorRelayDriver<CLLocation?> { get }
 }

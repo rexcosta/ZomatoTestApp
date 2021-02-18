@@ -22,35 +22,46 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import Zomato
 
-@main
-final class AppDelegate: UIResponder, UIApplicationDelegate {
+protocol LocationErrorViewControllerModelProtocol {
+    var title: Driver<String?> { get }
+    var errorMessage: Driver<String?> { get }
+    var closeAction: PublishSubject<Void> { get }
+}
+
+final class LocationErrorViewControllerModel: LocationErrorViewControllerModelProtocol {
     
-    private var appCoordinator: AppCoordinator?
+    let title = BehaviorRelay<String?>(
+        value: L10n.Localizable.Screen.Permissions.Location.title.value
+    ).asDriver()
     
-    var window: UIWindow?
+    let errorMessage = BehaviorRelay<String?>(
+        value: L10n.Localizable.Screen.Permissions.Location.error.value
+    ).asDriver()
     
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        Log.logAppInfo()
-        
-        let zomato = Zomato(
-            apiKey: "",
-            userAgent: "dummy user agent",
-            network: HttpClient(
-                session: URLSession.shared
-            )
+    let closeAction = PublishSubject<Void>()
+    
+    private let disposeBag = DisposeBag()
+    
+    init(
+        coordinator: AppCoordinator,
+        error: Location.LocationError
+    ) {
+        disposeBag.insert(
+            bindCloseAction(coordinator: coordinator)
         )
-        
-        appCoordinator = AppCoordinator(zomato: zomato)
-        window = appCoordinator?.appLaunch(launchOptions)
-        
-        return true
+    }
+    
+    private func bindCloseAction(
+        coordinator: AppCoordinator
+    ) -> Disposable {
+        return closeAction.subscribe { _ in
+            coordinator.goHome()
+        }
     }
     
 }

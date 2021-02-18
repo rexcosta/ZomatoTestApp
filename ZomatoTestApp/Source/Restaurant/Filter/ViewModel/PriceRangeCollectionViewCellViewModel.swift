@@ -22,22 +22,22 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import Zomato
 
-final class LocationErrorViewControllerModel {
+final class PriceRangeCollectionViewCellViewModel {
     
-    let title = L10n.Localizable.Screen.Permissions.Location.title.value
-    let errorMessage = L10n.Localizable.Screen.Permissions.Location.error.value
-    private let coordinator: AppCoordinator
+    let priceRange: RestaurantPriceRange
     
-    init(coordinator: AppCoordinator, error: LocationManager.LocationError) {
-        self.coordinator = coordinator
-    }
+    let title: Driver<String?>
+    let isSelected: BehaviorRelay<Bool>
     
-    func onCloseLocationErrorAction() {
-        coordinator.goHome()
+    init(priceRange: RestaurantPriceRange, isSelected: Bool = false) {
+        self.priceRange = priceRange
+        self.title = BehaviorRelay<String?>(value: priceRange.localized).asDriver()
+        self.isSelected = BehaviorRelay<Bool>(value: isSelected)
     }
     
 }

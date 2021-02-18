@@ -22,41 +22,17 @@
 // SOFTWARE.
 //
 
-import Foundation
-import ZomatoFoundation
+import RxSwift
+import RxCocoa
+import Kingfisher
+import ZomatoUIKit
 
-final class BottomStateViewModel {
+extension BehaviorRelayDriver where Element == URL? {
     
-    let isLoading = Property<Bool>(false)
-    let message = Property<String?>(nil)
-    let buttonTitle = Property<String?>(nil)
-    let isButtonHidden = Property<Bool>(false)
-    private var onButtonActionClosure: (() -> Void)?
-    
-    func set(
-        isLoading: Bool,
-        message: String?,
-        buttonTitle: String? = nil,
-        isButtonHidden: Bool = true,
-        onButtonActionClosure: (() -> Void)? = nil
-    ) {
-        self.isLoading.value = isLoading
-        self.message.value = message
-        self.buttonTitle.value = buttonTitle
-        self.isButtonHidden.value = isButtonHidden
-        self.onButtonActionClosure = onButtonActionClosure
-    }
-    
-    func set(message: String?) {
-        set(isLoading: true, message: message)
-    }
-    
-    func clear() {
-        set(isLoading: false, message: nil)
-    }
-    
-    func onButtonAction() {
-        onButtonActionClosure?()
+    func drive(imageView: UIImageView, placeholder: UIImage) -> Disposable {
+        return driver.drive(with: imageView) {
+            $0.kf.setImage(with: $1, placeholder: placeholder)
+        }
     }
     
 }

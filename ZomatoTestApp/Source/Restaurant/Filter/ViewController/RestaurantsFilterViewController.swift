@@ -23,12 +23,21 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import ZomatoUIKit
-import Zomato
 
 final class RestaurantsFilterViewController: UIViewController {
     
+    private let closeButton = UIBarButtonItem(
+        title: L10n.Localizable.Global.Button.cancel.value,
+        style: .plain,
+        target: nil,
+        action: nil
+    ).with {
+        $0.tintColor = Theme.shared.primaryColor
+    }
     private let contentStackView = UIStackView().with {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.axis = .vertical
@@ -42,13 +51,14 @@ final class RestaurantsFilterViewController: UIViewController {
     private let restaurantsFilterByPriceView = RestaurantsFilterByPriceView().with {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    private let applyButton = UIButton().withPrimaryStyle.with {
+    private let applyFilterButton = UIButton().withPrimaryStyle.with {
         $0.setTitle(
             L10n.Localizable.Screen.Restaurants.Filter.applyFilter.value,
             for: .normal
         )
     }
     
+    private var disposeBag = DisposeBag()
     var viewModel: RestaurantsFilterViewControllerModel?
     
     override func viewDidLoad() {
@@ -58,8 +68,9 @@ final class RestaurantsFilterViewController: UIViewController {
         setupViewHierarchy()
         setupConstraints()
         
+        disposeBag = DisposeBag()
         if let viewModel = viewModel {
-            bind(to: viewModel)
+            bind(to: viewModel, disposeBag: disposeBag)
         }
     }
     
@@ -71,21 +82,8 @@ extension RestaurantsFilterViewController {
     private func setupViews() {
         view.backgroundColor = Theme.shared.backgroundColor
         
-        applyButton.addTarget(
-            self,
-            action: #selector(onUserDidPressApplyFilterOptions),
-            for: .touchUpInside
-        )
-        
         navigationItem.rightBarButtonItems = [
-            UIBarButtonItem(
-                title: L10n.Localizable.Global.Button.cancel.value,
-                style: .plain,
-                target: self,
-                action: #selector(onUserDidPressCloseFilterOptions)
-            ).with {
-                $0.tintColor = Theme.shared.primaryColor
-            }
+            closeButton
         ]
     }
     
@@ -98,7 +96,7 @@ extension RestaurantsFilterViewController {
                 $0.heightAnchor.constraint(equalToConstant: 1).isActive = true
             }),
             restaurantsFilterByPriceView,
-            applyButton
+            applyFilterButton
         )
     }
     
@@ -111,25 +109,22 @@ extension RestaurantsFilterViewController {
         ])
     }
     
-    private func bind(to viewModel: RestaurantsFilterViewControllerModel) {
-        title = viewModel.title
+    private func bind(
+        to viewModel: RestaurantsFilterViewControllerModel,
+        disposeBag: DisposeBag
+    ) {
         restaurantsSortView.viewModel = viewModel.sortViewModel
         restaurantsFilterByPriceView.viewModel = viewModel.filterByPriceViewModel
-    }
-    
-}
-
-// MARK: Listeners
-extension RestaurantsFilterViewController {
-    
-    @objc
-    private func onUserDidPressCloseFilterOptions() {
-        viewModel?.onCloseFilterOptionsAction()
-    }
-    
-    @objc
-    private func onUserDidPressApplyFilterOptions() {
-        viewModel?.onApplyFilterOptionsAction()
+        
+        disposeBag.insert(
+            viewModel.title.drive(rx.title),
+            
+            closeButton.rx.tap
+                .subscribe(viewModel.closeAction),
+            
+            applyFilterButton.rx.tap
+                .subscribe(viewModel.applyFilterAction)
+        )
     }
     
 }

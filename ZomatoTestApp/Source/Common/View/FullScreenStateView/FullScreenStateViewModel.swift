@@ -22,45 +22,61 @@
 // SOFTWARE.
 //
 
-import Foundation
 import ZomatoFoundation
+import ZomatoUIKit
+import RxSwift
+import RxCocoa
 
 final class FullScreenStateViewModel {
     
-    let isLoading = Property<Bool>(false)
-    let message = Property<String?>(nil)
-    let buttonTitle = Property<String?>(nil)
-    let isButtonHidden = Property<Bool>(false)
-    private var onButtonActionClosure: (() -> Void)?
+    let isLoading = BehaviorRelay<Bool>(value: false)
+    let message = BehaviorRelay<String?>(value: nil)
+    let buttonTitle = BehaviorRelay<String?>(value: nil)
+    let isButtonHidden = BehaviorRelay<Bool>(value: false)
+    let buttonAction = PublishSubject<Void>()
+    
+}
+
+// MARK: Helpers
+extension FullScreenStateViewModel {
     
     func set(
         isLoading: Bool,
         message: String?,
-        buttonTitle: String? = nil,
-        isButtonHidden: Bool = true,
-        onButtonActionClosure: (() -> Void)? = nil
+        buttonTitle: String?,
+        isButtonHidden: Bool
     ) {
-        self.isLoading.value = isLoading
-        self.message.value = message
-        self.buttonTitle.value = buttonTitle
-        self.isButtonHidden.value = isButtonHidden
-        self.onButtonActionClosure = onButtonActionClosure
+        self.isLoading.accept(isLoading)
+        self.message.accept(message)
+        self.buttonTitle.accept(buttonTitle)
+        self.isButtonHidden.accept(isButtonHidden)
     }
     
     func set(message: String?) {
-        set(isLoading: true, message: message)
+        set(
+            isLoading: true,
+            message: message,
+            buttonTitle: nil,
+            isButtonHidden: true
+        )
     }
     
-    func showOnlyLoading() {
-        set(isLoading: true, message: nil)
+    func setLoading() {
+        set(
+            isLoading: true,
+            message: nil,
+            buttonTitle: nil,
+            isButtonHidden: true
+        )
     }
     
     func clear() {
-        set(isLoading: false, message: nil)
-    }
-    
-    func onButtonAction() {
-        onButtonActionClosure?()
+        set(
+            isLoading: false,
+            message: nil,
+            buttonTitle: nil,
+            isButtonHidden: true
+        )
     }
     
 }

@@ -26,11 +26,17 @@ import UIKit
 import ZomatoFoundation
 import Zomato
 
-final class AppCoordinator {
+protocol AppCoordinatorProtocol {
+    func goHome()
+    func showRestaurantFilterOptions(restaurantsCollection: RestaurantsCollection)
+}
+
+final class AppCoordinator: AppCoordinatorProtocol {
     
-    let zomato: Zomato
+    private let zomato: Zomato
+    private var locationManager: LocationManager?
     
-    var appRootViewController: UIViewController?
+    private var appRootViewController: UIViewController?
     
     init(zomato: Zomato) {
         self.zomato = zomato
@@ -38,15 +44,17 @@ final class AppCoordinator {
     
     func appLaunch(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> UIWindow {
         let locationManager = LocationManager(appCoordinator: self)
+        self.locationManager = locationManager
         
         let rootViewController = RestaurantsViewController()
+        let restaurantsCollection = zomato.restaurantManager.searchRestaurants()
         rootViewController.viewModel = RestaurantsViewControllerModel(
             restaurantsListViewModel: RestaurantsListViewModel(
                 restaurantManager: zomato.restaurantManager,
-                restaurantsCollection: zomato.restaurantManager.searchRestaurants(),
-                locationManager: locationManager,
-                appCoordinator: self
+                restaurantsCollection: restaurantsCollection,
+                locationManager: locationManager
             ),
+            restaurantsCollection: restaurantsCollection,
             coordinator: self
         )
         
@@ -80,7 +88,7 @@ final class AppCoordinator {
         present(viewController: navigationController)
     }
     
-    func showLocationError(_ error: LocationManager.LocationError) {
+    func showLocationError(_ error: Location.LocationError) {
         let filterViewController = LocationErrorViewController()
         filterViewController.viewModel = LocationErrorViewControllerModel(
             coordinator: self,

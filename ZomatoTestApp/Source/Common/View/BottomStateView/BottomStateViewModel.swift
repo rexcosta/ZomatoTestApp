@@ -22,35 +22,52 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxCocoa
+import ZomatoUIKit
 import ZomatoFoundation
-import Zomato
 
-final class RestaurantsSortViewModel {
+final class BottomStateViewModel {
     
-    let sortByLocationTitle = L10n.Localizable.Screen.Restaurants.Filter.Sort.location.value
-    private(set)var isSortActive: Bool
+    let isLoading = BehaviorRelay<Bool>(value: false)
+    let message = BehaviorRelay<String?>(value: nil)
+    let buttonTitle = BehaviorRelay<String?>(value: nil)
+    let isButtonHidden = BehaviorRelay<Bool>(value: false)
+    let buttonAction = PublishSubject<Void>()
     
-    var sort: Sort {
-        if isSortActive {
-            return .distance
-        } else {
-            return .dontSort
-        }
+}
+
+// MARK: Helpers
+extension BottomStateViewModel {
+    
+    func set(
+        isLoading: Bool,
+        message: String?,
+        buttonTitle: String?,
+        isButtonHidden: Bool
+    ) {
+        self.isLoading.accept(isLoading)
+        self.message.accept(message)
+        self.buttonTitle.accept(buttonTitle)
+        self.isButtonHidden.accept(isButtonHidden)
     }
     
-    init(restaurantsCollection: RestaurantsCollection) {
-        switch restaurantsCollection.readOnlySort.value {
-        case .distance:
-            isSortActive = true
-            
-        case .dontSort:
-            isSortActive = false
-        }
+    func set(message: String?) {
+        set(
+            isLoading: true,
+            message: message,
+            buttonTitle: nil,
+            isButtonHidden: true
+        )
     }
     
-    func onSortAction() {
-        isSortActive.toggle()
+    func clear() {
+        set(
+            isLoading: false,
+            message: nil,
+            buttonTitle: nil,
+            isButtonHidden: true
+        )
     }
     
 }

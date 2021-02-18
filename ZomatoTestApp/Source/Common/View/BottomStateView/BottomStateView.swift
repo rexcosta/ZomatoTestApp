@@ -22,16 +22,16 @@
 // SOFTWARE.
 //
 
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import Zomato
-import UIKit
 
-final class FullScreenStateView: UIView {
+final class BottomStateView: UIView {
     
     private let activiewIndicatorView = UIActivityIndicatorView(style: .gray).with {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.hidesWhenStopped = true
-        
         $0.color = Theme.shared.primaryColor
     }
     
@@ -39,39 +39,46 @@ final class FullScreenStateView: UIView {
     
     private let actionButton = UIButton(type: .system).withPrimaryStyle
     
-    var viewModel: FullScreenStateViewModel? {
+    private var disposeBag = DisposeBag()
+    var viewModel: BottomStateViewModel? {
         didSet {
+            disposeBag = DisposeBag()
             if let viewModel = viewModel {
-                bind(to: viewModel)
+                bind(to: viewModel, disposeBag: disposeBag)
             }
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
+        
         setupViewHierarchy()
         setupConstraints()
+        
+        backgroundColor = Theme.shared.transparentBackgroundColor
+        layer.cornerRadius = 12
+        layer.masksToBounds = true
+        
+        set(shadowColor: Theme.shared.shadowColor, shadowOpacity: 0.6)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        layer.shadowPath = UIBezierPath(
+            roundedRect: bounds,
+            cornerRadius: layer.cornerRadius
+        ).cgPath
+    }
+    
 }
 
 // MARK: Private
-extension FullScreenStateView {
-    
-    private func setupViews() {
-        backgroundColor = Theme.shared.transparentBackgroundColor
-        
-        actionButton.addTarget(
-            self,
-            action: #selector(onStateButtonPress),
-            for: .touchUpInside
-        )
-    }
+extension BottomStateView {
     
     private func setupViewHierarchy() {
         addSubviews(
@@ -82,25 +89,11 @@ extension FullScreenStateView {
     }
     
     private func setupConstraints() {
-        messageLabel.resistGrowing(.vertical)
-        
-        let topLayoutGuide = UILayoutGuide()
-        addLayoutGuide(topLayoutGuide)
-        
-        let bottomLayoutGuide = UILayoutGuide()
-        addLayoutGuide(bottomLayoutGuide)
-        
         NSLayoutConstraint.activate([
-            topLayoutGuide.heightAnchor.constraint(equalTo: bottomLayoutGuide.heightAnchor),
-            
-            topLayoutGuide.topAnchor.constraint(
+            activiewIndicatorView.topAnchor.constraint(
                 equalTo: topAnchor,
                 constant: UIConstants.defaultPadding.top
             ),
-            topLayoutGuide.leftAnchor.constraint(equalTo: leftAnchor),
-            topLayoutGuide.rightAnchor.constraint(equalTo: rightAnchor),
-            
-            activiewIndicatorView.topAnchor.constraint(equalTo: topLayoutGuide.bottomAnchor),
             activiewIndicatorView.centerXAnchor.constraint(equalTo: centerXAnchor),
             activiewIndicatorView.bottomAnchor.constraint(
                 equalTo: messageLabel.topAnchor,
@@ -136,44 +129,39 @@ extension FullScreenStateView {
                 constant: -UIConstants.defaultPadding.right
             ),
             actionButton.bottomAnchor.constraint(
-                equalTo: bottomLayoutGuide.topAnchor,
-                constant: -UIConstants.defaultPadding.bottom
-            ),
-            
-            bottomLayoutGuide.leftAnchor.constraint(equalTo: leftAnchor),
-            bottomLayoutGuide.rightAnchor.constraint(equalTo: rightAnchor),
-            bottomLayoutGuide.bottomAnchor.constraint(
                 equalTo: safeAreaLayoutGuide.bottomAnchor,
                 constant: -UIConstants.defaultPadding.bottom
             )
         ])
     }
     
-    private func bind(to viewModel: FullScreenStateViewModel) {
-        activiewIndicatorView.bindIsAnimating(to: viewModel.isLoading)
-        actionButton.bindTitle(to: viewModel.buttonTitle, for: .normal)
-        actionButton.bindIsHidden(to: viewModel.isButtonHidden)
-        viewModel.message.observeOnMainContext(
-            fire: true,
-            whileTargetAlive: messageLabel
-        ) { (me, newValue) in
-            guard let newValue = newValue else {
-                me.text = nil
-                return
-            }
-            me.text = newValue
-            me.longgerBounce()
-        }
-    }
-    
-}
-
-// MARK: Listeners
-extension FullScreenStateView {
-    
-    @objc
-    private func onStateButtonPress() {
-        viewModel?.onButtonAction()
+    private func bind(
+        to viewModel: BottomStateViewModel,
+        disposeBag: DisposeBag
+    ) {
+        disposeBag.insert(
+            actionButton.rx.controlEvent(.touchUpInside)
+                .subscribe(viewModel.buttonAction),
+            
+            viewModel.isLoading.asDriver()
+                .drive(activiewIndicatorView.rx.isAnimating),
+            
+            viewModel.buttonTitle.asDriver()
+                .drive(actionButton.rx.title(for: .normal)),
+            
+            viewModel.isButtonHidden.asDriver()
+                .drive(actionButton.rx.isHidden),
+            
+            viewModel.message.asDriver()
+                .drive(with: messageLabel) { (messageLabel, newValue) in
+                    guard let newValue = newValue else {
+                        messageLabel.text = nil
+                        return
+                    }
+                    messageLabel.text = newValue
+                    messageLabel.longgerBounce()
+                }
+        )
     }
     
 }

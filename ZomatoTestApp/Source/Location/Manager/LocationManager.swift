@@ -22,28 +22,21 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxCocoa
 import CoreLocation
 import ZomatoFoundation
+import ZomatoUIKit
 
-final class LocationManager: NSObject {
-    
-    typealias LocationRequestHandler = (_ result: Result<CLLocation, LocationError>) -> Void
-    
-    enum LocationError: Error {
-        case restricted
-        case denied
-        case noLocationsFound
-        case unknown
-    }
+final class LocationManager: NSObject, LocationManagerProtocol {
     
     private lazy var locationManager = CLLocationManager()
     
     private let appCoordinator: AppCoordinator
     
-    private let userLocation = Property<CLLocation?>(nil, skipRepeated: true)
-    var readOnlyUserLocation: ReadOnlyProperty<CLLocation?> {
-        return userLocation.readOnly
+    private let userLocation = BehaviorRelay<CLLocation?>(value: nil)
+    var userLocationReadOnly: BehaviorRelayDriver<CLLocation?> {
+        return userLocation.readOnlyDriver
     }
     
     init(appCoordinator: AppCoordinator) {
@@ -101,7 +94,7 @@ extension LocationManager: CLLocationManagerDelegate {
         
         Log.info("LocationManager", "CLLocationManagerDelegate didUpdateLocations found location")
         DispatchQueue.main.async {
-            self.userLocation.value = location
+            self.userLocation.accept(location)
         }
     }
     

@@ -1,15 +1,32 @@
 PODS:
   - Kingfisher (6.0.1)
-  - RxSwift (6.0.0)
+  - RxBlocking (6.1.0):
+    - RxSwift (= 6.1.0)
+  - RxCocoa (6.1.0):
+    - RxRelay (= 6.1.0)
+    - RxSwift (= 6.1.0)
+  - RxRelay (6.1.0):
+    - RxSwift (= 6.1.0)
+  - RxSwift (6.1.0)
+  - RxTest (6.1.0):
+    - RxSwift (= 6.1.0)
   - Zomato (0.0.1):
     - RxSwift
     - ZomatoFoundation
-  - ZomatoFoundation (0.0.1)
+  - ZomatoFoundation (0.0.1):
+    - RxRelay
+    - RxSwift
   - ZomatoUIKit (0.0.1):
+    - RxCocoa
+    - RxSwift
     - ZomatoFoundation
 
 DEPENDENCIES:
   - Kingfisher (= 6.0.1)
+  - RxBlocking (= 6.1.0)
+  - RxCocoa (= 6.1.0)
+  - RxSwift (= 6.1.0)
+  - RxTest (= 6.1.0)
   - Zomato (from `Other/Zomato/Zomato.podspec`)
   - ZomatoFoundation (from `Other/ZomatoFoundation/ZomatoFoundation.podspec`)
   - ZomatoUIKit (from `Other/ZomatoUIKit/ZomatoUIKit.podspec`)
@@ -17,7 +34,11 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Kingfisher
+    - RxBlocking
+    - RxCocoa
+    - RxRelay
     - RxSwift
+    - RxTest
 
 EXTERNAL SOURCES:
   Zomato:
@@ -29,11 +50,15 @@ EXTERNAL SOURCES:
 
 SPEC CHECKSUMS:
   Kingfisher: adde87a4f74f6a3845395769354efff593581740
-  RxSwift: c14e798c59b9f6e9a2df8fd235602e85cc044295
+  RxBlocking: 602095fba0bce7b16b56ccec89edf780c248b7d9
+  RxCocoa: 5c51f02d562cbd94629f6c26cf0c80fe4ab8d343
+  RxRelay: 483e1a19fad961b41f0b0c0bee506f46c1ae14fe
+  RxSwift: a834e5c538e89eca0cae86f403f4fbf0336786ce
+  RxTest: 9d26616eaff4a7e75f4ecae9b2c24840f2e8218d
   Zomato: 5f1286616a7e42e798d4c70bc662b4982ece2c22
-  ZomatoFoundation: f61f5b1466e5ecb74baa35214626c0a20c2a46ff
-  ZomatoUIKit: d2ec28b482b4a6a72a33b5b793495d03baa47113
+  ZomatoFoundation: 6352c641efb142f32c01f6e2aeb19ed78780e762
+  ZomatoUIKit: ec55ba3c6a42b94c7cddf2170c4d97ce23fefaa1
 
-PODFILE CHECKSUM: d528af21dc1049bf31792aedc051697e05115e31
+PODFILE CHECKSUM: de911336d888036df991c7be9797e0d3cf261be0
 
 COCOAPODS: 1.10.1

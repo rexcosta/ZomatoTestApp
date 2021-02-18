@@ -22,7 +22,8 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
@@ -33,16 +34,18 @@ final class RestaurantsViewController: UIViewController {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
     
-    private lazy var filterButton = UIBarButtonItem(
+    private let filterButton = UIBarButtonItem(
         image: Asset.filter.image,
         style: .plain,
-        target: self,
-        action: #selector(onUserDidPressFilterOptions)
+        target: nil,
+        action: nil
     ).with {
         $0.tintColor = Theme.shared.primaryColor
     }
     
     var viewModel: RestaurantsViewControllerModel?
+    
+    private var disposeBag = DisposeBag()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,8 +54,9 @@ final class RestaurantsViewController: UIViewController {
         setupViewHierarchy()
         setupConstraints()
         
+        disposeBag = DisposeBag()
         if let viewModel = viewModel {
-            bind(to: viewModel)
+            bind(to: viewModel, disposeBag: disposeBag)
         }
     }
     
@@ -80,20 +84,21 @@ extension RestaurantsViewController {
         ])
     }
     
-    private func bind(to viewModel: RestaurantsViewControllerModel) {
-        title = viewModel.title
+    private func bind(
+        to viewModel: RestaurantsViewControllerModel,
+        disposeBag: DisposeBag
+    ) {
         restaurantsListView.viewModel = viewModel.restaurantsListViewModel
-        filterButton.bindIsEnabled(to: viewModel.readOnlyIsFilterButtonEnabled)
-    }
-    
-}
-
-// MARK: Listeners
-extension RestaurantsViewController {
-    
-    @objc
-    private func onUserDidPressFilterOptions() {
-        viewModel?.onFilterOptionsAction()
+        
+        disposeBag.insert(
+            viewModel.title.drive(rx.title),
+            
+            viewModel.isFilterEnabledReadOnly.driver
+                .drive(filterButton.rx.isEnabled),
+            
+            filterButton.rx.tap
+                .subscribe(viewModel.filterAction)
+        )
     }
     
 }
