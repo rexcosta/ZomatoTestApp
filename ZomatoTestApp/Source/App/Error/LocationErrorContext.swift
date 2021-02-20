@@ -22,9 +22,15 @@
 // SOFTWARE.
 //
 
-import RxSwift
-import CoreLocation
+import Foundation
 
-protocol LocationManagerProtocol {
-    func currentLocation() -> Observable<CLLocation?>
+extension ZomatoAppErrorContext {
+    
+    public enum LocationErrorContext {
+        public static let restricted = ZomatoAppErrorContext("location", "restricted", 10000)
+        public static let denied = ZomatoAppErrorContext("location", "denied", 10001)
+        public static let invalidStatus = ZomatoAppErrorContext("location", "invalidStatus", 10002)
+        public static let unknown = ZomatoAppErrorContext("location", "unknown", 10003)
+    }
+    
 }

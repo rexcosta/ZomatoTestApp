@@ -22,9 +22,26 @@
 // SOFTWARE.
 //
 
-import RxSwift
-import CoreLocation
+import Foundation
 
-protocol LocationManagerProtocol {
-    func currentLocation() -> Observable<CLLocation?>
+// MARK: ZomatoAppError
+public struct ZomatoAppError: Error {
+    
+    public let context: ZomatoAppErrorContext
+    public let cause: Error?
+    
+    public init(context: ZomatoAppErrorContext, cause: Error? = nil) {
+        self.context = context
+        self.cause = cause
+    }
+    
+}
+
+// MARK: ZomatoAppError Equatable
+extension ZomatoAppError: Equatable {
+    
+    public static func == (lhs: ZomatoAppError, rhs: ZomatoAppError) -> Bool {
+        return lhs.context == rhs.context
+    }
+    
 }

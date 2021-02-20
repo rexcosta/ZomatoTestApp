@@ -94,6 +94,8 @@ extension LocationErrorViewController {
         disposeBag.insert(
             viewModel.title.drive(rx.title),
             
+            viewModel.errorMessage.drive(messageLabel.rx.text),
+            
             okButton.rx.tap
                 .subscribe(viewModel.closeAction)
         )

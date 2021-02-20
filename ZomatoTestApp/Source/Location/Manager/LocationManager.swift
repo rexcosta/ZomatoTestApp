@@ -39,7 +39,8 @@ final class LocationManager: LocationManagerProtocol {
             var delegate: LocationManagerDelegate? = LocationManagerDelegate()
             
             delegate?.didFailWithError = { error in
-                observer.onError(Location.LocationError.unknown(error))
+                let appError = ZomatoAppError(context: ZomatoAppErrorContext.LocationErrorContext.unknown, cause: error)
+                observer.onError(appError)
             }
             
             delegate?.didChangeAuthorization = { status in
@@ -49,22 +50,29 @@ final class LocationManager: LocationManagerProtocol {
                     break
                     
                 case .restricted:
-                    observer.onError(Location.LocationError.restricted)
+                    let appError = ZomatoAppError(context: ZomatoAppErrorContext.LocationErrorContext.restricted)
+                    observer.onError(appError)
                     
                 case .denied:
-                    observer.onError(Location.LocationError.denied)
+                    let appError = ZomatoAppError(context: ZomatoAppErrorContext.LocationErrorContext.denied)
+                    observer.onError(appError)
                     
                 case .authorizedAlways, .authorizedWhenInUse:
                     locationManager?.requestLocation()
                     
                 @unknown default:
-                    observer.onError(Location.LocationError.unknown(nil))
+                    let appError = ZomatoAppError(context: ZomatoAppErrorContext.LocationErrorContext.invalidStatus)
+                    observer.onError(appError)
                 }
             }
             
             delegate?.didUpdateLocations = { locations in
-                observer.onNext(locations.first)
-                observer.onCompleted()
+                //observer.onNext(locations.first)
+                //observer.onCompleted()
+                DispatchQueue.main.async {
+                    let appError = ZomatoAppError(context: ZomatoAppErrorContext.LocationErrorContext.invalidStatus)
+                    observer.onError(appError)
+                }
             }
             
             locationManager?.delegate = delegate

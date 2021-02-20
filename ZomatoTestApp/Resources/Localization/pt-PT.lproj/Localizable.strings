@@ -25,5 +25,3 @@
 "screen.restaurants.filter.applyFilter"="Apply";
 
 "screen.permissions.location.title"="Location";
-"screen.permissions.location.error"="The app needs you location permission to work. Go to permissions and activate the location settings.";
-

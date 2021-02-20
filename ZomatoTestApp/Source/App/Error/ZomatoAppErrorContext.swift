@@ -22,9 +22,28 @@
 // SOFTWARE.
 //
 
-import RxSwift
-import CoreLocation
+import Foundation
 
-protocol LocationManagerProtocol {
-    func currentLocation() -> Observable<CLLocation?>
+// MARK: ZomatoAppErrorContext
+public struct ZomatoAppErrorContext {
+    
+    public static let unknown = ZomatoAppErrorContext("global", "unknown", -2)
+    
+    public let name: String
+    public let code: Int
+    
+    public init(_ system: String, _ subsystem: String, _ code: Int) {
+        self.name = "\(system).\(subsystem)"
+        self.code = code
+    }
+    
+}
+
+// MARK: ZomatoAppErrorContext Equatable
+extension ZomatoAppErrorContext: Equatable {
+    
+    public static func == (lhs: ZomatoAppErrorContext, rhs: ZomatoAppErrorContext) -> Bool {
+        return lhs.name == rhs.name && lhs.code == rhs.code
+    }
+    
 }

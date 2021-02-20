@@ -39,9 +39,7 @@ final class LocationErrorViewControllerModel: LocationErrorViewControllerModelPr
         value: L10n.Localizable.Screen.Permissions.Location.title.value
     ).asDriver()
     
-    let errorMessage = BehaviorRelay<String?>(
-        value: L10n.Localizable.Screen.Permissions.Location.error.value
-    ).asDriver()
+    let errorMessage: Driver<String?>
     
     let closeAction = PublishSubject<Void>()
     
@@ -51,6 +49,10 @@ final class LocationErrorViewControllerModel: LocationErrorViewControllerModelPr
         coordinator: AppCoordinator,
         error: Error
     ) {
+        errorMessage = BehaviorRelay<String?>(
+            value: AppErrorLocalizationMapper().mapInput(error).value
+        ).asDriver()
+        
         disposeBag.insert(
             bindCloseAction(coordinator: coordinator)
         )
