@@ -27,8 +27,8 @@ import Foundation
 extension ZomatoErrorContext {
     
     public enum Database {
-        public static let savingRestaurant = ZomatoErrorContext("savingRestaurant", 2000)
-        public static let isRestaurantFavourite = ZomatoErrorContext("savingRestaurant", 2001)
+        public static let savingIsRestaurantFavourite = ZomatoErrorContext("database", "savingRestaurant", 2000)
+        public static let readingIsRestaurantFavourite = ZomatoErrorContext("database", "readingRestaurant", 2001)
     }
     
 }

@@ -71,7 +71,7 @@ extension RestaurantRepository: RestaurantRepositoryProtocol {
                 } catch {
                     Log.error("RestaurantRepository", "Error counting restaurant \(id) \(error)")
                     let zomatoError = ZomatoError(
-                        context: ZomatoErrorContext.Database.isRestaurantFavourite,
+                        context: ZomatoErrorContext.Database.readingIsRestaurantFavourite,
                         cause: error
                     )
                     single(.failure(zomatoError))
@@ -110,7 +110,7 @@ extension RestaurantRepository: RestaurantRepositoryProtocol {
                 } catch {
                     Log.error("RestaurantRepository", "Error saving restaurant \(id) \(error)")
                     let zomatoError = ZomatoError(
-                        context: ZomatoErrorContext.Database.savingRestaurant,
+                        context: ZomatoErrorContext.Database.savingIsRestaurantFavourite,
                         cause: error
                     )
                     completable(.error(zomatoError))

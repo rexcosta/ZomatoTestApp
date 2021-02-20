@@ -27,7 +27,7 @@ import Foundation
 extension ZomatoErrorContext {
     
     public enum NetworkErrorContext {
-        public static let searchRestaurants = ZomatoErrorContext("searchRestaurants", 4000)
+        public static let searchRestaurants = ZomatoErrorContext("network", "searchRestaurants", 4000)
     }
     
 }

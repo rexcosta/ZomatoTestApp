@@ -27,13 +27,13 @@ import ZomatoFoundation
 // MARK: ZomatoErrorContext
 public struct ZomatoErrorContext {
     
-    public static let unknown = ZomatoErrorContext("Unknown", -1)
+    public static let unknown = ZomatoErrorContext("global", "unknown", -1)
     
     public let name: String
     public let code: Int
     
-    public init(_ name: String, _ code: Int) {
-        self.name = name
+    public init(_ system: String, _ subsystem: String, _ code: Int) {
+        self.name = "\(system).\(subsystem)"
         self.code = code
     }
     
