@@ -22,9 +22,11 @@
 // SOFTWARE.
 //
 
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
+import ZomatoUIKit
 import Zomato
-import UIKit
 
 final class RestaurantsSortView: UIView {
     
@@ -34,6 +36,7 @@ final class RestaurantsSortView: UIView {
         $0.onTintColor = Theme.shared.primaryColor
     }
     
+    private var disposeBag = DisposeBag()
     var viewModel: RestaurantsSortViewModel? {
         didSet {
             if let viewModel = viewModel {
@@ -44,7 +47,6 @@ final class RestaurantsSortView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupViews()
         setupViewHierarchy()
         setupConstraints()
     }
@@ -57,14 +59,6 @@ final class RestaurantsSortView: UIView {
 
 // MARK: Private
 extension RestaurantsSortView {
-    
-    private func setupViews() {
-        sortByLocationSwitch.addTarget(
-            self,
-            action: #selector(onUserDidChangeSwitch(_:)),
-            for: .valueChanged
-        )
-    }
     
     private func setupViewHierarchy() {
         addSubviews(
@@ -88,18 +82,11 @@ extension RestaurantsSortView {
     }
     
     private func bind(to viewModel: RestaurantsSortViewModel) {
-        sortByLocationLabel.text = viewModel.sortByLocationTitle
-        sortByLocationSwitch.isOn = viewModel.isSortActive
-    }
-    
-}
-
-// MARK: Listeners
-extension RestaurantsSortView {
-    
-    @objc
-    private func onUserDidChangeSwitch(_ uiSwitch: UISwitch) {
-        viewModel?.onSortAction()
+        disposeBag.insert(
+            viewModel.title.drive(sortByLocationLabel.rx.text),
+            
+            viewModel.isSortActive.twoWayBind(to: sortByLocationSwitch.rx.isOn)
+        )
     }
     
 }

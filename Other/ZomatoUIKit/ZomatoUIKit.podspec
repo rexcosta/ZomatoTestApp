@@ -13,5 +13,7 @@ Pod::Spec.new do |s|
   s.source_files  = "ZomatoUIKit/Source/**/*.{swift}"
 
   s.dependency "ZomatoFoundation"
+  s.dependency "RxSwift"
+  s.dependency "RxCocoa"
 
 end

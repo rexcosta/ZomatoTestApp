@@ -9,6 +9,22 @@ target 'ZomatoTestApp' do
     pod 'Zomato', :path => 'Other/Zomato/Zomato.podspec'
     
     pod 'Kingfisher', '6.0.1'
+    pod 'RxSwift', '6.1.0'
+    pod 'RxCocoa', '6.1.0'
+
+    target 'ZomatoTestAppTests' do
+        inherit! :search_paths
+        
+        pod 'RxBlocking', '6.1.0'
+        pod 'RxTest', '6.1.0'
+    end
+
+    target 'ZomatoTestAppUITests' do
+        inherit! :search_paths
+        
+        pod 'RxBlocking', '6.1.0'
+        pod 'RxTest', '6.1.0'
+    end
 
 end
 

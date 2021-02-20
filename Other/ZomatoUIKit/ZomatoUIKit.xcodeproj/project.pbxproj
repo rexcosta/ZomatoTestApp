@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,15 +19,18 @@
 		637321DC25C8A6CC0013874C /* UIView+Subviews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321C825C8A6CC0013874C /* UIView+Subviews.swift */; };
 		637321DD25C8A6CC0013874C /* UIView+Animation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321C925C8A6CC0013874C /* UIView+Animation.swift */; };
 		637321DE25C8A6CC0013874C /* RoundEdgesLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321CB25C8A6CC0013874C /* RoundEdgesLabel.swift */; };
-		637321DF25C8A6CC0013874C /* UIActivityIndicatorView+Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321CD25C8A6CC0013874C /* UIActivityIndicatorView+Bind.swift */; };
-		637321E025C8A6CC0013874C /* UIButton+Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321CE25C8A6CC0013874C /* UIButton+Bind.swift */; };
-		637321E125C8A6CC0013874C /* UIView+Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321CF25C8A6CC0013874C /* UIView+Bind.swift */; };
-		637321E225C8A6CC0013874C /* UIBarButtonItem+Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321D025C8A6CC0013874C /* UIBarButtonItem+Bind.swift */; };
-		637321E325C8A6CC0013874C /* UILabel+Bind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321D125C8A6CC0013874C /* UILabel+Bind.swift */; };
 		637321E425C8A6CC0013874C /* AccessibilityElementModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321D325C8A6CC0013874C /* AccessibilityElementModel.swift */; };
 		637321E525C8A6CC0013874C /* UIAccessibilityTraits+AccessibilityElementTrait.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321D425C8A6CC0013874C /* UIAccessibilityTraits+AccessibilityElementTrait.swift */; };
 		637321E625C8A6CC0013874C /* NSObject+Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 637321D525C8A6CC0013874C /* NSObject+Accessibility.swift */; };
+		6374CC7525D1F0DB003EDDE0 /* SharedSequenceConvertibleType+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6374CC7425D1F0DB003EDDE0 /* SharedSequenceConvertibleType+Extensions.swift */; };
+		6395F22B25DF0C5800B1F8E4 /* BehaviorRelayDriver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F22925DF0C5800B1F8E4 /* BehaviorRelayDriver.swift */; };
+		6395F22C25DF0C5800B1F8E4 /* BehaviorRelay+TwoWayBind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F22A25DF0C5800B1F8E4 /* BehaviorRelay+TwoWayBind.swift */; };
+		6395F23625DF0C6F00B1F8E4 /* ActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F23225DF0C6F00B1F8E4 /* ActionViewModel.swift */; };
+		6395F23725DF0C6F00B1F8E4 /* UIButton+ActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F23325DF0C6F00B1F8E4 /* UIButton+ActionViewModel.swift */; };
+		6395F23825DF0C6F00B1F8E4 /* UITapGestureRecognizer+ActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F23425DF0C6F00B1F8E4 /* UITapGestureRecognizer+ActionViewModel.swift */; };
+		6395F23925DF0C6F00B1F8E4 /* ReadOnlyActionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F23525DF0C6F00B1F8E4 /* ReadOnlyActionViewModel.swift */; };
 		8A8C42CA3DEF02FA942DAA6A /* Pods_ZomatoUIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5C0C7C6EAA7943A495600D0D /* Pods_ZomatoUIKit.framework */; };
+		BBCFBCA97BB6BD841289ABCC /* Pods_ZomatoUIKitTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E7AEDD61377B4701F1B00584 /* Pods_ZomatoUIKitTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +44,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		066A93A7C3C854DA1DAE0112 /* Pods-ZomatoUIKitTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoUIKitTests.release.xcconfig"; path = "Target Support Files/Pods-ZomatoUIKitTests/Pods-ZomatoUIKitTests.release.xcconfig"; sourceTree = "<group>"; };
 		292334ECC4D8BBDF403ADD50 /* Pods-ZomatoUIKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoUIKit.debug.xcconfig"; path = "Target Support Files/Pods-ZomatoUIKit/Pods-ZomatoUIKit.debug.xcconfig"; sourceTree = "<group>"; };
 		5C0C7C6EAA7943A495600D0D /* Pods_ZomatoUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZomatoUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		637321A425C8A6A80013874C /* ZomatoUIKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ZomatoUIKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -58,15 +62,19 @@
 		637321C825C8A6CC0013874C /* UIView+Subviews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Subviews.swift"; sourceTree = "<group>"; };
 		637321C925C8A6CC0013874C /* UIView+Animation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Animation.swift"; sourceTree = "<group>"; };
 		637321CB25C8A6CC0013874C /* RoundEdgesLabel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RoundEdgesLabel.swift; sourceTree = "<group>"; };
-		637321CD25C8A6CC0013874C /* UIActivityIndicatorView+Bind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+Bind.swift"; sourceTree = "<group>"; };
-		637321CE25C8A6CC0013874C /* UIButton+Bind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+Bind.swift"; sourceTree = "<group>"; };
-		637321CF25C8A6CC0013874C /* UIView+Bind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIView+Bind.swift"; sourceTree = "<group>"; };
-		637321D025C8A6CC0013874C /* UIBarButtonItem+Bind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIBarButtonItem+Bind.swift"; sourceTree = "<group>"; };
-		637321D125C8A6CC0013874C /* UILabel+Bind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UILabel+Bind.swift"; sourceTree = "<group>"; };
 		637321D325C8A6CC0013874C /* AccessibilityElementModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AccessibilityElementModel.swift; sourceTree = "<group>"; };
 		637321D425C8A6CC0013874C /* UIAccessibilityTraits+AccessibilityElementTrait.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIAccessibilityTraits+AccessibilityElementTrait.swift"; sourceTree = "<group>"; };
 		637321D525C8A6CC0013874C /* NSObject+Accessibility.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSObject+Accessibility.swift"; sourceTree = "<group>"; };
+		6374CC7425D1F0DB003EDDE0 /* SharedSequenceConvertibleType+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "SharedSequenceConvertibleType+Extensions.swift"; sourceTree = "<group>"; };
+		6395F22925DF0C5800B1F8E4 /* BehaviorRelayDriver.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BehaviorRelayDriver.swift; sourceTree = "<group>"; };
+		6395F22A25DF0C5800B1F8E4 /* BehaviorRelay+TwoWayBind.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "BehaviorRelay+TwoWayBind.swift"; sourceTree = "<group>"; };
+		6395F23225DF0C6F00B1F8E4 /* ActionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionViewModel.swift; sourceTree = "<group>"; };
+		6395F23325DF0C6F00B1F8E4 /* UIButton+ActionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+ActionViewModel.swift"; sourceTree = "<group>"; };
+		6395F23425DF0C6F00B1F8E4 /* UITapGestureRecognizer+ActionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UITapGestureRecognizer+ActionViewModel.swift"; sourceTree = "<group>"; };
+		6395F23525DF0C6F00B1F8E4 /* ReadOnlyActionViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ReadOnlyActionViewModel.swift; sourceTree = "<group>"; };
+		74D3281EAA2C1AF264B00690 /* Pods-ZomatoUIKitTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoUIKitTests.debug.xcconfig"; path = "Target Support Files/Pods-ZomatoUIKitTests/Pods-ZomatoUIKitTests.debug.xcconfig"; sourceTree = "<group>"; };
 		7C287D190047DF085D7A59CE /* Pods-ZomatoUIKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoUIKit.release.xcconfig"; path = "Target Support Files/Pods-ZomatoUIKit/Pods-ZomatoUIKit.release.xcconfig"; sourceTree = "<group>"; };
+		E7AEDD61377B4701F1B00584 /* Pods_ZomatoUIKitTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ZomatoUIKitTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +91,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				637321AE25C8A6A90013874C /* ZomatoUIKit.framework in Frameworks */,
+				BBCFBCA97BB6BD841289ABCC /* Pods_ZomatoUIKitTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -93,8 +102,19 @@
 			isa = PBXGroup;
 			children = (
 				5C0C7C6EAA7943A495600D0D /* Pods_ZomatoUIKit.framework */,
+				E7AEDD61377B4701F1B00584 /* Pods_ZomatoUIKitTests.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		63612DA825D05FCA002A8EBC /* RxSwiftExtensions */ = {
+			isa = PBXGroup;
+			children = (
+				6395F22A25DF0C5800B1F8E4 /* BehaviorRelay+TwoWayBind.swift */,
+				6395F22925DF0C5800B1F8E4 /* BehaviorRelayDriver.swift */,
+				6374CC7425D1F0DB003EDDE0 /* SharedSequenceConvertibleType+Extensions.swift */,
+			);
+			path = RxSwiftExtensions;
 			sourceTree = "<group>";
 		};
 		6373219A25C8A6A80013874C = {
@@ -139,10 +159,11 @@
 		637321C025C8A6CC0013874C /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				637321C125C8A6CC0013874C /* Extensions */,
-				637321CA25C8A6CC0013874C /* Components */,
-				637321CC25C8A6CC0013874C /* Bind */,
 				637321D225C8A6CC0013874C /* Accessibility */,
+				6395F23125DF0C6F00B1F8E4 /* Action */,
+				637321CA25C8A6CC0013874C /* Components */,
+				637321C125C8A6CC0013874C /* Extensions */,
+				63612DA825D05FCA002A8EBC /* RxSwiftExtensions */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -170,18 +191,6 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		637321CC25C8A6CC0013874C /* Bind */ = {
-			isa = PBXGroup;
-			children = (
-				637321CD25C8A6CC0013874C /* UIActivityIndicatorView+Bind.swift */,
-				637321CE25C8A6CC0013874C /* UIButton+Bind.swift */,
-				637321CF25C8A6CC0013874C /* UIView+Bind.swift */,
-				637321D025C8A6CC0013874C /* UIBarButtonItem+Bind.swift */,
-				637321D125C8A6CC0013874C /* UILabel+Bind.swift */,
-			);
-			path = Bind;
-			sourceTree = "<group>";
-		};
 		637321D225C8A6CC0013874C /* Accessibility */ = {
 			isa = PBXGroup;
 			children = (
@@ -192,13 +201,25 @@
 			path = Accessibility;
 			sourceTree = "<group>";
 		};
+		6395F23125DF0C6F00B1F8E4 /* Action */ = {
+			isa = PBXGroup;
+			children = (
+				6395F23225DF0C6F00B1F8E4 /* ActionViewModel.swift */,
+				6395F23525DF0C6F00B1F8E4 /* ReadOnlyActionViewModel.swift */,
+				6395F23325DF0C6F00B1F8E4 /* UIButton+ActionViewModel.swift */,
+				6395F23425DF0C6F00B1F8E4 /* UITapGestureRecognizer+ActionViewModel.swift */,
+			);
+			path = Action;
+			sourceTree = "<group>";
+		};
 		BDCF7373B7E3D2AD2C6F146F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
 				292334ECC4D8BBDF403ADD50 /* Pods-ZomatoUIKit.debug.xcconfig */,
 				7C287D190047DF085D7A59CE /* Pods-ZomatoUIKit.release.xcconfig */,
+				74D3281EAA2C1AF264B00690 /* Pods-ZomatoUIKitTests.debug.xcconfig */,
+				066A93A7C3C854DA1DAE0112 /* Pods-ZomatoUIKitTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -239,9 +260,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 637321BB25C8A6A90013874C /* Build configuration list for PBXNativeTarget "ZomatoUIKitTests" */;
 			buildPhases = (
+				F302FDB5F077212BBE7C9BEA /* [CP] Check Pods Manifest.lock */,
 				637321A925C8A6A90013874C /* Sources */,
 				637321AA25C8A6A90013874C /* Frameworks */,
 				637321AB25C8A6A90013874C /* Resources */,
+				3F26CEBC0BA33CFF41B5DD29 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -307,6 +330,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		3F26CEBC0BA33CFF41B5DD29 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZomatoUIKitTests/Pods-ZomatoUIKitTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-ZomatoUIKitTests/Pods-ZomatoUIKitTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-ZomatoUIKitTests/Pods-ZomatoUIKitTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		541EC7F1C39959295F08E8F4 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -329,6 +369,28 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
+		F302FDB5F077212BBE7C9BEA /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-ZomatoUIKitTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -337,22 +399,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				637321D825C8A6CC0013874C /* UIColor+Theme.swift in Sources */,
+				6374CC7525D1F0DB003EDDE0 /* SharedSequenceConvertibleType+Extensions.swift in Sources */,
 				637321D925C8A6CC0013874C /* UIView+HuggingCompression.swift in Sources */,
 				637321DA25C8A6CC0013874C /* UICollectionView+Factory.swift in Sources */,
+				6395F23825DF0C6F00B1F8E4 /* UITapGestureRecognizer+ActionViewModel.swift in Sources */,
 				637321E625C8A6CC0013874C /* NSObject+Accessibility.swift in Sources */,
 				637321DE25C8A6CC0013874C /* RoundEdgesLabel.swift in Sources */,
-				637321DF25C8A6CC0013874C /* UIActivityIndicatorView+Bind.swift in Sources */,
-				637321E125C8A6CC0013874C /* UIView+Bind.swift in Sources */,
 				637321DC25C8A6CC0013874C /* UIView+Subviews.swift in Sources */,
-				637321E325C8A6CC0013874C /* UILabel+Bind.swift in Sources */,
-				637321E025C8A6CC0013874C /* UIButton+Bind.swift in Sources */,
+				6395F22B25DF0C5800B1F8E4 /* BehaviorRelayDriver.swift in Sources */,
 				637321D625C8A6CC0013874C /* UICollectionViewCell+CornerRadius.swift in Sources */,
 				637321DD25C8A6CC0013874C /* UIView+Animation.swift in Sources */,
+				6395F23925DF0C6F00B1F8E4 /* ReadOnlyActionViewModel.swift in Sources */,
+				6395F23725DF0C6F00B1F8E4 /* UIButton+ActionViewModel.swift in Sources */,
+				6395F23625DF0C6F00B1F8E4 /* ActionViewModel.swift in Sources */,
 				637321DB25C8A6CC0013874C /* UIView+Shadow.swift in Sources */,
 				637321D725C8A6CC0013874C /* UIStackView+Subviews.swift in Sources */,
 				637321E425C8A6CC0013874C /* AccessibilityElementModel.swift in Sources */,
 				637321E525C8A6CC0013874C /* UIAccessibilityTraits+AccessibilityElementTrait.swift in Sources */,
-				637321E225C8A6CC0013874C /* UIBarButtonItem+Bind.swift in Sources */,
+				6395F22C25DF0C5800B1F8E4 /* BehaviorRelay+TwoWayBind.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -547,8 +611,8 @@
 		};
 		637321BC25C8A6A90013874C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 74D3281EAA2C1AF264B00690 /* Pods-ZomatoUIKitTests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZomatoUIKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -565,8 +629,8 @@
 		};
 		637321BD25C8A6A90013874C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 066A93A7C3C854DA1DAE0112 /* Pods-ZomatoUIKitTests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = ZomatoUIKitTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (

@@ -24,6 +24,7 @@
 
 import Foundation
 import ZomatoFoundation
+import RxSwift
 
 final class RestaurantNetworkService {
     
@@ -44,9 +45,9 @@ extension RestaurantNetworkService: RestaurantNetworkServiceProtocol {
         offset: Int,
         pageSize: Int,
         position: CoordinateModel,
-        sort: Sort,
-        completion: @escaping (Result<SearchResultDTO<RestaurantDto>, ZomatoError>) -> Void
-    ) -> Cancellable {
+        sort: Sort
+    ) -> Single<SearchResultDTO<RestaurantDto>> {
+        
         let request = apiRequestBuilder.make(
             endPoint: RestaurantApi.search(
                 offset: offset,
@@ -56,13 +57,8 @@ extension RestaurantNetworkService: RestaurantNetworkServiceProtocol {
             )
         )
         
-        return network.request(request) { result in
-            switch result {
-            case .failure(let error):
-                let zomatoError = AppErrorMapper(context: .searchRestaurants).mapInput(error)
-                completion(.failure(zomatoError))
-                
-            case .success(let dataTuple):
+        return network.request(request)
+            .map { dataTuple -> SearchResultDTO<RestaurantDto> in
                 var page = RestaurantsDataDtoMapper().mapInput(dataTuple)
                 // API will return results found, but we can only query 100 max results
                 // We limit here, upper layers dont need to know abot this limitation
@@ -74,9 +70,14 @@ extension RestaurantNetworkService: RestaurantNetworkServiceProtocol {
                         elements: page.elements
                     )
                 }
-                completion(.success(page))
+                
+                return page
             }
-        }
+            .catch {
+                throw AppErrorMapper(
+                    context: ZomatoErrorContext.NetworkErrorContext.searchRestaurants
+                ).mapInput($0)
+            }
     }
     
 }

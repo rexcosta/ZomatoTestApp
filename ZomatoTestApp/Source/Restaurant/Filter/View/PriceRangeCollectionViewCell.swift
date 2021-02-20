@@ -23,19 +23,22 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
-import Kingfisher
 
 final class PriceRangeCollectionViewCell: UICollectionViewCell {
     
     private let priceLabel = UILabel().withSubTitleStyle
     
+    private var disposeBag = DisposeBag()
     var viewModel: PriceRangeCollectionViewCellViewModel? {
         didSet {
+            disposeBag = DisposeBag()
             if let viewModel = viewModel {
-                bind(to: viewModel)
+                bind(to: viewModel, disposeBag: disposeBag)
             }
         }
     }
@@ -60,8 +63,6 @@ final class PriceRangeCollectionViewCell: UICollectionViewCell {
             cornerRadius: contentView.layer.cornerRadius
         ).cgPath
     }
-    
-    private var tokens = [ObserverToken]()
     
 }
 
@@ -105,22 +106,24 @@ extension PriceRangeCollectionViewCell {
         ])
     }
     
-    private func bind(to viewModel: PriceRangeCollectionViewCellViewModel) {
-        tokens.removeAll()
-        
-        tokens.append(contentsOf: [
-            viewModel.title.observeWhileTokenAndTargetAlive(fire: true, target: self) { (me, newValue) in
-                me.priceLabel.text = newValue
-            },
+    private func bind(
+        to viewModel: PriceRangeCollectionViewCellViewModel,
+        disposeBag: DisposeBag
+    ) {
+        disposeBag.insert(
+            viewModel.title.drive(priceLabel.rx.text),
             
-            viewModel.isSelected.observeWhileTokenAndTargetAlive(fire: true, target: self) { (me, isSelected) in
-                if isSelected {
-                    me.contentView.backgroundColor = Theme.shared.primaryColor
-                } else {
-                    me.contentView.backgroundColor = Theme.shared.cellBackgroundColor
+            viewModel.isSelected
+                .asDriver()
+                .map { isSelected -> UIColor in
+                    if isSelected {
+                        return Theme.shared.primaryColor
+                    } else {
+                        return Theme.shared.cellBackgroundColor
+                    }
                 }
-            }
-        ])
+                .drive(contentView.rx.backgroundColor)
+        )
     }
     
 }

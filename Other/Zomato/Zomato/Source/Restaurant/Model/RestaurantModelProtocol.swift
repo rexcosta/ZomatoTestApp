@@ -22,7 +22,8 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
+import RxRelay
 import ZomatoFoundation
 
 // 1 being pocket friendly and 4 being the costliest
@@ -49,5 +50,5 @@ public protocol RestaurantModelProtocol {
     var timings: String? { get }
     var cuisines: [String] { get }
     var phoneNumbers: [String] { get }
-    var isFavourite: Property<RestaurantFavouriteStatus> { get }
+    var isFavourite: BehaviorRelay<RestaurantFavouriteStatus> { get }
 }

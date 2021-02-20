@@ -24,15 +24,17 @@
 
 import ZomatoFoundation
 
-public enum ZomatoError: Error {
-    case network(context: NetworkErrorContext, cause: NetworkError)
-    case database(context: DatabaseErrorContext, cause: Error)
+// MARK: ZomatoError
+public struct ZomatoError: Error {
+    public let context: ZomatoErrorContext
+    public let cause: Error?
 }
 
+// MARK: ZomatoError Equatable
 extension ZomatoError: Equatable {
     
     public static func == (lhs: ZomatoError, rhs: ZomatoError) -> Bool {
-        return false
+        return lhs.context == rhs.context
     }
     
 }

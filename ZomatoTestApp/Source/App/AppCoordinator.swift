@@ -22,31 +22,40 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
 import ZomatoFoundation
 import Zomato
 
-final class AppCoordinator {
+protocol AppCoordinatorProtocol {
+    func goHome()
+    func showRestaurantFilterOptions(restaurantsCollection: RestaurantsCollection)
+    func showLocationError(_ error: Error) -> LocationErrorViewControllerModel
+}
+
+final class AppCoordinator: AppCoordinatorProtocol {
     
-    let zomato: Zomato
+    private let zomato: Zomato
+    private var locationManager: LocationManager?
     
-    var appRootViewController: UIViewController?
+    private var appRootViewController: UIViewController?
     
     init(zomato: Zomato) {
         self.zomato = zomato
     }
     
     func appLaunch(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> UIWindow {
-        let locationManager = LocationManager(appCoordinator: self)
+        let locationManager = LocationManager()
+        self.locationManager = locationManager
         
         let rootViewController = RestaurantsViewController()
+        let restaurantsCollection = zomato.restaurantManager.searchRestaurants()
         rootViewController.viewModel = RestaurantsViewControllerModel(
             restaurantsListViewModel: RestaurantsListViewModel(
                 restaurantManager: zomato.restaurantManager,
-                restaurantsCollection: zomato.restaurantManager.searchRestaurants(),
-                locationManager: locationManager,
-                appCoordinator: self
+                restaurantsCollection: restaurantsCollection
             ),
+            restaurantsCollection: restaurantsCollection,
+            locationManager: locationManager,
             coordinator: self
         )
         
@@ -58,8 +67,6 @@ final class AppCoordinator {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
-        
-        locationManager.monitorLocation()
         
         return window
     }
@@ -80,16 +87,18 @@ final class AppCoordinator {
         present(viewController: navigationController)
     }
     
-    func showLocationError(_ error: LocationManager.LocationError) {
+    func showLocationError(_ error: Error) -> LocationErrorViewControllerModel {
         let filterViewController = LocationErrorViewController()
-        filterViewController.viewModel = LocationErrorViewControllerModel(
+        let viewModel = LocationErrorViewControllerModel(
             coordinator: self,
             error: error
         )
+        filterViewController.viewModel = viewModel
         let navigationController = UINavigationController(
             rootViewController: filterViewController
         )
         present(viewController: navigationController)
+        return viewModel
     }
     
 }

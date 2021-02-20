@@ -22,10 +22,11 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 
-public struct AccessibilityElementModel: Hashable {
+public struct AccessibilityElementModel {
     
     public enum Trait {
         case none
@@ -36,10 +37,22 @@ public struct AccessibilityElementModel: Hashable {
         case selected
     }
     
-    public let identifier: String?
-    public let label: String?
-    public let value: String?
-    public let traits: Set<Trait>
+    public let identifier: BehaviorRelay<String?>
+    public let label: BehaviorRelay<String?>
+    public let value: BehaviorRelay<String?>
+    public let traits: BehaviorRelay<Set<Trait>>
+    
+    public init(
+        identifier: BehaviorRelay<String?>,
+        label: BehaviorRelay<String?>,
+        value: BehaviorRelay<String?>,
+        traits: BehaviorRelay<Set<Trait>>
+    ) {
+        self.identifier = identifier
+        self.label = label
+        self.value = value
+        self.traits = traits
+    }
     
     public init(
         identifier: String? = nil,
@@ -47,10 +60,12 @@ public struct AccessibilityElementModel: Hashable {
         value: String? = nil,
         traits: Set<Trait>
     ) {
-        self.identifier = identifier
-        self.label = label
-        self.value = value
-        self.traits = Set(traits)
+        self.init(
+            identifier: BehaviorRelay<String?>(value: identifier),
+            label: BehaviorRelay<String?>(value: label),
+            value: BehaviorRelay<String?>(value: value),
+            traits: BehaviorRelay<Set<Trait>>(value: traits)
+        )
     }
     
     public init(
@@ -59,10 +74,19 @@ public struct AccessibilityElementModel: Hashable {
         value: String? = nil,
         traits: [Trait] = [Trait]()
     ) {
-        self.identifier = identifier
-        self.label = label
-        self.value = value
-        self.traits = Set(traits)
+        self.init(
+            identifier: identifier,
+            label: label,
+            value: value,
+            traits: Set(traits)
+        )
+    }
+    
+    public func clear() {
+        identifier.accept(nil)
+        label.accept(nil)
+        value.accept(nil)
+        traits.accept(Set())
     }
     
 }
@@ -77,39 +101,8 @@ extension AccessibilityElementModel {
         self.init(
             identifier: accessibilityString.key,
             label: accessibilityString.value,
-            traits: traits
-        )
-    }
-    
-}
-
-// MARK: - Set
-extension AccessibilityElementModel {
-    
-    public func set(identifier: String?) -> AccessibilityElementModel {
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: traits
-        )
-    }
-    
-    public func set(label: String?) -> AccessibilityElementModel {
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: traits
-        )
-    }
-    
-    public func set(value: String?) -> AccessibilityElementModel {
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: traits
+            value: nil,
+            traits: Set(traits)
         )
     }
     
@@ -118,55 +111,36 @@ extension AccessibilityElementModel {
 // MARK: - AccessibilityElementModel Trait
 extension AccessibilityElementModel {
     
-    public func set(traits: Trait...) -> AccessibilityElementModel {
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: Set(traits)
-        )
+    public func set(traits: Trait...) {
+        self.traits.accept(Set(traits))
     }
     
-    public func set(traits: Set<Trait>) -> AccessibilityElementModel {
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: traits
-        )
+    public func set(traits: Set<Trait>) {
+        self.traits.accept(traits)
     }
     
-    public func append(trait: Trait) -> AccessibilityElementModel {
-        var mutableTraits = traits
+    public func append(trait: Trait) {
+        var mutableTraits = traits.value
         mutableTraits.insert(trait)
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: mutableTraits
-        )
+        traits.accept(mutableTraits)
     }
     
-    public func append(traits: [Trait]) -> AccessibilityElementModel {
-        var mutableTraits = traits
-        mutableTraits.append(contentsOf: traits)
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: Set<Trait>(mutableTraits)
-        )
+    public func append(traits: [Trait]) {
+        var mutableTraits = self.traits.value
+        traits.forEach { mutableTraits.insert($0) }
+        self.traits.accept(mutableTraits)
     }
     
-    public func remove(trait: Trait) -> AccessibilityElementModel {
-        var mutableTraits = traits
+    public func remove(trait: Trait) {
+        var mutableTraits = traits.value
         mutableTraits.remove(trait)
-        return AccessibilityElementModel(
-            identifier: identifier,
-            label: label,
-            value: value,
-            traits: mutableTraits
-        )
+        traits.accept(mutableTraits)
+    }
+    
+    public func remove(traits: [Trait]) {
+        var mutableTraits = self.traits.value
+        traits.forEach { mutableTraits.remove($0) }
+        self.traits.accept(mutableTraits)
     }
     
 }

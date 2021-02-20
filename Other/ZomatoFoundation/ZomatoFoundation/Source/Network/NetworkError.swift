@@ -28,5 +28,36 @@ public enum NetworkError: Error {
     case unknown(cause: Error?)
     case unableToBuildRequest(_ request: NetworkRequest)
     case invalidStatusCode(code: Int)
+    case timedOut(cause: URLError)
+    case cancelled(cause: URLError)
+    case notConnectedToInternet(cause: URLError)
     case networkError(cause: URLError)
+}
+
+extension NetworkError {
+    
+    public static func from(error: Error?) -> NetworkError? {
+        guard let error = error else {
+            return nil
+        }
+        
+        guard let urlError = error as? URLError else {
+            return .unknown(cause: error)
+        }
+        
+        switch urlError.code {
+        case .timedOut:
+            return .timedOut(cause: urlError)
+            
+        case .notConnectedToInternet:
+            return .notConnectedToInternet(cause: urlError)
+            
+        case .cancelled:
+            return .cancelled(cause: urlError)
+            
+        default:
+            return .networkError(cause: urlError)
+        }
+    }
+    
 }

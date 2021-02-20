@@ -22,16 +22,15 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
 
 protocol RestaurantRepositoryProtocol {
     
-    func isRestaurantFavourite(id: String) -> Bool
+    func isRestaurantFavourite(id: String) -> Single<Bool>
     
     func saveRestaurantFavourite(
         id: String,
-        isFavourite: Bool,
-        completion: @escaping (_ error: ZomatoError?) -> Void
-    )
+        isFavourite: Bool
+    ) -> Completable
     
 }

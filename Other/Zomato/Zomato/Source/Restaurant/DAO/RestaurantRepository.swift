@@ -22,7 +22,7 @@
 // SOFTWARE.
 //
 
-import Foundation
+import RxSwift
 import ZomatoFoundation
 
 final class RestaurantRepository {
@@ -52,57 +52,72 @@ final class RestaurantRepository {
 // MARK: RestaurantRepositoryProtocol
 extension RestaurantRepository: RestaurantRepositoryProtocol {
     
-    func isRestaurantFavourite(id: String) -> Bool {
-        return database.performAndWait { database -> Bool in
-            do {
-                var countResult = 0
-                try database.execute(
-                    statement: RestaurantSql.countRestaurantFavourite,
-                    doBindings: { statement in
-                        try statement.bind(position: 0, id)
-                    },
-                    handleRow: { statement in
-                        countResult = try statement.columnInt(position: 0)
-                    }
-                )
-                
-                return countResult != 0
-            } catch {
-                Log.error("RestaurantRepository", "Error counting restaurant \(id) \(error)")
-                return false
+    func isRestaurantFavourite(id: String) -> Single<Bool> {
+        return Single.create { single -> Disposable in
+            self.database.perform { database  in
+                do {
+                    var countResult = 0
+                    try database.execute(
+                        statement: RestaurantSql.countRestaurantFavourite,
+                        doBindings: { statement in
+                            try statement.bind(position: 0, id)
+                        },
+                        handleRow: { statement in
+                            countResult = try statement.columnInt(position: 0)
+                        }
+                    )
+                    
+                    single(.success(countResult != 0))
+                } catch {
+                    Log.error("RestaurantRepository", "Error counting restaurant \(id) \(error)")
+                    let zomatoError = ZomatoError(
+                        context: ZomatoErrorContext.Database.readingIsRestaurantFavourite,
+                        cause: error
+                    )
+                    single(.failure(zomatoError))
+                }
             }
+            
+            return Disposables.create()
         }
     }
     
     func saveRestaurantFavourite(
         id: String,
-        isFavourite: Bool,
-        completion: @escaping (_ error: ZomatoError?) -> Void
-    ) {
-        database.perform { database in
-            do {
-                let sql: String
-                if isFavourite {
-                    sql = RestaurantSql.insertRestaurantFavourite
-                    Log.verbose("RestaurantRepository", "Using insert restaurant sql")
-                } else {
-                    sql = RestaurantSql.deleteRestaurantFavourite
-                    Log.verbose("RestaurantRepository", "Using delete restaurant sql")
-                }
-                
-                try database.execute(
-                    statement: sql,
-                    doBindings: { statement in
-                        try statement.bind(position: 0, id)
+        isFavourite: Bool
+    ) -> Completable {
+        return Completable.create { completable -> Disposable in
+            self.database.perform { database in
+                do {
+                    let sql: String
+                    if isFavourite {
+                        sql = RestaurantSql.insertRestaurantFavourite
+                        Log.verbose("RestaurantRepository", "Using insert restaurant sql")
+                    } else {
+                        sql = RestaurantSql.deleteRestaurantFavourite
+                        Log.verbose("RestaurantRepository", "Using delete restaurant sql")
                     }
-                )
-                Log.verbose("RestaurantRepository", "Update restaurant with success")
-                completion(nil)
-                
-            } catch {
-                Log.error("RestaurantRepository", "Error saving restaurant \(id) \(error)")
-                completion(ZomatoError.database(context: .savingRestaurant, cause: error))
+                    
+                    try database.execute(
+                        statement: sql,
+                        doBindings: { statement in
+                            try statement.bind(position: 0, id)
+                        }
+                    )
+                    Log.verbose("RestaurantRepository", "Update restaurant with success")
+                    completable(.completed)
+                    
+                } catch {
+                    Log.error("RestaurantRepository", "Error saving restaurant \(id) \(error)")
+                    let zomatoError = ZomatoError(
+                        context: ZomatoErrorContext.Database.savingIsRestaurantFavourite,
+                        cause: error
+                    )
+                    completable(.error(zomatoError))
+                }
             }
+            
+            return Disposables.create()
         }
     }
     

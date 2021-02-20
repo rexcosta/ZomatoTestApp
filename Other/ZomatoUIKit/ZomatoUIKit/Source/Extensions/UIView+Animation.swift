@@ -55,12 +55,12 @@ extension UIView {
     
 }
 
-// MARK: Bounce
+// MARK: Fade
 extension UIView {
     
     public func fadeIn(withDuration duration: TimeInterval) {
-        alpha = 1.0
-        isHidden = false
+        alpha = 0.0
+        isHidden = true
         UIView.animate(
             withDuration: duration,
             animations: { self.alpha = 1.0 },

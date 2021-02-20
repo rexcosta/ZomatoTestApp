@@ -24,6 +24,10 @@
 
 import Foundation
 
-public enum NetworkErrorContext: Equatable {
-    case searchRestaurants
+extension ZomatoErrorContext {
+    
+    public enum NetworkErrorContext {
+        public static let searchRestaurants = ZomatoErrorContext("network", "searchRestaurants", 4000)
+    }
+    
 }

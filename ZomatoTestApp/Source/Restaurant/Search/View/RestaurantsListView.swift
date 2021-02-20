@@ -22,7 +22,8 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
@@ -56,10 +57,12 @@ final class RestaurantsListView: UIView {
     
     private let restaurantCellConfigurator = RestaurantCellConfigurator()
     
+    private var disposeBag = DisposeBag()
     var viewModel: RestaurantsListViewModel? {
         didSet {
+            disposeBag = DisposeBag()
             if let viewModel = viewModel {
-                bind(to: viewModel)
+                bind(to: viewModel, disposeBag: disposeBag)
             }
         }
     }
@@ -175,34 +178,35 @@ extension RestaurantsListView {
 // MARK: Bind
 extension RestaurantsListView {
     
-    private func bind(to viewModel: RestaurantsListViewModel) {
-        viewModel.readOnlyCollectionDataChange.observeOnMainContext(
-            fire: true,
-            whileTargetAlive: self
-        ) { (me, dataChange) in
-            me.receivedNew(viewModelDataChange: dataChange)
-        }
-        
+    private func bind(
+        to viewModel: RestaurantsListViewModel,
+        disposeBag: DisposeBag
+    ) {
         fullScreenStateView.viewModel = viewModel.fullScreenState
-        viewModel.fullScreenStateVisible.observeOnMainContext(
-            fire: true,
-            whileTargetAlive: fullScreenStateView
-        ) { (fullScreenStateView, isVisible) in
-            if isVisible {
-                fullScreenStateView.fadeIn(withDuration: 0.66)
-            } else {
-                fullScreenStateView.fadeOut(withDuration: 0.33)
-                
-            }
-        }
-        
         bottomStateView.viewModel = viewModel.bottomScreenState
-        viewModel.bottomScreenStateVisible.observeOnMainContext(
-            fire: true,
-            whileTargetAlive: bottomStateView
-        ) { (bottomStateView, newValue) in
-            bottomStateView.isHidden = !newValue
-        }
+        
+        disposeBag.insert(
+            viewModel.collectionDataChangeReadOnly.driver
+                .distinctUntilChanged()
+                .drive(with: self) { (me, dataChange) in
+                    me.receivedNew(viewModelDataChange: dataChange)
+                },
+            
+            viewModel.fullScreenStateVisibleReadOnly.driver
+                .distinctUntilChanged()
+                .drive(with: fullScreenStateView) { (fullScreenStateView, isVisible) in
+                    if isVisible {
+                        fullScreenStateView.fadeIn(withDuration: 0.66)
+                    } else {
+                        fullScreenStateView.fadeOut(withDuration: 0.33)
+                    }
+                },
+            
+            viewModel.bottomScreenStateVisibleReadOnly.driver
+                .distinctUntilChanged()
+                .not()
+                .drive(bottomStateView.rx.isHidden)
+        )
     }
     
     private func receivedNew(viewModelDataChange: RestaurantsListViewModel.DataChange) {

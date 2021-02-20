@@ -22,11 +22,11 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
+import RxCocoa
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
-import Kingfisher
 
 final class RestaurantCollectionViewCell: UICollectionViewCell {
     
@@ -47,6 +47,10 @@ final class RestaurantCollectionViewCell: UICollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.tintColor = Theme.shared.primaryColor
     }
+    private let favouriteTapGesture = UITapGestureRecognizer(target: nil, action: nil).with {
+        $0.numberOfTapsRequired = 2
+        $0.delaysTouchesBegan = true
+    }
     private let distanceLabel = RoundEdgesLabel().with {
         $0.translatesAutoresizingMaskIntoConstraints = false
         _ = $0.label.withLabelStyle
@@ -58,8 +62,9 @@ final class RestaurantCollectionViewCell: UICollectionViewCell {
     }
     private let priceRangeLabel = UILabel().withTextStyle
     
+    private let disposeBag = DisposeBag()
     let viewModel = RestaurantCollectionViewCellViewModel()
-    let accessibilityModel = RestaurantCollectionViewCellAccessibilityModel()
+    private let accessibilityModel = RestaurantCollectionViewCellAccessibilityModel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -68,10 +73,11 @@ final class RestaurantCollectionViewCell: UICollectionViewCell {
         setupViewHierarchy()
         setupConstraints()
         
-        bind(to: viewModel)
+        bind(to: viewModel, disposeBag: disposeBag)
         bind(
             accessibilityModel: accessibilityModel,
-            to: viewModel
+            to: viewModel,
+            disposeBag: disposeBag
         )
     }
     
@@ -102,16 +108,7 @@ extension RestaurantCollectionViewCell {
             shadowOpacity: 0.3
         )
         
-        favouriteButton.addTarget(
-            self,
-            action: #selector(onUserDidPressFavouriteAction),
-            for: .touchUpInside
-        )
-        
-        let doubleTap = UITapGestureRecognizer(target: self, action: #selector(onUserDidPressFavouriteAction))
-        doubleTap.numberOfTapsRequired = 2
-        doubleTap.delaysTouchesBegan = true
-        contentView.addGestureRecognizer(doubleTap)
+        contentView.addGestureRecognizer(favouriteTapGesture)
     }
     
     private func setupViewHierarchy() {
@@ -164,95 +161,107 @@ extension RestaurantCollectionViewCell {
     
     private func bind(
         accessibilityModel: RestaurantCollectionViewCellAccessibilityModel,
-        to viewModel: RestaurantCollectionViewCellViewModel
+        to viewModel: RestaurantCollectionViewCellViewModel,
+        disposeBag: DisposeBag
     ) {
-        accessibilityModel.bind(viewModel: viewModel)
+        accessibilityModel.bind(to: viewModel)
         
-        distanceLabel.label.bindAccessibility(to: accessibilityModel.distanceAccessibility)
-        nameLabel.bindAccessibility(to: accessibilityModel.nameAccessibility)
-        cuisinesLabel.bindAccessibility(to: accessibilityModel.cuisinesAccessibility)
-        timingsLabel.bindAccessibility(to: accessibilityModel.timingsAccessibility)
-        priceRangeLabel.bindAccessibility(to: accessibilityModel.priceRangeAccessibility)
-        favouriteButton.bindAccessibility(to: accessibilityModel.favouriteButtonAccessibility)
+        disposeBag.insert(
+            distanceLabel.label.bind(accessibilityModel: accessibilityModel.distanceAccessibility),
+            nameLabel.bind(accessibilityModel: accessibilityModel.nameAccessibility),
+            cuisinesLabel.bind(accessibilityModel: accessibilityModel.cuisinesAccessibility),
+            timingsLabel.bind(accessibilityModel: accessibilityModel.timingsAccessibility),
+            priceRangeLabel.bind(accessibilityModel: accessibilityModel.priceRangeAccessibility),
+            favouriteButton.bind(accessibilityModel: accessibilityModel.favouriteButtonAccessibility)
+        )
     }
     
-    private func bind(to viewModel: RestaurantCollectionViewCellViewModel) {
-        nameLabel.bindText(to: viewModel.name)
-        cuisinesLabel.bindText(to: viewModel.cuisines)
-        timingsLabel.bindText(to: viewModel.timings)
-        priceRangeLabel.bindText(to: viewModel.priceRange)
-        
-        viewModel.distance.observeOnMainContext(
-            fire: true,
-            whileTargetAlive: distanceLabel
-        ) { (distanceLabel, distance) in
-            switch distance {
-            case .near(let title):
-                distanceLabel.set(
-                    text: title,
-                    backgroundColor: Theme.shared.distance.near
-                )
-                
-            case .nearby(let title):
-                distanceLabel.set(
-                    text: title,
-                    backgroundColor: Theme.shared.distance.nearby
-                )
-                
-            case .far(let title):
-                distanceLabel.set(
-                    text: title,
-                    backgroundColor: Theme.shared.distance.far
-                )
-                
-            case .unknown(let title):
-                distanceLabel.set(
-                    text: title,
-                    backgroundColor: Theme.shared.distance.far
-                )
-            }
-        }
-        
-        viewModel.favouriteButton.observeOnMainContext(
-            fire: true,
-            whileTargetAlive: favouriteButton
-        ) { (favouriteButton, newValue) in
-            switch newValue {
-            case .unknown(let isHidden, let image):
-                favouriteButton.isHidden = isHidden
-                favouriteButton.setImage(image, for: .normal)
-                
-            case .favourite(let isHidden, let image):
-                favouriteButton.isHidden = isHidden
-                favouriteButton.setImage(image, for: .normal)
-                favouriteButton.fastBounce()
-                
-            case .notFavourite(let isHidden, let image):
-                favouriteButton.isHidden = isHidden
-                favouriteButton.setImage(image, for: .normal)
-                favouriteButton.fastBounce()
-            }
-        }
-        
-        viewModel.thumbnailImage.observeOnMainContext(
-            fire: true,
-            whileTargetAlive: thumbnailImageView
-        ) { (thumbnailImageView, url) in
-            thumbnailImageView.kf.setImage(
-                with: url,
+    private func bind(
+        to viewModel: RestaurantCollectionViewCellViewModel,
+        disposeBag: DisposeBag
+    ) {
+        disposeBag.insert(
+            viewModel.nameReadOnly.driver
+                .drive(nameLabel.rx.text),
+            
+            viewModel.cuisinesReadOnly.driver
+                .drive(cuisinesLabel.rx.text),
+            
+            viewModel.timingsReadOnly.driver
+                .drive(timingsLabel.rx.text),
+            
+            viewModel.priceRangeReadOnly.driver
+                .drive(priceRangeLabel.rx.text),
+            
+            viewModel.distanceReadOnly.driver
+                .drive(with: self) { $0.set(distance: $1) },
+            
+            viewModel.thumbnailImageReadOnly.drive(
+                imageView: thumbnailImageView,
                 placeholder: Asset.placeholder.image
+            ),
+            
+            favouriteButton.bind(action: viewModel.favouriteActionReadOnly),
+            favouriteTapGesture.bind(action: viewModel.favouriteActionReadOnly),
+            viewModel.isFavouriteReadOnly.driver
+                .distinctUntilChanged()
+                .drive(with: favouriteButton) { (favouriteButton, isFavourite) in
+                    switch isFavourite {
+                    case .unknown:
+                        break
+                        
+                    case .favourite, .notFavourite:
+                        favouriteButton.fastBounce()
+                    }
+                }
+        )
+    }
+    
+    private func set(distance: RestaurantCollectionViewCellViewModel.Distance) {
+        switch distance {
+        case .near(let title):
+            distanceLabel.set(
+                text: title,
+                backgroundColor: Theme.shared.distance.near
+            )
+            
+        case .nearby(let title):
+            distanceLabel.set(
+                text: title,
+                backgroundColor: Theme.shared.distance.nearby
+            )
+            
+        case .far(let title):
+            distanceLabel.set(
+                text: title,
+                backgroundColor: Theme.shared.distance.far
+            )
+            
+        case .unknown(let title):
+            distanceLabel.set(
+                text: title,
+                backgroundColor: Theme.shared.distance.far
             )
         }
     }
     
-}
-
-// MARK: Listeners
-extension RestaurantCollectionViewCell {
-    
-    @objc
-    private func onUserDidPressFavouriteAction() {
-        viewModel.onUserDidPressFavouriteAction()
-    }
+    /*
+    private func set(button: RestaurantCollectionViewCellViewModel.FavouriteButton) {
+        switch button {
+        case .unknown(let isHidden, let image):
+            favouriteButton.isHidden = isHidden
+            favouriteButton.setImage(image, for: .normal)
+            
+        case .favourite(let isHidden, let image):
+            favouriteButton.isHidden = isHidden
+            favouriteButton.setImage(image, for: .normal)
+            favouriteButton.fastBounce()
+            
+        case .notFavourite(let isHidden, let image):
+            favouriteButton.isHidden = isHidden
+            favouriteButton.setImage(image, for: .normal)
+            favouriteButton.fastBounce()
+        }
+    }*/
     
 }

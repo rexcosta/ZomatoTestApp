@@ -29,7 +29,8 @@ import Zomato
 @main
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     
-    var appCoordinator: AppCoordinator?
+    private var appCoordinator: AppCoordinator?
+    
     var window: UIWindow?
     
     func application(

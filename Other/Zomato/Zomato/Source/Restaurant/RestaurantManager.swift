@@ -24,6 +24,7 @@
 
 import Foundation
 import ZomatoFoundation
+import RxSwift
 
 final class RestaurantManager {
     
@@ -46,72 +47,79 @@ extension RestaurantManager: RestaurantManagerProtocol {
     func searchRestaurants(
         offset: Int,
         position: CoordinateModel,
-        sort: Sort,
-        completion: @escaping (Result<PageModel<RestaurantModelProtocol>, ZomatoError>) -> Void
-    ) -> Cancellable {
+        sort: Sort
+    ) -> Single<PageModel<RestaurantModelProtocol>> {
         let pageSize = 20
         return restaurantNetworkService.request(
             offset: offset,
             pageSize: pageSize,
             position: position,
             sort: sort
-        ) { [weak self] result in
-            switch result {
-            case .failure(let error):
-                completion(.failure(error))
-                
-            case .success(let dtoPage):
-                guard let self = self else {
-                    completion(.success(PageModel.empty()))
-                    return
-                }
-                let page = self.replaceDtoPageWithProxies(dtoPage: dtoPage)
-                completion(.success(page))
+        )
+        .map { [weak self] dtoPage -> PageModel<RestaurantModelProtocol> in
+            guard let self = self else {
+                return PageModel.empty()
             }
+            return self.replaceDtoPageWithProxies(
+                dtoPage: dtoPage
+            )
         }
     }
     
     func save(
-        restaurant: RestaurantModelProtocol,
-        completion: @escaping (_ error: ZomatoError?) -> Void
-    ) {
-        let revertIfErrorSaving = { (_ error: ZomatoError?) -> Void in
-            DispatchQueue.main.async {
-                defer {
-                    completion(error)
-                }
-                guard error != nil else {
-                    return
-                }
+        restaurant: RestaurantModelProtocol
+    ) -> Completable {
+        return Completable.create { completable -> Disposable in
+            
+            let isFavourite: Bool
+            switch restaurant.isFavourite.value {
+            case .favourite:
+                isFavourite = true
                 
-                switch restaurant.isFavourite.value {
-                case .favourite, .unknown:
-                    restaurant.isFavourite.value = .notFavourite
+            case .notFavourite:
+                isFavourite = false
+                
+            case .unknown:
+                completable(.completed)
+                return Disposables.create()
+            }
+            
+            return self.restaurantRepository.saveRestaurantFavourite(
+                id: restaurant.id,
+                isFavourite: isFavourite
+            )
+            .observe(on: MainScheduler.instance)
+            .subscribe(
+                onCompleted: {
+                    completable(.completed)
+                },
+                onError: { error in
+                    // Revert change
+                    if isFavourite {
+                        restaurant.isFavourite.accept(.notFavourite)
+                    } else {
+                        restaurant.isFavourite.accept(.favourite)
+                    }
+                    completable(.error(error))
                     
-                case .notFavourite:
-                    restaurant.isFavourite.value = .favourite
+                },
+                onDisposed: nil
+            )
+        }.subscribe(on: MainScheduler.instance)
+    }
+    
+    func isRestaurantFavourite(
+        restaurant: RestaurantModelProtocol
+    ) -> Single<RestaurantFavouriteStatus> {
+        return restaurantRepository
+            .isRestaurantFavourite(id: restaurant.id)
+            .map { result -> RestaurantFavouriteStatus in
+                if result {
+                    return .favourite
+                } else {
+                    return .notFavourite
                 }
             }
-        }
-        
-        switch restaurant.isFavourite.value {
-        case .favourite:
-            restaurantRepository.saveRestaurantFavourite(
-                id: restaurant.id,
-                isFavourite: true,
-                completion: revertIfErrorSaving
-            )
-            
-        case .notFavourite:
-            restaurantRepository.saveRestaurantFavourite(
-                id: restaurant.id,
-                isFavourite: false,
-                completion: revertIfErrorSaving
-            )
-            
-        case .unknown:
-            break
-        }
     }
     
     func searchRestaurants() -> RestaurantsCollection {
@@ -128,42 +136,31 @@ extension RestaurantManager {
     ) -> PageModel<RestaurantModelProtocol> {
         let restaurantModelPage = RestaurantsDtoModelMapper().mapInput(dtoPage)
         
-        let lazyLoadFavourite = { [weak self] (_ restaurant: RestaurantModel) -> Void in
-            self?.loadIsFavouritePropery(for: restaurant)
+        let isFavouritePropertyLoader = { [weak self] (restaurant: RestaurantModelProtocol) -> Infallible<RestaurantFavouriteStatus> in
+            guard let self = self else {
+                return Infallible.empty()
+            }
+            guard restaurant.isFavourite.value == .unknown else {
+                return Infallible.empty()
+            }
+            
+            return self.isRestaurantFavourite(restaurant: restaurant)
+                .asInfallible(onErrorJustReturn: RestaurantFavouriteStatus.unknown)
         }
         
         let restaurantProxyModelPage: PageModel<RestaurantModelProtocol> = PageModel(
             totalResults: restaurantModelPage.totalResults,
             offset: restaurantModelPage.offset,
             pageSize: restaurantModelPage.pageSize,
-            elements: restaurantModelPage.elements.map {
-                RestaurantModelProxy(
-                    restaurantModel: $0,
-                    lazyLoadFavourite: lazyLoadFavourite
+            elements: restaurantModelPage.elements.map { restaurant in
+                RestaurantModelProxy.makeProxy(
+                    restaurantModel: restaurant,
+                    isFavouritePropertyLoader: isFavouritePropertyLoader
                 )
             }
         )
         
         return restaurantProxyModelPage
-    }
-    
-    private func loadIsFavouritePropery(for restaurant: RestaurantModel) {
-        guard restaurant.isFavourite.value == .unknown else {
-            return
-        }
-        
-        DispatchQueue.global(qos: .userInteractive).async { [weak self] in
-            guard let self = self else { return }
-            
-            let result = self.restaurantRepository.isRestaurantFavourite(id: restaurant.id)
-            DispatchQueue.main.async {
-                if result {
-                    restaurant.isFavourite.value = .favourite
-                } else {
-                    restaurant.isFavourite.value = .notFavourite
-                }
-            }
-        }
     }
     
 }

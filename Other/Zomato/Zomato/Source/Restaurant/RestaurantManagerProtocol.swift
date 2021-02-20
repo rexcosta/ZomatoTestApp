@@ -24,20 +24,23 @@
 
 import Foundation
 import ZomatoFoundation
+import RxSwift
 
 public protocol RestaurantManagerProtocol {
     
     func searchRestaurants(
         offset: Int,
         position: CoordinateModel,
-        sort: Sort,
-        completion: @escaping (Result<PageModel<RestaurantModelProtocol>, ZomatoError>) -> Void
-    ) -> Cancellable
+        sort: Sort
+    ) -> Single<PageModel<RestaurantModelProtocol>>
     
     func save(
-        restaurant: RestaurantModelProtocol,
-        completion: @escaping (_ error: ZomatoError?) -> Void
-    )
+        restaurant: RestaurantModelProtocol
+    ) -> Completable
+    
+    func isRestaurantFavourite(
+        restaurant: RestaurantModelProtocol
+    ) -> Single<RestaurantFavouriteStatus>
     
     func searchRestaurants() -> RestaurantsCollection
     

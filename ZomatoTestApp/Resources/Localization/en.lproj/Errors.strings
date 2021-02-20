@@ -1,0 +1,14 @@
+
+"error.zomato.global.unknown.-1"="Oops! Something went wrong!\nHelp us improve your experience by sending an error report.";
+
+"error.zomato.database.savingRestaurant.2000"="Unable to save the restaurant favourite status.";
+"error.zomato.database.readingRestaurant.2001"="Unable to read the restaurant favourite status.";
+
+"error.zomato.network.searchRestaurants.4000"="Unable to fetch the restaurant data from our server.";
+
+"error.zomato.app.global.unknown.-2"="Oops! Something went wrong!\nHelp us improve your experience by sending an error report.";
+
+"error.zomato.app.location.restricted.10000"="The access to your location is restricted.";
+"error.zomato.app.location.denied.10001"="The access to your location has been denied.";
+"error.zomato.app.location.invalidStatus.10002"="Oops! Something went wrong retrieving your location!\nHelp us improve your experience by sending an error report.";
+"error.zomato.app.location.unknown.10003"="Oops! Something went wrong retrieving your location!\nTry again later.";

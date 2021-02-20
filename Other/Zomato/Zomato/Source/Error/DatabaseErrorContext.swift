@@ -24,6 +24,11 @@
 
 import Foundation
 
-public enum DatabaseErrorContext: Equatable {
-    case savingRestaurant
+extension ZomatoErrorContext {
+    
+    public enum Database {
+        public static let savingIsRestaurantFavourite = ZomatoErrorContext("database", "savingRestaurant", 2000)
+        public static let readingIsRestaurantFavourite = ZomatoErrorContext("database", "readingRestaurant", 2001)
+    }
+    
 }

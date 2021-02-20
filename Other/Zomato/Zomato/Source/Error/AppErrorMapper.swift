@@ -26,10 +26,24 @@ import ZomatoFoundation
 
 struct AppErrorMapper: ObjectMapper {
     
-    let context: NetworkErrorContext
+    let context: ZomatoErrorContext?
     
-    func mapInput(_ input: NetworkError) -> ZomatoError {
-        return ZomatoError.network(context: context, cause: input)
+    init() {
+        self.context = nil
+    }
+    
+    init(context: ZomatoErrorContext) {
+        self.context = context
+    }
+    
+    func mapInput(_ input: Error) -> ZomatoError {
+        if let isZomatoError = input as? ZomatoError {
+            return isZomatoError
+        }
+        guard let context = context else {
+            return ZomatoError(context: ZomatoErrorContext.unknown, cause: nil)
+        }
+        return ZomatoError(context: context, cause: input)
     }
     
 }
