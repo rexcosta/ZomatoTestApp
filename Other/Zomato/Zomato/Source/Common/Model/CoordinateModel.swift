@@ -24,7 +24,7 @@
 
 import Foundation
 
-public struct CoordinateModel {
+public struct CoordinateModel: Equatable {
     
     public let latitude: Double
     public let longitude: Double
@@ -43,8 +43,14 @@ import CoreLocation
 extension CoordinateModel {
     
     public init(coordinate: CLLocationCoordinate2D) {
-        self.latitude = coordinate.latitude
-        self.longitude = coordinate.longitude
+        self.init(latitude: coordinate.latitude, longitude: coordinate.longitude)
+    }
+    
+    public init?(location: CLLocation?) {
+        guard let coordinate = location?.coordinate else {
+            return nil
+        }
+        self.init(coordinate: coordinate)
     }
     
     public func distanceInMeters(to: CoordinateModel) -> CLLocationDistance {

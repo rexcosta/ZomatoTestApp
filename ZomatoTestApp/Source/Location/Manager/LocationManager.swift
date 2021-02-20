@@ -28,74 +28,75 @@ import CoreLocation
 import ZomatoFoundation
 import ZomatoUIKit
 
-final class LocationManager: NSObject, LocationManagerProtocol {
+final class LocationManager: LocationManagerProtocol {
     
-    private lazy var locationManager = CLLocationManager()
-    
-    private let appCoordinator: AppCoordinator
-    
-    private let userLocation = BehaviorRelay<CLLocation?>(value: nil)
-    var userLocationReadOnly: BehaviorRelayDriver<CLLocation?> {
-        return userLocation.readOnlyDriver
-    }
-    
-    init(appCoordinator: AppCoordinator) {
-        self.appCoordinator = appCoordinator
-        super.init()
-    }
-    
-    func monitorLocation() {
-        locationManager.delegate = self
-        locationManager.requestWhenInUseAuthorization()
-        Log.info("LocationManager", "Will monitor location")
+    func currentLocation() -> Observable<CLLocation?> {
+        return Observable.create { observer -> Disposable in
+            
+            observer.onNext(nil)
+            
+            var locationManager: CLLocationManager? = CLLocationManager()
+            var delegate: LocationManagerDelegate? = LocationManagerDelegate()
+            
+            delegate?.didFailWithError = { error in
+                observer.onError(Location.LocationError.unknown(error))
+            }
+            
+            delegate?.didChangeAuthorization = { status in
+                switch status {
+                case .notDetermined:
+                    // Ignore, user will make a decision
+                    break
+                    
+                case .restricted:
+                    observer.onError(Location.LocationError.restricted)
+                    
+                case .denied:
+                    observer.onError(Location.LocationError.denied)
+                    
+                case .authorizedAlways, .authorizedWhenInUse:
+                    locationManager?.requestLocation()
+                    
+                @unknown default:
+                    observer.onError(Location.LocationError.unknown(nil))
+                }
+            }
+            
+            delegate?.didUpdateLocations = { locations in
+                observer.onNext(locations.first)
+                observer.onCompleted()
+            }
+            
+            locationManager?.delegate = delegate
+            
+            locationManager?.requestWhenInUseAuthorization()
+            
+            return Disposables.create {
+                locationManager = nil
+                delegate = nil
+            }
+        }
     }
     
 }
 
 // MARK: CLLocationManagerDelegate
-extension LocationManager: CLLocationManagerDelegate {
+private class LocationManagerDelegate: NSObject, CLLocationManagerDelegate {
+    
+    var didFailWithError: ((_ error: Error) -> Void)?
+    var didChangeAuthorization: ((_ status: CLAuthorizationStatus) -> Void)?
+    var didUpdateLocations: ((_ locations: [CLLocation]) -> Void)?
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        Log.error("LocationManager", "CLLocationManagerDelegate didFailWithError \(error)")
-        DispatchQueue.main.async {
-            self.appCoordinator.showLocationError(.unknown)
-        }
+        didFailWithError?(error)
     }
     
     func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        Log.info("LocationManager", "CLLocationManagerDelegate didChangeAuthorization \(status.rawValue)")
-        
-        DispatchQueue.main.async {
-            switch status {
-            case .notDetermined:
-                // Ignore, user will make a decision
-                break
-                
-            case .restricted:
-                self.appCoordinator.showLocationError(.restricted)
-                
-            case .denied:
-                self.appCoordinator.showLocationError(.denied)
-                
-            case .authorizedAlways, .authorizedWhenInUse:
-                manager.requestLocation()
-                
-            @unknown default:
-                self.appCoordinator.showLocationError(.unknown)
-            }
-        }
+        didChangeAuthorization?(status)
     }
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else {
-            Log.warning("LocationManager", "CLLocationManagerDelegate didUpdateLocations did not found location")
-            return
-        }
-        
-        Log.info("LocationManager", "CLLocationManagerDelegate didUpdateLocations found location")
-        DispatchQueue.main.async {
-            self.userLocation.accept(location)
-        }
+        didUpdateLocations?(locations)
     }
     
 }

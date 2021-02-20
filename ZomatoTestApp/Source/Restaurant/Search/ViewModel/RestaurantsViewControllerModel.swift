@@ -42,19 +42,22 @@ final class RestaurantsViewControllerModel {
     }
     
     let filterAction = PublishSubject<Void>()
+    let viewWillAppearEvent = PublishSubject<Void>()
     
     private let disposeBag = DisposeBag()
     
     init(
         restaurantsListViewModel: RestaurantsListViewModel,
         restaurantsCollection: RestaurantsCollection,
+        locationManager: LocationManagerProtocol,
         coordinator: AppCoordinatorProtocol
     ) {
         self.restaurantsListViewModel = restaurantsListViewModel
         
         disposeBag.insert(
             bindFilterAction(to: restaurantsCollection, coordinator: coordinator),
-            bindUpdateFilterEnabled(restaurantsCollection: restaurantsCollection)
+            bindUpdateFilterEnabled(restaurantsCollection: restaurantsCollection),
+            bindViewWillAppearEvent(locationManager: locationManager, coordinator: coordinator)
         )
     }
     
@@ -84,7 +87,12 @@ extension RestaurantsViewControllerModel {
             .distinctUntilChanged()
             .map { loadingState -> Bool in
                 switch loadingState {
-                case .uninitialized, .refreshing, .errorRefreshing, .errorLoadingNextPage, .loadingNextPage, .filtering:
+                case .uninitialized,
+                     .refreshing,
+                     .errorRefreshing,
+                     .errorLoadingNextPage,
+                     .loadingNextPage,
+                     .filtering:
                     return false
                     
                 case .empty:
@@ -103,4 +111,62 @@ extension RestaurantsViewControllerModel {
             .observe(on: MainScheduler.instance)
             .bind(to: isFilterEnabled)
     }
+    
+    private func bindViewWillAppearEvent(
+        locationManager: LocationManagerProtocol,
+        coordinator: AppCoordinatorProtocol
+    ) -> Disposable {
+        return viewWillAppearEvent.subscribe(
+            with: self
+        ) { (me, _) in
+            me.updateLocation(locationManager: locationManager, coordinator: coordinator)
+        }
+    }
+    
+}
+
+// MARK: Location
+extension RestaurantsViewControllerModel {
+    
+    private func updateLocation(
+        locationManager: LocationManagerProtocol,
+        coordinator: AppCoordinatorProtocol
+    ) {
+        let disposable = locationManager
+            .currentLocation()
+            .map { CoordinateModel(location: $0) }
+            .subscribe(
+                onNext: { [weak restaurantsListViewModel] coordinate in
+                    restaurantsListViewModel?.locationUpdatedEvent.onNext(coordinate)
+                },
+                onError: { [weak self] error in
+                    self?.restaurantsListViewModel.locationUpdatedEvent.onNext(nil)
+                    self?.onLocationError(
+                        error,
+                        locationManager: locationManager,
+                        coordinator: coordinator
+                    )
+                }
+            )
+        
+        disposeBag.insert(disposable)
+    }
+    
+    private func onLocationError(
+        _ error: Error,
+        locationManager: LocationManagerProtocol,
+        coordinator: AppCoordinatorProtocol
+    ) {
+        let disposable = coordinator.showLocationError(error)
+            .closeAction
+            .subscribe(
+                with: self,
+                onNext: { (me, _) in
+                    me.updateLocation(locationManager: locationManager, coordinator: coordinator)
+                }
+            )
+        
+        disposeBag.insert(disposable)
+    }
+    
 }

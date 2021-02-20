@@ -60,6 +60,11 @@ final class RestaurantsViewController: UIViewController {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel?.viewWillAppearEvent.onNext()
+    }
+    
 }
 
 // MARK: Private

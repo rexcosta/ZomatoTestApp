@@ -22,13 +22,14 @@
 // SOFTWARE.
 //
 
-import UIKit
+import RxSwift
 import ZomatoFoundation
 import Zomato
 
 protocol AppCoordinatorProtocol {
     func goHome()
     func showRestaurantFilterOptions(restaurantsCollection: RestaurantsCollection)
+    func showLocationError(_ error: Error) -> LocationErrorViewControllerModel
 }
 
 final class AppCoordinator: AppCoordinatorProtocol {
@@ -43,7 +44,7 @@ final class AppCoordinator: AppCoordinatorProtocol {
     }
     
     func appLaunch(_ launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> UIWindow {
-        let locationManager = LocationManager(appCoordinator: self)
+        let locationManager = LocationManager()
         self.locationManager = locationManager
         
         let rootViewController = RestaurantsViewController()
@@ -51,10 +52,10 @@ final class AppCoordinator: AppCoordinatorProtocol {
         rootViewController.viewModel = RestaurantsViewControllerModel(
             restaurantsListViewModel: RestaurantsListViewModel(
                 restaurantManager: zomato.restaurantManager,
-                restaurantsCollection: restaurantsCollection,
-                locationManager: locationManager
+                restaurantsCollection: restaurantsCollection
             ),
             restaurantsCollection: restaurantsCollection,
+            locationManager: locationManager,
             coordinator: self
         )
         
@@ -66,8 +67,6 @@ final class AppCoordinator: AppCoordinatorProtocol {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.rootViewController = navigationController
         window.makeKeyAndVisible()
-        
-        locationManager.monitorLocation()
         
         return window
     }
@@ -88,16 +87,18 @@ final class AppCoordinator: AppCoordinatorProtocol {
         present(viewController: navigationController)
     }
     
-    func showLocationError(_ error: Location.LocationError) {
+    func showLocationError(_ error: Error) -> LocationErrorViewControllerModel {
         let filterViewController = LocationErrorViewController()
-        filterViewController.viewModel = LocationErrorViewControllerModel(
+        let viewModel = LocationErrorViewControllerModel(
             coordinator: self,
             error: error
         )
+        filterViewController.viewModel = viewModel
         let navigationController = UINavigationController(
             rootViewController: filterViewController
         )
         present(viewController: navigationController)
+        return viewModel
     }
     
 }

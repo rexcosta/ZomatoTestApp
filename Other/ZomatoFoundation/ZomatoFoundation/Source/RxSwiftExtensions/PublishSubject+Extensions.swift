@@ -23,45 +23,11 @@
 //
 
 import RxSwift
-import RxCocoa
-import ZomatoFoundation
-import Zomato
 
-protocol LocationErrorViewControllerModelProtocol {
-    var title: Driver<String?> { get }
-    var errorMessage: Driver<String?> { get }
-    var closeAction: PublishSubject<Void> { get }
-}
-
-final class LocationErrorViewControllerModel: LocationErrorViewControllerModelProtocol {
+extension PublishSubject where Element == Void {
     
-    let title = BehaviorRelay<String?>(
-        value: L10n.Localizable.Screen.Permissions.Location.title.value
-    ).asDriver()
-    
-    let errorMessage = BehaviorRelay<String?>(
-        value: L10n.Localizable.Screen.Permissions.Location.error.value
-    ).asDriver()
-    
-    let closeAction = PublishSubject<Void>()
-    
-    private let disposeBag = DisposeBag()
-    
-    init(
-        coordinator: AppCoordinator,
-        error: Error
-    ) {
-        disposeBag.insert(
-            bindCloseAction(coordinator: coordinator)
-        )
-    }
-    
-    private func bindCloseAction(
-        coordinator: AppCoordinator
-    ) -> Disposable {
-        return closeAction.subscribe { _ in
-            coordinator.goHome()
-        }
+    public func onNext() {
+        onNext(())
     }
     
 }

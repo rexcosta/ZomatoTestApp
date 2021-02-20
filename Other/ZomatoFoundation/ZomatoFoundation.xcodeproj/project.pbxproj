@@ -34,6 +34,7 @@
 		6395F21125DF0BA900B1F8E4 /* LazyPropertyLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21025DF0BA900B1F8E4 /* LazyPropertyLoader.swift */; };
 		6395F21725DF0BAF00B1F8E4 /* LocalizedReplacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21525DF0BAF00B1F8E4 /* LocalizedReplacer.swift */; };
 		6395F21825DF0BAF00B1F8E4 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */; };
+		63A66B8125E19B6A00592A84 /* PublishSubject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A66B8025E19B6A00592A84 /* PublishSubject+Extensions.swift */; };
 		BA477F0343C12F1B6537D333 /* libPods-ZomatoFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4425EBBDFEFCC37159A1D504 /* libPods-ZomatoFoundation.a */; };
 /* End PBXBuildFile section */
 
@@ -81,6 +82,7 @@
 		6395F21025DF0BA900B1F8E4 /* LazyPropertyLoader.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LazyPropertyLoader.swift; sourceTree = "<group>"; };
 		6395F21525DF0BAF00B1F8E4 /* LocalizedReplacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedReplacer.swift; sourceTree = "<group>"; };
 		6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
+		63A66B8025E19B6A00592A84 /* PublishSubject+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PublishSubject+Extensions.swift"; sourceTree = "<group>"; };
 		E43864690F68C6DF939C0F47 /* Pods-ZomatoFoundationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.debug.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED341AB1EE8B0C53D175953C /* Pods-ZomatoFoundationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.release.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -236,6 +238,7 @@
 			isa = PBXGroup;
 			children = (
 				6374CC7825D1F0EE003EDDE0 /* ObservableType+Extensions.swift */,
+				63A66B8025E19B6A00592A84 /* PublishSubject+Extensions.swift */,
 				6374CC7925D1F0EE003EDDE0 /* ReadOnlyBehaviorRelay.swift */,
 			);
 			path = RxSwiftExtensions;
@@ -435,6 +438,7 @@
 				632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */,
 				632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */,
 				632C1EFA25C8A37000530AE2 /* HttpClient.swift in Sources */,
+				63A66B8125E19B6A00592A84 /* PublishSubject+Extensions.swift in Sources */,
 				632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */,
 				6395F21725DF0BAF00B1F8E4 /* LocalizedReplacer.swift in Sources */,
 				632C1EF825C8A37000530AE2 /* SqliteStatement.swift in Sources */,

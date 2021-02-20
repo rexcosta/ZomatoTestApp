@@ -54,22 +54,24 @@ final class RestaurantsListViewModel {
         return restaurantsCollection.userLocation
     }
     
+    let locationUpdatedEvent = PublishSubject<CoordinateModel?>()
+    
     private let disposeBag = DisposeBag()
     private var retryRefreshDisposable: Disposable?
     private var retryNextPageDisposable: Disposable?
     
     init(
         restaurantManager: RestaurantManagerProtocol,
-        restaurantsCollection: RestaurantsCollection,
-        locationManager: LocationManagerProtocol
+        restaurantsCollection: RestaurantsCollection
     ) {
         self.restaurantManager = restaurantManager
         self.restaurantsCollection = restaurantsCollection
         
         set(state: .acquiringLocation)
-        
-        bind(to: locationManager, disposeBag: disposeBag)
-        bind(to: restaurantsCollection, disposeBag: disposeBag)
+        disposeBag.insert(
+            bindRestaurantsCollectionUpdates(to: restaurantsCollection),
+            bindLocationUpdatedEvent()
+        )
     }
     
     func numberOfRestaurants() -> Int {
@@ -89,11 +91,10 @@ final class RestaurantsListViewModel {
 // MARK: Bind
 extension RestaurantsListViewModel {
     
-    private func bind(
-        to restaurantsCollection: RestaurantsCollection,
-        disposeBag: DisposeBag
-    ) {
-        disposeBag.insert(
+    private func bindRestaurantsCollectionUpdates(
+        to restaurantsCollection: RestaurantsCollection
+    ) -> Disposable {
+        CompositeDisposable(
             restaurantsCollection.loadingStateReadOnly
                 .asObservable()
                 .map { RestaurantsListViewModel.State.from(loadingState: $0) }
@@ -112,24 +113,20 @@ extension RestaurantsListViewModel {
         )
     }
     
-    private func bind(
-        to locationManager: LocationManagerProtocol,
-        disposeBag: DisposeBag
-    ) {
-        disposeBag.insert(
-            locationManager.userLocationReadOnly.driver
-                .distinctUntilChanged()
-                .drive(with: self) { (me, location) in
-                    guard let location = location else {
-                        me.set(state: .acquiringLocation)
-                        return
-                    }
-                    
-                    me.restaurantsCollection.refreshCollection(
-                        position: CoordinateModel(coordinate: location.coordinate)
-                    )
+    private func bindLocationUpdatedEvent() -> Disposable {
+        locationUpdatedEvent
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(with: self) { (me, location) in
+                guard let location = location else {
+                    me.set(state: .acquiringLocation)
+                    return
                 }
-        )
+                
+                me.restaurantsCollection.refreshCollection(
+                    position: location
+                )
+            }
     }
     
 }

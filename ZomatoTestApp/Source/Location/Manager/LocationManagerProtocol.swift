@@ -34,11 +34,11 @@ struct Location {
         case restricted
         case denied
         case noLocationsFound
-        case unknown
+        case unknown(_ cause: Error?)
     }
     
 }
 
 protocol LocationManagerProtocol {
-    var userLocationReadOnly: BehaviorRelayDriver<CLLocation?> { get }
+    func currentLocation() -> Observable<CLLocation?>
 }
