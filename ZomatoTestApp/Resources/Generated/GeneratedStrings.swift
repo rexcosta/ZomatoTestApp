@@ -65,8 +65,6 @@ internal enum L10n {
     internal enum Screen {
       internal enum Permissions {
         internal enum Location {
-          /// The app needs you location permission to work. Go to permissions and activate the location settings.
-          internal static let error = L10n.tr("Localizable", "screen.permissions.location.error")
           /// Location
           internal static let title = L10n.tr("Localizable", "screen.permissions.location.title")
         }

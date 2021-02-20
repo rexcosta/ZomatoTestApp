@@ -67,12 +67,8 @@ final class LocationManager: LocationManagerProtocol {
             }
             
             delegate?.didUpdateLocations = { locations in
-                //observer.onNext(locations.first)
-                //observer.onCompleted()
-                DispatchQueue.main.async {
-                    let appError = ZomatoAppError(context: ZomatoAppErrorContext.LocationErrorContext.invalidStatus)
-                    observer.onError(appError)
-                }
+                observer.onNext(locations.first)
+                observer.onCompleted()
             }
             
             locationManager?.delegate = delegate
