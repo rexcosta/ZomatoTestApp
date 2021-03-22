@@ -28,6 +28,8 @@ import RxSwift
 
 public protocol RestaurantManagerProtocol {
     
+    typealias RestaurantsCollection = PaginatedCollection<RestaurantsSearchQuery, RestaurantModelProtocol, ZomatoError>
+    
     func searchRestaurants(
         offset: Int,
         position: CoordinateModel,
