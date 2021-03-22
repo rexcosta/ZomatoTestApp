@@ -25,15 +25,18 @@
 import RxSwift
 import RxCocoa
 
-extension BehaviorRelay {
+public func twoWayBind<Element>(
+    input: BehaviorRelay<Element>,
+    output: Driver<Element>,
+    to property: ControlProperty<Element>
+) -> Disposable {
     
-    public func twoWayBind(to property: ControlProperty<Element>) -> Disposable {
-        let bindToUIDisposable = self.bind(to: property)
-        let bindToRelay = property.subscribe(
-            onNext: { self.accept($0) },
-            onCompleted: { bindToUIDisposable.dispose() }
-        )
-        return Disposables.create(bindToUIDisposable, bindToRelay)
-    }
+    let bindToUIDisposable = output.drive(property)
     
+    let bindToOutput = property.subscribe(
+        onNext: { input.accept($0) },
+        onCompleted: { bindToUIDisposable.dispose() }
+    )
+    
+    return Disposables.create(bindToUIDisposable, bindToOutput)
 }

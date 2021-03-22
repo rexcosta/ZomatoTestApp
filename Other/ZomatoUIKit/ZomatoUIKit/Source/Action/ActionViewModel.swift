@@ -25,20 +25,28 @@
 import RxSwift
 import RxCocoa
 
-public struct ActionViewModel {
+public struct OutputActionViewModel<Output> {
     
     public let title: BehaviorRelay<String?>
     public let image: BehaviorRelay<UIImage?>
     public let isEnabled: BehaviorRelay<Bool>
     public let isHidden: BehaviorRelay<Bool>
-    public let action: PublishSubject<Void>
+    public let action: PublishSubject<Output>
+    
+    public init() {
+        title = BehaviorRelay<String?>(value: nil)
+        image = BehaviorRelay<UIImage?>(value: nil)
+        isEnabled = BehaviorRelay<Bool>(value: true)
+        isHidden = BehaviorRelay<Bool>(value: false)
+        action = PublishSubject<Output>()
+    }
     
     public init(
         title: BehaviorRelay<String?> = BehaviorRelay<String?>(value: nil),
         image: BehaviorRelay<UIImage?> = BehaviorRelay<UIImage?>(value: nil),
         isEnabled: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: true),
         isHidden: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false),
-        action: PublishSubject<Void> = PublishSubject<Void>()
+        action: PublishSubject<Output> = PublishSubject<Output>()
     ) {
         self.title = title
         self.image = image
@@ -52,7 +60,7 @@ public struct ActionViewModel {
         image: UIImage? = nil,
         isEnabled: Bool = true,
         isHidden: Bool = false,
-        action: PublishSubject<Void> = PublishSubject<Void>()
+        action: PublishSubject<Output> = PublishSubject<Output>()
     ) {
         self.init(
             title: BehaviorRelay<String?>(value: title),
@@ -60,6 +68,48 @@ public struct ActionViewModel {
             isEnabled: BehaviorRelay<Bool>(value: isEnabled),
             isHidden: BehaviorRelay<Bool>(value: isHidden),
             action: action
+        )
+    }
+    
+}
+
+public struct ActionViewModel {
+    
+    public let title: BehaviorRelay<String?>
+    public let image: BehaviorRelay<UIImage?>
+    public let isEnabled: BehaviorRelay<Bool>
+    public let isHidden: BehaviorRelay<Bool>
+    
+    public init() {
+        title = BehaviorRelay<String?>(value: nil)
+        image = BehaviorRelay<UIImage?>(value: nil)
+        isEnabled = BehaviorRelay<Bool>(value: true)
+        isHidden = BehaviorRelay<Bool>(value: false)
+    }
+    
+    public init(
+        title: BehaviorRelay<String?> = BehaviorRelay<String?>(value: nil),
+        image: BehaviorRelay<UIImage?> = BehaviorRelay<UIImage?>(value: nil),
+        isEnabled: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: true),
+        isHidden: BehaviorRelay<Bool> = BehaviorRelay<Bool>(value: false)
+    ) {
+        self.title = title
+        self.image = image
+        self.isEnabled = isEnabled
+        self.isHidden = isHidden
+    }
+    
+    public init(
+        title: String? = nil,
+        image: UIImage? = nil,
+        isEnabled: Bool = true,
+        isHidden: Bool = false
+    ) {
+        self.init(
+            title: BehaviorRelay<String?>(value: title),
+            image: BehaviorRelay<UIImage?>(value: image),
+            isEnabled: BehaviorRelay<Bool>(value: isEnabled),
+            isHidden: BehaviorRelay<Bool>(value: isHidden)
         )
     }
     

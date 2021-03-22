@@ -23,6 +23,7 @@
 //
 
 import UIKit
+import RxSwift
 import ZomatoFoundation
 import Zomato
 
@@ -30,6 +31,7 @@ import Zomato
 final class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private var appCoordinator: AppCoordinator?
+    private let disposeBag = DisposeBag()
     
     var window: UIWindow?
     
@@ -47,8 +49,18 @@ final class AppDelegate: UIResponder, UIApplicationDelegate {
             )
         )
         
-        appCoordinator = AppCoordinator(zomato: zomato)
-        window = appCoordinator?.appLaunch(launchOptions)
+        let window = UIWindow(frame: UIScreen.main.bounds)
+        self.window = window
+        
+        appCoordinator = AppCoordinator(
+            zomato: zomato,
+            window: window,
+            launchOptions: launchOptions
+        )
+        
+        appCoordinator?.start()
+            .subscribe()
+            .disposed(by: disposeBag)
         
         return true
     }

@@ -25,44 +25,64 @@
 import RxSwift
 import RxCocoa
 import ZomatoFoundation
+import ZomatoUIKit
 import Zomato
 
-protocol LocationErrorViewControllerModelProtocol {
-    var title: Driver<String?> { get }
-    var errorMessage: Driver<String?> { get }
-    var closeAction: PublishSubject<Void> { get }
-}
-
-final class LocationErrorViewControllerModel: LocationErrorViewControllerModelProtocol {
+final class LocationErrorViewControllerModel {
     
-    let title = BehaviorRelay<String?>(
-        value: L10n.Localizable.Screen.Permissions.Location.title.value
-    ).asDriver()
-    
-    let errorMessage: Driver<String?>
-    
-    let closeAction = PublishSubject<Void>()
-    
+    let input: Input
+    let output: Output
     private let disposeBag = DisposeBag()
     
-    init(
-        coordinator: AppCoordinator,
-        error: Error
-    ) {
-        errorMessage = BehaviorRelay<String?>(
-            value: AppErrorLocalizationMapper().mapInput(error).value
-        ).asDriver()
-        
-        disposeBag.insert(
-            bindCloseAction(coordinator: coordinator)
+    init(error: Error) {
+        input = Input()
+        output = Output(
+            title: L10n.Localizable.Screen.Permissions.Location.title,
+            closeTitle: L10n.Localizable.Global.Button.ok,
+            errorMessage: AppErrorLocalizationMapper().mapInput(error),
+            closeAction: input.closeAction.asObservable()
         )
     }
     
-    private func bindCloseAction(
-        coordinator: AppCoordinator
-    ) -> Disposable {
-        return closeAction.subscribe { _ in
-            coordinator.goHome()
+}
+
+// MARK: - LocationErrorViewControllerModel.Input
+extension LocationErrorViewControllerModel {
+    
+    struct Input {
+        let closeAction = PublishSubject<Void>()
+    }
+    
+}
+
+// MARK: - LocationErrorViewControllerModel.Output
+extension LocationErrorViewControllerModel {
+    
+    struct Output {
+        let title: Driver<String?>
+        let closeTitle: Driver<String?>
+        let errorMessage: Driver<String?>
+        let closeAction: Observable<Void>
+        
+        init(
+            title: LocalizedString,
+            closeTitle: LocalizedString,
+            errorMessage: LocalizedString,
+            closeAction: Observable<Void>
+        ) {
+            self.title = BehaviorRelay<String?>(
+                value: title.value
+            ).asDriver()
+            
+            self.closeTitle = BehaviorRelay<String?>(
+                value: closeTitle.value
+            ).asDriver()
+            
+            self.errorMessage = BehaviorRelay<String?>(
+                value: errorMessage.value
+            ).asDriver()
+            
+            self.closeAction = closeAction
         }
     }
     

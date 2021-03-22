@@ -167,12 +167,12 @@ extension RestaurantCollectionViewCell {
         accessibilityModel.bind(to: viewModel)
         
         disposeBag.insert(
-            distanceLabel.label.bind(accessibilityModel: accessibilityModel.distanceAccessibility),
-            nameLabel.bind(accessibilityModel: accessibilityModel.nameAccessibility),
-            cuisinesLabel.bind(accessibilityModel: accessibilityModel.cuisinesAccessibility),
-            timingsLabel.bind(accessibilityModel: accessibilityModel.timingsAccessibility),
-            priceRangeLabel.bind(accessibilityModel: accessibilityModel.priceRangeAccessibility),
-            favouriteButton.bind(accessibilityModel: accessibilityModel.favouriteButtonAccessibility)
+            distanceLabel.label.bind(accessibilityModel: accessibilityModel.output.distanceAccessibility),
+            nameLabel.bind(accessibilityModel: accessibilityModel.output.nameAccessibility),
+            cuisinesLabel.bind(accessibilityModel: accessibilityModel.output.cuisinesAccessibility),
+            timingsLabel.bind(accessibilityModel: accessibilityModel.output.timingsAccessibility),
+            priceRangeLabel.bind(accessibilityModel: accessibilityModel.output.priceRangeAccessibility),
+            favouriteButton.bind(accessibilityModel: accessibilityModel.output.favouriteButtonAccessibility)
         )
     }
     
@@ -181,29 +181,34 @@ extension RestaurantCollectionViewCell {
         disposeBag: DisposeBag
     ) {
         disposeBag.insert(
-            viewModel.nameReadOnly.driver
-                .drive(nameLabel.rx.text),
+            viewModel.output.nameReadOnly.drive(nameLabel.rx.text),
             
-            viewModel.cuisinesReadOnly.driver
-                .drive(cuisinesLabel.rx.text),
+            viewModel.output.cuisinesReadOnly.drive(cuisinesLabel.rx.text),
             
-            viewModel.timingsReadOnly.driver
-                .drive(timingsLabel.rx.text),
+            viewModel.output.timingsReadOnly.drive(timingsLabel.rx.text),
             
-            viewModel.priceRangeReadOnly.driver
-                .drive(priceRangeLabel.rx.text),
+            viewModel.output.priceRangeReadOnly.drive(priceRangeLabel.rx.text),
             
-            viewModel.distanceReadOnly.driver
-                .drive(with: self) { $0.set(distance: $1) },
+            viewModel.output.distanceReadOnly.drive(with: self) { $0.set(distance: $1) },
             
-            viewModel.thumbnailImageReadOnly.drive(
+            viewModel.output.thumbnailImageReadOnly.drive(
                 imageView: thumbnailImageView,
                 placeholder: Asset.placeholder.image
             ),
             
-            favouriteButton.bind(action: viewModel.favouriteActionReadOnly),
-            favouriteTapGesture.bind(action: viewModel.favouriteActionReadOnly),
-            viewModel.isFavouriteReadOnly.driver
+            favouriteButton.bind(
+                input: viewModel.input.setFavourite,
+                output: viewModel.output.favouriteActionReadOnly
+            ),
+            
+            favouriteTapGesture.bind(
+                input: viewModel.input.setFavourite,
+                output: viewModel.output.favouriteActionReadOnly
+            ),
+            
+            viewModel
+                .output
+                .isFavouriteReadOnly
                 .distinctUntilChanged()
                 .drive(with: favouriteButton) { (favouriteButton, isFavourite) in
                     switch isFavourite {
@@ -244,24 +249,5 @@ extension RestaurantCollectionViewCell {
             )
         }
     }
-    
-    /*
-    private func set(button: RestaurantCollectionViewCellViewModel.FavouriteButton) {
-        switch button {
-        case .unknown(let isHidden, let image):
-            favouriteButton.isHidden = isHidden
-            favouriteButton.setImage(image, for: .normal)
-            
-        case .favourite(let isHidden, let image):
-            favouriteButton.isHidden = isHidden
-            favouriteButton.setImage(image, for: .normal)
-            favouriteButton.fastBounce()
-            
-        case .notFavourite(let isHidden, let image):
-            favouriteButton.isHidden = isHidden
-            favouriteButton.setImage(image, for: .normal)
-            favouriteButton.fastBounce()
-        }
-    }*/
     
 }

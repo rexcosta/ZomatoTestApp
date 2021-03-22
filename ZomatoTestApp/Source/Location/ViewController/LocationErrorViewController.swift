@@ -31,7 +31,7 @@ import Zomato
 final class LocationErrorViewController: UIViewController {
     
     private let okButton = UIBarButtonItem(
-        title: L10n.Localizable.Global.Button.ok.value,
+        title: nil,
         style: .plain,
         target: nil,
         action: nil
@@ -40,7 +40,7 @@ final class LocationErrorViewController: UIViewController {
     private let messageLabel = UILabel().withSubTitleStyle
     
     private var disposeBag = DisposeBag()
-    var viewModel: LocationErrorViewControllerModelProtocol?
+    var viewModel: LocationErrorViewControllerModel?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,16 +88,15 @@ extension LocationErrorViewController {
     }
     
     private func bind(
-        to viewModel: LocationErrorViewControllerModelProtocol,
+        to viewModel: LocationErrorViewControllerModel,
         disposeBag: DisposeBag
     ) {
         disposeBag.insert(
-            viewModel.title.drive(rx.title),
+            viewModel.output.title.drive(rx.title),
+            viewModel.output.errorMessage.drive(messageLabel.rx.text),
+            viewModel.output.closeTitle.drive(okButton.rx.title),
             
-            viewModel.errorMessage.drive(messageLabel.rx.text),
-            
-            okButton.rx.tap
-                .subscribe(viewModel.closeAction)
+            okButton.rx.tap.subscribe(viewModel.input.closeAction)
         )
     }
     

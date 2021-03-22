@@ -11,6 +11,7 @@ target 'ZomatoTestApp' do
     pod 'Kingfisher', '6.0.1'
     pod 'RxSwift', '6.1.0'
     pod 'RxCocoa', '6.1.0'
+    pod 'RxDataSources', '5.0.0'
 
     target 'ZomatoTestAppTests' do
         inherit! :search_paths

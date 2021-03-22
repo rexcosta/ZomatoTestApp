@@ -24,15 +24,38 @@
 
 import RxSwift
 import RxCocoa
-import Kingfisher
-import ZomatoUIKit
+import Zomato
 
-extension BehaviorRelayDriver where Element == URL? {
+final class AppCoordinator: BaseCoordinator<Void> {
     
-    func drive(imageView: UIImageView, placeholder: UIImage) -> Disposable {
-        return driver.drive(with: imageView) {
-            $0.kf.setImage(with: $1, placeholder: placeholder)
-        }
+    private let zomato: Zomato
+    private let window: UIWindow
+    private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    
+    init(
+        zomato: Zomato,
+        window: UIWindow,
+        launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) {
+        self.zomato = zomato
+        self.window = window
+        self.launchOptions = launchOptions
+    }
+    
+    override func start() -> Observable<CoordinationResult> {
+        let navigationController = UINavigationController()
+        let navigation = NavigationControllerNavigation(
+            navigationController: navigationController
+        )
+        let searchCoordinator = SearchCoordinator(
+            zomato: zomato,
+            navigation: navigation
+        )
+        
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
+        
+        return coordinate(to: searchCoordinator)
     }
     
 }

@@ -30,55 +30,22 @@ import Zomato
 
 final class RestaurantCollectionViewCellViewModel {
     
-    private let thumbnailImage = BehaviorRelay<URL?>(value: nil)
-    var thumbnailImageReadOnly: BehaviorRelayDriver<URL?> {
-        return thumbnailImage.readOnlyDriver
-    }
-    
-    private let distance = BehaviorRelay<Distance>(
-        value: .unknown(L10n.Localizable.Screen.Restaurants.List.Element.noDistance.value)
-    )
-    var distanceReadOnly: BehaviorRelayDriver<Distance> {
-        return distance.readOnlyDriver
-    }
-    
-    private let name = BehaviorRelay<String?>(value: nil)
-    var nameReadOnly: BehaviorRelayDriver<String?> {
-        return name.readOnlyDriver
-    }
-    
-    private let cuisines = BehaviorRelay<String?>(value: nil)
-    var cuisinesReadOnly: BehaviorRelayDriver<String?> {
-        return cuisines.readOnlyDriver
-    }
-    
-    private let timings = BehaviorRelay<String?>(value: nil)
-    var timingsReadOnly: BehaviorRelayDriver<String?> {
-        return timings.readOnlyDriver
-    }
-    
-    private let priceRange = BehaviorRelay<String?>(value: nil)
-    var priceRangeReadOnly: BehaviorRelayDriver<String?> {
-        return priceRange.readOnlyDriver
-    }
-    
-    private let favouriteAction = ActionViewModel(isHidden: true)
-    var favouriteActionReadOnly: ReadOnlyActionViewModel {
-        return ReadOnlyActionViewModel(actionModel: favouriteAction)
-    }
-    private let isFavourite = BehaviorRelay<RestaurantFavouriteStatus>(value: .unknown)
-    var isFavouriteReadOnly: BehaviorRelayDriver<RestaurantFavouriteStatus> {
-        return isFavourite.readOnlyDriver
-    }
+    let input: Input
+    let output: Output
     
     private var disposeBag = DisposeBag()
     
+    init() {
+        input = Input()
+        output = Output()
+    }
+    
     func set(
-        userCoordinate: CoordinateModel?,
+        userCoordinate: Driver<CoordinateModel?>,
         restaurant: RestaurantModelProtocol,
         restaurantManager: RestaurantManagerProtocol
     ) {
-        thumbnailImage.accept(restaurant.thumbnailUrl)
+        output.thumbnailImage.accept(restaurant.thumbnailUrl)
         if restaurant.thumbnailUrl == nil {
             Log.verbose(
                 "RestaurantCollectionViewCellViewModel",
@@ -86,65 +53,88 @@ final class RestaurantCollectionViewCellViewModel {
             )
         }
         
-        updateDistance(
-            userCoordinate: userCoordinate,
-            restaurantCoordinate: restaurant.location?.coordinate
-        )
-        
-        name.accept(restaurant.name)
-        cuisines.accept(restaurant.cuisines.joined(separator: ","))
-        timings.accept(restaurant.timings)
-        priceRange.accept(restaurant.priceRange.localized)
+        output.name.accept(restaurant.name)
+        output.cuisines.accept(restaurant.cuisines.joined(separator: ","))
+        output.timings.accept(restaurant.timings)
+        output.priceRange.accept(restaurant.priceRange.localized.value)
         
         disposeBag = DisposeBag()
         disposeBag.insert(
-            bindFavouriteAction(
+            bindFavouriteInput(
                 restaurant: restaurant,
                 restaurantManager: restaurantManager
+            ),
+            bindDistanceToUser(
+                userCoordinate: userCoordinate,
+                restaurant: restaurant
             )
         )
     }
     
 }
 
-// MARK: Helpers
+// MARK: Bind input
 extension RestaurantCollectionViewCellViewModel {
     
-    private func bindFavouriteAction(
+    private func bindFavouriteInput(
         restaurant: RestaurantModelProtocol,
         restaurantManager: RestaurantManagerProtocol
     ) -> Disposable {
         return CompositeDisposable(
-            favouriteAction.action
+            input.setFavourite
+                .flatMap { _ -> Completable in
+                    switch restaurant.isFavourite.value {
+                    case .favourite:
+                        restaurant.isFavourite.accept(.notFavourite)
+                    case .notFavourite:
+                        restaurant.isFavourite.accept(.favourite)
+                    case .unknown:
+                        return Completable.empty()
+                    }
+                    
+                    return restaurantManager.save(restaurant: restaurant)
+                }
                 .observe(on: MainScheduler.instance)
-                .subscribe(with: self) { (me, _) in
-                    me.toogleIsFavourite(
-                        restaurant: restaurant,
-                        restaurantManager: restaurantManager
-                    )
-                },
+                .subscribe(),
             
             restaurant.isFavourite
                 .observe(on: MainScheduler.instance)
                 .subscribe(with: self) { (me, newValue) in
-                    me.isFavourite.accept(newValue)
+                    me.output.isFavourite.accept(newValue)
                     
                     switch newValue {
                     case .unknown:
-                        me.favouriteAction.image.accept(nil)
-                        me.favouriteAction.isHidden.accept(true)
+                        me.output.favouriteAction.image.accept(nil)
+                        me.output.favouriteAction.isHidden.accept(true)
                         
                     case .favourite:
-                        me.favouriteAction.image.accept(Asset.likeFill.image)
-                        me.favouriteAction.isHidden.accept(false)
+                        me.output.favouriteAction.image.accept(Asset.likeFill.image)
+                        me.output.favouriteAction.isHidden.accept(false)
                         
                     case .notFavourite:
-                        me.favouriteAction.image.accept(Asset.likeEmpty.image)
-                        me.favouriteAction.isHidden.accept(false)
+                        me.output.favouriteAction.image.accept(Asset.likeEmpty.image)
+                        me.output.favouriteAction.isHidden.accept(false)
                     }
                 }
         )
     }
+    
+    func bindDistanceToUser(
+        userCoordinate: Driver<CoordinateModel?>,
+        restaurant: RestaurantModelProtocol
+    ) -> Disposable {
+        return userCoordinate.drive(with: self) { (me, userCoordinate) in
+            me.updateDistance(
+                userCoordinate: userCoordinate,
+                restaurantCoordinate: restaurant.location?.coordinate
+            )
+        }
+    }
+    
+}
+
+// MARK: Helpers
+extension RestaurantCollectionViewCellViewModel {
     
     private func updateDistance(
         userCoordinate: CoordinateModel?,
@@ -154,7 +144,7 @@ extension RestaurantCollectionViewCellViewModel {
             let userCoordinate = userCoordinate,
             let restaurantCoordinate = restaurantCoordinate
         else {
-            distance.accept(
+            output.distance.accept(
                 .unknown(
                     L10n.Localizable.Screen.Restaurants.List.Element.noDistance.value
                 )
@@ -169,38 +159,12 @@ extension RestaurantCollectionViewCellViewModel {
         
         switch distanceInMeters {
         case 0..<300:
-            distance.accept(.near(distanceTitle))
+            output.distance.accept(.near(distanceTitle))
         case 300..<600:
-            distance.accept(.nearby(distanceTitle))
+            output.distance.accept(.nearby(distanceTitle))
         default:
-            distance.accept(.far(distanceTitle))
+            output.distance.accept(.far(distanceTitle))
         }
-    }
-    
-    private func toogleIsFavourite(
-        restaurant: RestaurantModelProtocol,
-        restaurantManager: RestaurantManagerProtocol
-    ) {
-        switch restaurant.isFavourite.value {
-        case .favourite:
-            restaurant.isFavourite.accept(.notFavourite)
-        case .notFavourite:
-            restaurant.isFavourite.accept(.favourite)
-        case .unknown:
-            return
-        }
-        
-        let saveDisposable = restaurantManager.save(restaurant: restaurant)
-            .observe(on: MainScheduler.instance)
-            .subscribe(
-                with: self,
-                onCompleted: nil,
-                onError: { (_, _) in
-                    // Ignoring error, but could have a layout to indicate the error while saving
-                },
-                onDisposed: nil
-            )
-        disposeBag.insert(saveDisposable)
     }
     
 }
@@ -213,6 +177,78 @@ extension RestaurantCollectionViewCellViewModel {
         case nearby(_ title: String)
         case far(_ title: String)
         case unknown(_ title: String)
+    }
+    
+}
+
+
+
+// MARK: - RestaurantCollectionViewCellViewModel.Input
+extension RestaurantCollectionViewCellViewModel {
+    
+    struct Input {
+        let setFavourite = PublishSubject<Void>()
+    }
+    
+}
+
+// MARK: - RestaurantCollectionViewCellViewModel.Output
+extension RestaurantCollectionViewCellViewModel {
+    
+    struct Output {
+        
+        fileprivate let thumbnailImage: BehaviorRelay<URL?>
+        let thumbnailImageReadOnly: Driver<URL?>
+        
+        fileprivate let distance: BehaviorRelay<Distance>
+        let distanceReadOnly: Driver<Distance>
+        
+        fileprivate let name: BehaviorRelay<String?>
+        let nameReadOnly: Driver<String?>
+        
+        fileprivate let cuisines: BehaviorRelay<String?>
+        let cuisinesReadOnly: Driver<String?>
+        
+        fileprivate let timings: BehaviorRelay<String?>
+        let timingsReadOnly: Driver<String?>
+        
+        fileprivate let priceRange: BehaviorRelay<String?>
+        let priceRangeReadOnly: Driver<String?>
+        
+        fileprivate let favouriteAction: ActionViewModel
+        let favouriteActionReadOnly: ReadOnlyActionViewModel
+        
+        fileprivate let isFavourite: BehaviorRelay<RestaurantFavouriteStatus>
+        let isFavouriteReadOnly: Driver<RestaurantFavouriteStatus>
+        
+        init() {
+            thumbnailImage = BehaviorRelay<URL?>(value: nil)
+            thumbnailImageReadOnly = thumbnailImage.asDriver()
+            
+            distance = BehaviorRelay<Distance>(
+                value: .unknown(L10n.Localizable.Screen.Restaurants.List.Element.noDistance.value)
+            )
+            distanceReadOnly = distance.asDriver()
+            
+            name = BehaviorRelay<String?>(value: nil)
+            nameReadOnly = name.asDriver()
+            
+            cuisines = BehaviorRelay<String?>(value: nil)
+            cuisinesReadOnly = cuisines.asDriver()
+            
+            timings = BehaviorRelay<String?>(value: nil)
+            timingsReadOnly = timings.asDriver()
+            
+            priceRange = BehaviorRelay<String?>(value: nil)
+            priceRangeReadOnly = priceRange.asDriver()
+            
+            favouriteAction = ActionViewModel()
+            favouriteActionReadOnly = ReadOnlyActionViewModel(actionModel: favouriteAction)
+            
+            isFavourite = BehaviorRelay<RestaurantFavouriteStatus>(value: .unknown)
+            isFavouriteReadOnly = isFavourite.asDriver()
+        }
+        
     }
     
 }

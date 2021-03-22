@@ -23,6 +23,7 @@
 //
 
 import UIKit
+import RxCocoa
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
@@ -38,28 +39,26 @@ struct RestaurantCellConfigurator {
     
     func dequeueReusableCell(
         _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath,
-        viewModel: RestaurantsListViewModel?
+        cellForItemAt index: IndexPath,
+        userCoordinate: Driver<CoordinateModel?>,
+        sectionElement: RestaurantsListViewModel.SectionElement,
+        restaurantManager: RestaurantManagerProtocol
     ) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
-                withReuseIdentifier: "restaurant-cell",
-                for: indexPath
+            withReuseIdentifier: "restaurant-cell",
+            for: index
         ) as? RestaurantCollectionViewCell else {
             fatalError()
         }
         
-        guard
-            let viewModel = viewModel,
-            let restaurant = viewModel.restaurant(at: indexPath.item)
-        else {
-            return cell
+        switch sectionElement {
+        case .restaurant(let restaurant):
+            cell.viewModel.set(
+                userCoordinate: userCoordinate,
+                restaurant: restaurant,
+                restaurantManager: restaurantManager
+            )
         }
-        
-        cell.viewModel.set(
-            userCoordinate: viewModel.userLocation,
-            restaurant: restaurant,
-            restaurantManager: viewModel.restaurantManager
-        )
         return cell
     }
     

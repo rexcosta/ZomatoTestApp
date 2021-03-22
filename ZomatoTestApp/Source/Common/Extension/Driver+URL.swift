@@ -24,33 +24,17 @@
 
 import RxSwift
 import RxCocoa
+import Kingfisher
+import ZomatoUIKit
 
-extension UITapGestureRecognizer {
+extension SharedSequenceConvertibleType where
+    Self.SharingStrategy == RxCocoa.DriverSharingStrategy,
+    Element == URL? {
     
-    public func bind(
-        input: PublishSubject<Void>,
-        output: ReadOnlyActionViewModel
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
-        )
-    }
-    
-    public func bind<Output>(
-        input: PublishSubject<Void>,
-        output: ReadOnlyOutputActionViewModel<Output>
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
-        )
+    func drive(imageView: UIImageView, placeholder: UIImage) -> Disposable {
+        return drive(with: imageView, onNext: {
+            $0.kf.setImage(with: $1, placeholder: placeholder)
+        })
     }
     
 }

@@ -25,32 +25,34 @@
 import RxSwift
 import RxCocoa
 
-extension UITapGestureRecognizer {
+final class LocationCoordinator: BaseCoordinator<Void> {
     
-    public func bind(
-        input: PublishSubject<Void>,
-        output: ReadOnlyActionViewModel
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
-        )
+    private let navigation: NavigationProtocol
+    private let error: Error
+    
+    init(
+        navigation: NavigationProtocol,
+        error: Error
+    ) {
+        self.navigation = navigation
+        self.error = error
     }
     
-    public func bind<Output>(
-        input: PublishSubject<Void>,
-        output: ReadOnlyOutputActionViewModel<Output>
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
+    override func start() -> Observable<CoordinationResult> {
+        let filterViewController = LocationErrorViewController()
+        let viewModel = LocationErrorViewControllerModel(
+            error: error
         )
+        filterViewController.viewModel = viewModel
+        let navigationController = UINavigationController(
+            rootViewController: filterViewController
+        )
+        
+        let dismiss = navigation.presentObservingDismiss(navigationController, animated: true)
+        
+        return Observable.merge(viewModel.output.closeAction, dismiss)
+            .take(1)
+            .do(onNext: { [weak self] _ in self?.navigation.dismiss(animated: true) })
     }
     
 }

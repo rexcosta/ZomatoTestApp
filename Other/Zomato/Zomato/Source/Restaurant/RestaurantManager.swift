@@ -122,8 +122,10 @@ extension RestaurantManager: RestaurantManagerProtocol {
             }
     }
     
-    func searchRestaurants() -> RestaurantsCollection {
-        return RestaurantsCollection(restaurantManager: self)
+    func searchRestaurants() -> RestaurantManagerProtocol.RestaurantsCollection {
+        return RestaurantsCollectionHelpers.defaultSearchRestaurants(
+            restaurantManager: self
+        )
     }
     
 }

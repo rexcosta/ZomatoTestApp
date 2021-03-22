@@ -33,6 +33,7 @@ extension UIButton {
             $0.layer.masksToBounds = true
             $0.backgroundColor = Theme.shared.primaryColor
             $0.setTitleColor(.white, for: .normal)
+            $0.setTitleColor(.lightGray, for: .disabled)
             $0.contentEdgeInsets = UIConstants.defaultPadding
         }
     }

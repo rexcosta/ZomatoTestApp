@@ -22,35 +22,22 @@
 // SOFTWARE.
 //
 
-import RxSwift
-import RxCocoa
+import Foundation
 
-extension UITapGestureRecognizer {
+extension PaginatedCollection {
     
-    public func bind(
-        input: PublishSubject<Void>,
-        output: ReadOnlyActionViewModel
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
-        )
-    }
-    
-    public func bind<Output>(
-        input: PublishSubject<Void>,
-        output: ReadOnlyOutputActionViewModel<Output>
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
-        )
+    public static func defaultPreloadStrategy(endOffset: Int = 5) -> PreloadStrategy {
+        return { (_, index, elements, page) -> Bool in
+            // Only preload if the request element belogs in the end of our collection
+            // Example:
+            //
+            // index == 16 && filteredElements.count == 20
+            //     we start loading next page automatically
+            //
+            // index == 14 && filteredElements.count == 20
+            //    we don't do anything user might not want to go the end of the collection
+            return index > (elements.count - endOffset)
+        }
     }
     
 }

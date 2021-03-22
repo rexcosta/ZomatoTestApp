@@ -28,18 +28,18 @@ import UIKit
 
 extension RestaurantPriceRange {
     
-    var localized: String? {
+    var localized: LocalizedString {
         switch self {
         case .cheap:
-            return L10n.Localizable.Global.Restaurant.Pricerange.cheap.value
+            return L10n.Localizable.Global.Restaurant.Pricerange.cheap
         case .moderate:
-            return L10n.Localizable.Global.Restaurant.Pricerange.moderate.value
+            return L10n.Localizable.Global.Restaurant.Pricerange.moderate
         case .expensive:
-            return L10n.Localizable.Global.Restaurant.Pricerange.expensive.value
+            return L10n.Localizable.Global.Restaurant.Pricerange.expensive
         case .veryExpensive:
-            return L10n.Localizable.Global.Restaurant.Pricerange.veryExpensive.value
+            return L10n.Localizable.Global.Restaurant.Pricerange.veryExpensive
         case .unknow:
-            return L10n.Localizable.Global.Restaurant.Pricerange.unknow.value
+            return L10n.Localizable.Global.Restaurant.Pricerange.unknow
         }
     }
     

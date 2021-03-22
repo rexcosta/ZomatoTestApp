@@ -25,13 +25,32 @@
 import RxSwift
 import RxCocoa
 
+public struct ReadOnlyOutputActionViewModel<Output> {
+    
+    public let title: Driver<String?>
+    public let image: Driver<UIImage?>
+    public let isEnabled: Driver<Bool>
+    public let isHidden: Driver<Bool>
+    public let action: Observable<Output>
+    
+    public init(
+        actionModel: OutputActionViewModel<Output>
+    ) {
+        self.title = actionModel.title.asDriver()
+        self.image = actionModel.image.asDriver()
+        self.isEnabled = actionModel.isEnabled.asDriver()
+        self.isHidden = actionModel.isHidden.asDriver()
+        self.action = actionModel.action.asObservable()
+    }
+    
+}
+
 public struct ReadOnlyActionViewModel {
     
     public let title: Driver<String?>
     public let image: Driver<UIImage?>
     public let isEnabled: Driver<Bool>
     public let isHidden: Driver<Bool>
-    public let action: PublishSubject<Void>
     
     public init(
         actionModel: ActionViewModel
@@ -40,7 +59,6 @@ public struct ReadOnlyActionViewModel {
         self.image = actionModel.image.asDriver()
         self.isEnabled = actionModel.isEnabled.asDriver()
         self.isHidden = actionModel.isHidden.asDriver()
-        self.action = actionModel.action
     }
     
 }

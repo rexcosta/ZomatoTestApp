@@ -30,28 +30,7 @@ import Zomato
 
 final class RestaurantCollectionViewCellAccessibilityModel {
     
-    let distanceAccessibility = AccessibilityElementModel(
-        L10n.Accessibility.Screen.Restaurants.List.Element.labelDistance,
-        traits: [.text]
-    )
-    let nameAccessibility = AccessibilityElementModel(
-        L10n.Accessibility.Screen.Restaurants.List.Element.labelName,
-        traits: [.text]
-    )
-    let cuisinesAccessibility = AccessibilityElementModel(
-        L10n.Accessibility.Screen.Restaurants.List.Element.labelCuisines,
-        traits: [.text]
-    )
-    let timingsAccessibility = AccessibilityElementModel(
-        L10n.Accessibility.Screen.Restaurants.List.Element.labelTimings,
-        traits: [.text]
-    )
-    let priceRangeAccessibility = AccessibilityElementModel(
-        L10n.Accessibility.Screen.Restaurants.List.Element.labelPriceRange,
-        traits: [.text]
-    )
-    let favouriteButtonAccessibility = AccessibilityElementModel()
-    
+    let output = Output()
     private var disposeBag = DisposeBag()
     
     func bind(to viewModel: RestaurantCollectionViewCellViewModel?) {
@@ -66,27 +45,27 @@ final class RestaurantCollectionViewCellAccessibilityModel {
         disposeBag: DisposeBag
     ) {
         disposeBag.insert(
-            viewModel.isFavouriteReadOnly.driver
+            viewModel.output.isFavouriteReadOnly
                 .drive(with: self) { (me, newValue) in
                     switch newValue {
                     case .unknown:
-                        me.favouriteButtonAccessibility.clear()
+                        me.output.favouriteButtonAccessibility.clear()
                         
                     case .favourite:
-                        me.favouriteButtonAccessibility.label.accept(
+                        me.output.favouriteButtonAccessibility.label.accept(
                             L10n.Accessibility.Screen.Restaurants.List.Element.buttonDislike.value
                         )
-                        me.favouriteButtonAccessibility.set(traits: .button, .image, .selected)
+                        me.output.favouriteButtonAccessibility.set(traits: .button, .image, .selected)
                         
                     case .notFavourite:
-                        me.favouriteButtonAccessibility.label.accept(
+                        me.output.favouriteButtonAccessibility.label.accept(
                             L10n.Accessibility.Screen.Restaurants.List.Element.buttonLike.value
                         )
-                        me.favouriteButtonAccessibility.set(traits: .button, .image)
+                        me.output.favouriteButtonAccessibility.set(traits: .button, .image)
                     }
                 },
             
-            viewModel.distanceReadOnly.driver
+            viewModel.output.distanceReadOnly
                 .map { distance -> String in
                     switch distance {
                     case .near(let title):
@@ -99,20 +78,49 @@ final class RestaurantCollectionViewCellAccessibilityModel {
                         return title
                     }
                 }
-                .drive(with: distanceAccessibility.value) { $0.accept($1) },
+                .drive(with: output.distanceAccessibility.value) { $0.accept($1) },
             
-            viewModel.nameReadOnly.driver
-                .drive(with: nameAccessibility.value) { $0.accept($1) },
+            viewModel.output.nameReadOnly
+                .drive(with: output.nameAccessibility.value) { $0.accept($1) },
             
-            viewModel.cuisinesReadOnly.driver
-                .drive(with: cuisinesAccessibility.value) { $0.accept($1) },
+            viewModel.output.cuisinesReadOnly
+                .drive(with: output.cuisinesAccessibility.value) { $0.accept($1) },
             
-            viewModel.timingsReadOnly.driver
-                .drive(with: timingsAccessibility.value) { $0.accept($1) },
+            viewModel.output.timingsReadOnly
+                .drive(with: output.timingsAccessibility.value) { $0.accept($1) },
             
-            viewModel.priceRangeReadOnly.driver
-                .drive(with: priceRangeAccessibility.value) { $0.accept($1) }
+            viewModel.output.priceRangeReadOnly
+                .drive(with: output.priceRangeAccessibility.value) { $0.accept($1) }
         )
+    }
+    
+}
+
+// MARK: - RestaurantCollectionViewCellAccessibilityModel.Output
+extension RestaurantCollectionViewCellAccessibilityModel {
+    
+    struct Output {
+        let distanceAccessibility = AccessibilityElementModel(
+            L10n.Accessibility.Screen.Restaurants.List.Element.labelDistance,
+            traits: [.text]
+        )
+        let nameAccessibility = AccessibilityElementModel(
+            L10n.Accessibility.Screen.Restaurants.List.Element.labelName,
+            traits: [.text]
+        )
+        let cuisinesAccessibility = AccessibilityElementModel(
+            L10n.Accessibility.Screen.Restaurants.List.Element.labelCuisines,
+            traits: [.text]
+        )
+        let timingsAccessibility = AccessibilityElementModel(
+            L10n.Accessibility.Screen.Restaurants.List.Element.labelTimings,
+            traits: [.text]
+        )
+        let priceRangeAccessibility = AccessibilityElementModel(
+            L10n.Accessibility.Screen.Restaurants.List.Element.labelPriceRange,
+            traits: [.text]
+        )
+        let favouriteButtonAccessibility = AccessibilityElementModel()
     }
     
 }

@@ -22,35 +22,38 @@
 // SOFTWARE.
 //
 
-import RxSwift
-import RxCocoa
+import Foundation
 
-extension UITapGestureRecognizer {
+extension PaginatedCollection {
     
-    public func bind(
-        input: PublishSubject<Void>,
-        output: ReadOnlyActionViewModel
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
-        )
+    public enum StateInput {
+        case refresh
+        case changeQuery(QueryType?)
+        case loadNextPage
+        case retryNextPage
+        case preload(index: Int)
     }
+
+}
+
+#if DEBUG
+// MARK: - PaginatedCollection.StateInput Debug
+extension PaginatedCollection.StateInput {
     
-    public func bind<Output>(
-        input: PublishSubject<Void>,
-        output: ReadOnlyOutputActionViewModel<Output>
-    ) -> Disposable {
-        return CompositeDisposable(
-            rx.event
-                .mapToVoid()
-                .subscribe(input),
-            
-            output.isEnabled.drive(rx.isEnabled)
-        )
+    public var debugDescription: String {
+        switch self {
+        case .refresh:
+            return "refresh"
+        case .loadNextPage:
+            return "loadNextPage"
+        case .retryNextPage:
+            return "retryNextPage"
+        case .changeQuery:
+            return "changeQuery"
+        case .preload(let index):
+            return "preload \(index)"
+        }
     }
     
 }
+#endif
