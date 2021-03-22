@@ -35,6 +35,11 @@
 		6395F21725DF0BAF00B1F8E4 /* LocalizedReplacer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21525DF0BAF00B1F8E4 /* LocalizedReplacer.swift */; };
 		6395F21825DF0BAF00B1F8E4 /* LocalizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */; };
 		63A66B8125E19B6A00592A84 /* PublishSubject+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A66B8025E19B6A00592A84 /* PublishSubject+Extensions.swift */; };
+		63A7DB0B2600D0960068C699 /* PaginatedCollectionState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7DB062600D0960068C699 /* PaginatedCollectionState.swift */; };
+		63A7DB0C2600D0960068C699 /* PaginatedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7DB072600D0960068C699 /* PaginatedCollection.swift */; };
+		63A7DB0D2600D0960068C699 /* PaginatedCollectionStateInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7DB082600D0960068C699 /* PaginatedCollectionStateInput.swift */; };
+		63A7DB0E2600D0960068C699 /* PaginatedCollectionPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7DB092600D0960068C699 /* PaginatedCollectionPage.swift */; };
+		63A7DB0F2600D0960068C699 /* PaginatedCollectionPreloadStrategy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 63A7DB0A2600D0960068C699 /* PaginatedCollectionPreloadStrategy.swift */; };
 		BA477F0343C12F1B6537D333 /* libPods-ZomatoFoundation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4425EBBDFEFCC37159A1D504 /* libPods-ZomatoFoundation.a */; };
 /* End PBXBuildFile section */
 
@@ -83,6 +88,11 @@
 		6395F21525DF0BAF00B1F8E4 /* LocalizedReplacer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedReplacer.swift; sourceTree = "<group>"; };
 		6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocalizedString.swift; sourceTree = "<group>"; };
 		63A66B8025E19B6A00592A84 /* PublishSubject+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PublishSubject+Extensions.swift"; sourceTree = "<group>"; };
+		63A7DB062600D0960068C699 /* PaginatedCollectionState.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedCollectionState.swift; sourceTree = "<group>"; };
+		63A7DB072600D0960068C699 /* PaginatedCollection.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedCollection.swift; sourceTree = "<group>"; };
+		63A7DB082600D0960068C699 /* PaginatedCollectionStateInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedCollectionStateInput.swift; sourceTree = "<group>"; };
+		63A7DB092600D0960068C699 /* PaginatedCollectionPage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedCollectionPage.swift; sourceTree = "<group>"; };
+		63A7DB0A2600D0960068C699 /* PaginatedCollectionPreloadStrategy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PaginatedCollectionPreloadStrategy.swift; sourceTree = "<group>"; };
 		E43864690F68C6DF939C0F47 /* Pods-ZomatoFoundationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.debug.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		ED341AB1EE8B0C53D175953C /* Pods-ZomatoFoundationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ZomatoFoundationTests.release.xcconfig"; path = "Target Support Files/Pods-ZomatoFoundationTests/Pods-ZomatoFoundationTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -166,6 +176,7 @@
 				6395F21425DF0BAF00B1F8E4 /* Localization */,
 				632C1EF225C8A37000530AE2 /* Log */,
 				632C1ED625C8A37000530AE2 /* Network */,
+				63A7DB052600D0960068C699 /* PaginatedCollection */,
 				63612D7B25D0559B002A8EBC /* RxSwiftExtensions */,
 				632C1EEA25C8A37000530AE2 /* Utils */,
 			);
@@ -251,6 +262,18 @@
 				6395F21625DF0BAF00B1F8E4 /* LocalizedString.swift */,
 			);
 			path = Localization;
+			sourceTree = "<group>";
+		};
+		63A7DB052600D0960068C699 /* PaginatedCollection */ = {
+			isa = PBXGroup;
+			children = (
+				63A7DB062600D0960068C699 /* PaginatedCollectionState.swift */,
+				63A7DB072600D0960068C699 /* PaginatedCollection.swift */,
+				63A7DB082600D0960068C699 /* PaginatedCollectionStateInput.swift */,
+				63A7DB092600D0960068C699 /* PaginatedCollectionPage.swift */,
+				63A7DB0A2600D0960068C699 /* PaginatedCollectionPreloadStrategy.swift */,
+			);
+			path = PaginatedCollection;
 			sourceTree = "<group>";
 		};
 		7C7516A8A2C460BA9491AF93 /* Frameworks */ = {
@@ -430,17 +453,22 @@
 				6395F21125DF0BA900B1F8E4 /* LazyPropertyLoader.swift in Sources */,
 				632C1EFD25C8A37000530AE2 /* HttpMethod.swift in Sources */,
 				632C1EF525C8A37000530AE2 /* SqliteDatabase+Error.swift in Sources */,
+				63A7DB0B2600D0960068C699 /* PaginatedCollectionState.swift in Sources */,
 				632C1EFE25C8A37000530AE2 /* HttpHeader.swift in Sources */,
 				632C1EF625C8A37000530AE2 /* ConcurrentSqliteDatabase.swift in Sources */,
+				63A7DB0F2600D0960068C699 /* PaginatedCollectionPreloadStrategy.swift in Sources */,
 				6374CC7A25D1F0EE003EDDE0 /* ObservableType+Extensions.swift in Sources */,
 				6374CC7B25D1F0EE003EDDE0 /* ReadOnlyBehaviorRelay.swift in Sources */,
+				63A7DB0E2600D0960068C699 /* PaginatedCollectionPage.swift in Sources */,
 				632C1F0025C8A37000530AE2 /* NetworkProtocol.swift in Sources */,
 				632C1EFF25C8A37000530AE2 /* NetworkRequest.swift in Sources */,
 				632C1F0125C8A37000530AE2 /* NetworkError.swift in Sources */,
 				632C1EFA25C8A37000530AE2 /* HttpClient.swift in Sources */,
 				63A66B8125E19B6A00592A84 /* PublishSubject+Extensions.swift in Sources */,
 				632C1F0A25C8A37000530AE2 /* Withable.swift in Sources */,
+				63A7DB0C2600D0960068C699 /* PaginatedCollection.swift in Sources */,
 				6395F21725DF0BAF00B1F8E4 /* LocalizedReplacer.swift in Sources */,
+				63A7DB0D2600D0960068C699 /* PaginatedCollectionStateInput.swift in Sources */,
 				632C1EF825C8A37000530AE2 /* SqliteStatement.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

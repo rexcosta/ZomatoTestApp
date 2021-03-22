@@ -27,12 +27,14 @@ import RxCocoa
 import Kingfisher
 import ZomatoUIKit
 
-extension BehaviorRelayDriver where Element == URL? {
+extension SharedSequenceConvertibleType where
+    Self.SharingStrategy == RxCocoa.DriverSharingStrategy,
+    Element == URL? {
     
     func drive(imageView: UIImageView, placeholder: UIImage) -> Disposable {
-        return driver.drive(with: imageView) {
+        return drive(with: imageView, onNext: {
             $0.kf.setImage(with: $1, placeholder: placeholder)
-        }
+        })
     }
     
 }
