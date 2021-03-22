@@ -24,6 +24,7 @@
 
 import RxSwift
 import RxCocoa
+import RxDataSources
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
@@ -35,6 +36,7 @@ final class RestaurantsListView: UIView {
         flowLayout.scrollDirection = .vertical
         flowLayout.minimumLineSpacing = 40
         flowLayout.sectionInset = UIConstants.defaultPadding
+        
         
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: flowLayout)
         collectionView.backgroundColor = .clear
@@ -74,8 +76,6 @@ final class RestaurantsListView: UIView {
         setupConstraints()
         
         restaurantCellConfigurator.register(in: collectionView)
-        collectionView.dataSource = self
-        collectionView.prefetchDataSource = self
     }
     
     required init?(coder: NSCoder) {
@@ -97,38 +97,6 @@ final class RestaurantsListView: UIView {
     
 }
 
-// MARK: UICollectionViewDataSource
-extension RestaurantsListView: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return viewModel?.numberOfRestaurants() ?? 0
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        
-        // If the collectionview has few items
-        // like for example 1, UICollectionViewDataSourcePrefetching will not be called
-        // because we dont want our business logic to be responsible for this we preload manualy
-        DispatchQueue.main.async {
-            self.viewModel?.preloadElement(at: indexPath.item)
-        }
-        
-        return restaurantCellConfigurator.dequeueReusableCell(
-            collectionView,
-            cellForItemAt: indexPath,
-            viewModel: viewModel
-        )
-    }
-    
-}
-
 // MARK: UICollectionViewDataSourcePrefetching
 extension RestaurantsListView: UICollectionViewDataSourcePrefetching {
     
@@ -139,7 +107,7 @@ extension RestaurantsListView: UICollectionViewDataSourcePrefetching {
         guard let lastItem = indexPaths.sorted().last?.item else {
             return
         }
-        viewModel?.preloadElement(at: lastItem)
+        viewModel?.input.preload.onNext(lastItem)
     }
     
 }
@@ -182,17 +150,11 @@ extension RestaurantsListView {
         to viewModel: RestaurantsListViewModel,
         disposeBag: DisposeBag
     ) {
-        fullScreenStateView.viewModel = viewModel.fullScreenState
-        bottomStateView.viewModel = viewModel.bottomScreenState
+        fullScreenStateView.viewModel = viewModel.output.fullScreenState
+        bottomStateView.viewModel = viewModel.output.bottomScreenState
         
         disposeBag.insert(
-            viewModel.collectionDataChangeReadOnly.driver
-                .distinctUntilChanged()
-                .drive(with: self) { (me, dataChange) in
-                    me.receivedNew(viewModelDataChange: dataChange)
-                },
-            
-            viewModel.fullScreenStateVisibleReadOnly.driver
+            viewModel.output.fullScreenStateVisibleReadOnly
                 .distinctUntilChanged()
                 .drive(with: fullScreenStateView) { (fullScreenStateView, isVisible) in
                     if isVisible {
@@ -202,22 +164,48 @@ extension RestaurantsListView {
                     }
                 },
             
-            viewModel.bottomScreenStateVisibleReadOnly.driver
+            viewModel.output.bottomScreenStateVisibleReadOnly
                 .distinctUntilChanged()
                 .not()
-                .drive(bottomStateView.rx.isHidden)
+                .drive(bottomStateView.rx.isHidden),
+            
+            collectionView.rx
+                .prefetchItems
+                .compactMap { indexPaths -> Int? in
+                    guard !indexPaths.isEmpty else {
+                        return nil
+                    }
+                    return indexPaths.sorted().last?.item
+                }
+                .bind(to: viewModel.input.preload),
+            
+            viewModel.output
+                .restaurants
+                .bind(
+                    to: collectionView.rx.items(
+                        dataSource: dataSource(viewModel: viewModel)
+                    )
+                )
         )
     }
     
-    private func receivedNew(viewModelDataChange: RestaurantsListViewModel.DataChange) {
-        switch viewModelDataChange {
-        case .reload:
-            collectionView.reloadData()
-            
-        case .insert(let indexs):
-            collectionView.performBatchUpdates({
-                collectionView.insertItems(at: indexs)
-            }, completion: nil)
+    private func dataSource(
+        viewModel: RestaurantsListViewModel
+    ) -> RxCollectionViewSectionedAnimatedDataSource<RestaurantsListViewModel.Section> {
+        let preloadInput = viewModel.input.preload
+        let userLocation = viewModel.output.userLocation
+        let restaurantManager = viewModel.restaurantManager
+        let cellConfigurator = restaurantCellConfigurator
+        
+        return .init { (_, collectionView, indexPath, item) -> UICollectionViewCell in
+            preloadInput.onNext(indexPath.item)
+            return cellConfigurator.dequeueReusableCell(
+                collectionView,
+                cellForItemAt: indexPath,
+                userCoordinate: userLocation,
+                sectionElement: item,
+                restaurantManager: restaurantManager
+            )
         }
     }
     

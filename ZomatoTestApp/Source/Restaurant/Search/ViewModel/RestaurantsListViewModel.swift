@@ -24,97 +24,53 @@
 
 import RxSwift
 import RxCocoa
+import Differentiator
 import ZomatoFoundation
 import ZomatoUIKit
 import Zomato
 
 final class RestaurantsListViewModel {
     
-    private let collectionDataChange = BehaviorRelay<DataChange>(value: .reload)
-    var collectionDataChangeReadOnly: BehaviorRelayDriver<DataChange> {
-        return collectionDataChange.readOnlyDriver
-    }
-    
-    private let fullScreenStateVisible = BehaviorRelay<Bool>(value: false)
-    var fullScreenStateVisibleReadOnly: BehaviorRelayDriver<Bool> {
-        return fullScreenStateVisible.readOnlyDriver
-    }
-    let fullScreenState = FullScreenStateViewModel()
-    
-    private let bottomScreenStateVisible = BehaviorRelay<Bool>(value: false)
-    var bottomScreenStateVisibleReadOnly: BehaviorRelayDriver<Bool> {
-        return bottomScreenStateVisible.readOnlyDriver
-    }
-    let bottomScreenState = BottomStateViewModel()
-    
     let restaurantManager: RestaurantManagerProtocol
-    let restaurantsCollection: RestaurantsCollection
+    let restaurantsCollection: RestaurantManagerProtocol.RestaurantsCollection
     
-    var userLocation: CoordinateModel? {
-        return restaurantsCollection.userLocation
-    }
-    
-    let locationUpdatedEvent = PublishSubject<CoordinateModel?>()
-    
+    let input = Input()
+    let output: Output
     private let disposeBag = DisposeBag()
     private var retryRefreshDisposable: Disposable?
     private var retryNextPageDisposable: Disposable?
     
     init(
         restaurantManager: RestaurantManagerProtocol,
-        restaurantsCollection: RestaurantsCollection
+        restaurantsCollection: RestaurantManagerProtocol.RestaurantsCollection
     ) {
         self.restaurantManager = restaurantManager
         self.restaurantsCollection = restaurantsCollection
         
+        output = Output(
+            restaurants: restaurantsCollection.elements
+                .map { [Section(restaurants: $0)] },
+            userLocation: restaurantsCollection.query
+                .map { $0?.position }
+                .asDriver(onErrorJustReturn: nil)
+        )
+        
         set(state: .acquiringLocation)
         disposeBag.insert(
             bindRestaurantsCollectionUpdates(to: restaurantsCollection),
-            bindLocationUpdatedEvent()
+            bindLocationUpdatedInput(),
+            bindPreloadInput()
         )
-    }
-    
-    func numberOfRestaurants() -> Int {
-        return restaurantsCollection.numberOfElements()
-    }
-    
-    func restaurant(at index: Int) -> RestaurantModelProtocol? {
-        return restaurantsCollection.element(at: index)
-    }
-    
-    func preloadElement(at index: Int) {
-        restaurantsCollection.preloadElement(at: index)
     }
     
 }
 
-// MARK: Bind
+// MARK: Bind Input
 extension RestaurantsListViewModel {
     
-    private func bindRestaurantsCollectionUpdates(
-        to restaurantsCollection: RestaurantsCollection
-    ) -> Disposable {
-        CompositeDisposable(
-            restaurantsCollection.loadingStateReadOnly
-                .asObservable()
-                .map { RestaurantsListViewModel.State.from(loadingState: $0) }
-                .distinctUntilChanged()
-                .observe(on: MainScheduler.instance)
-                .withUnretained(self)
-                .bind { $0.set(state: $1) },
-            
-            restaurantsCollection.dataStateReadOnly
-                .asObservable()
-                .map { DataChange.from(dataState: $0) }
-                .distinctUntilChanged()
-                .observe(on: MainScheduler.instance)
-                .withUnretained(self)
-                .bind { $0.collectionDataChange.accept($1) }
-        )
-    }
-    
-    private func bindLocationUpdatedEvent() -> Disposable {
-        locationUpdatedEvent
+    private func bindLocationUpdatedInput() -> Disposable {
+        input
+            .locationUpdated
             .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
             .bind(with: self) { (me, location) in
@@ -123,15 +79,41 @@ extension RestaurantsListViewModel {
                     return
                 }
                 
-                me.restaurantsCollection.refreshCollection(
-                    position: location
-                )
+                let query = RestaurantsSearchQuery(position: location)
+                me.restaurantsCollection
+                    .input
+                    .onNext(.changeQuery(query))
             }
+    }
+    
+    private func bindPreloadInput() -> Disposable {
+        return input
+            .preload
+            .distinctUntilChanged()
+            .map {
+                RestaurantManagerProtocol.RestaurantsCollection.StateInput.preload(index: $0)
+            }
+            .subscribe(restaurantsCollection.input)
     }
     
 }
 
-// MARK: Private
+// MARK: Bind
+extension RestaurantsListViewModel {
+    
+    private func bindRestaurantsCollectionUpdates(
+        to restaurantsCollection: RestaurantManagerProtocol.RestaurantsCollection
+    ) -> Disposable {
+        restaurantsCollection.output
+            .map { RestaurantsListViewModel.State.map(from: $0) }
+            .distinctUntilChanged()
+            .observe(on: MainScheduler.instance)
+            .bind(with: self) { $0.set(state: $1) }
+    }
+    
+}
+
+// MARK: Private State Change
 extension RestaurantsListViewModel {
     
     private func set(state: State) {
@@ -172,114 +154,145 @@ extension RestaurantsListViewModel {
     }
     
     private func hideAllMessages() {
-        fullScreenState.clear()
-        fullScreenStateVisible.accept(false)
+        output.fullScreenState.clear()
+        output.fullScreenStateVisible.accept(false)
         
-        bottomScreenState.clear()
-        bottomScreenStateVisible.accept(false)
+        output.bottomScreenState.clear()
+        output.bottomScreenStateVisible.accept(false)
     }
     
     private func showFullScreenLoading() {
-        fullScreenState.setLoading()
-        fullScreenStateVisible.accept(true)
+        output.fullScreenState.setLoading()
+        output.fullScreenStateVisible.accept(true)
         
-        bottomScreenState.clear()
-        bottomScreenStateVisible.accept(false)
+        output.bottomScreenState.clear()
+        output.bottomScreenStateVisible.accept(false)
     }
     
     private func showEmptyMessage() {
-        fullScreenState.set(
+        output.fullScreenState.set(
             isLoading: false,
             message: L10n.Localizable.Screen.Restaurants.Status.empty.value,
             buttonTitle: nil,
             isButtonHidden: true
         )
-        fullScreenStateVisible.accept(true)
+        output.fullScreenStateVisible.accept(true)
         
-        bottomScreenState.clear()
-        bottomScreenStateVisible.accept(false)
+        output.bottomScreenState.clear()
+        output.bottomScreenStateVisible.accept(false)
     }
     
     private func showFullScreen(message: String) {
-        fullScreenState.set(message: message)
-        fullScreenStateVisible.accept(true)
+        output.fullScreenState.set(message: message)
+        output.fullScreenStateVisible.accept(true)
         
-        bottomScreenState.clear()
-        bottomScreenStateVisible.accept(false)
+        output.bottomScreenState.clear()
+        output.bottomScreenStateVisible.accept(false)
     }
     
     private func showBottom(message: String) {
-        fullScreenState.clear()
-        fullScreenStateVisible.accept(false)
+        output.fullScreenState.clear()
+        output.fullScreenStateVisible.accept(false)
         
-        bottomScreenState.set(message: message)
-        bottomScreenStateVisible.accept(true)
+        output.bottomScreenState.set(message: message)
+        output.bottomScreenStateVisible.accept(true)
     }
     
     private func showErrorRefreshing() {
-        fullScreenState.set(
+        output.fullScreenState.set(
             isLoading: false,
             message: L10n.Localizable.Screen.Restaurants.Status.Refreshing.error.value,
             buttonTitle: L10n.Localizable.Global.Button.retry.value,
             isButtonHidden: false
         )
-        retryRefreshDisposable?.dispose()
-        retryRefreshDisposable = fullScreenState
-            .buttonAction
-            .withUnretained(self)
-            .subscribe { (me, _) in
-                me.restaurantsCollection.refreshCollection()
-            }
-        fullScreenStateVisible.accept(true)
         
-        bottomScreenState.clear()
-        bottomScreenStateVisible.accept(false)
+        retryRefreshDisposable?.dispose()
+        retryNextPageDisposable?.dispose()
+        
+        retryRefreshDisposable = output.fullScreenState
+            .buttonAction
+            .subscribe(
+                with: self,
+                onNext: { (me, _) in
+                    me.restaurantsCollection.input.onNext(.refresh)
+                }
+            )
+        output.fullScreenStateVisible.accept(true)
+        
+        output.bottomScreenState.clear()
+        output.bottomScreenStateVisible.accept(false)
     }
     
     private func showErrorLoadingNextPage() {
-        fullScreenState.clear()
-        fullScreenStateVisible.accept(false)
+        output.fullScreenState.clear()
+        output.fullScreenStateVisible.accept(false)
         
-        bottomScreenState.set(
+        output.bottomScreenState.set(
             isLoading: false,
             message: L10n.Localizable.Screen.Restaurants.Status.LoadingMore.error.value,
             buttonTitle: L10n.Localizable.Global.Button.retry.value,
             isButtonHidden: false
         )
+        
+        retryRefreshDisposable?.dispose()
         retryNextPageDisposable?.dispose()
-        retryNextPageDisposable = bottomScreenState
+        
+        retryNextPageDisposable = output.bottomScreenState
             .buttonAction
-            .withUnretained(self)
-            .subscribe { (me, _) in
-                me.restaurantsCollection.retryNextPage()
-            }
-        bottomScreenStateVisible.accept(true)
+            .subscribe(
+                with: self,
+                onNext: { (me, _) in
+                    me.restaurantsCollection.input.onNext(.retryNextPage)
+                }
+            )
+        output.bottomScreenStateVisible.accept(true)
     }
     
 }
 
-// MAK: RestaurantsListViewModel.DataChange
+// MARK: RestaurantsListViewModel.Input
 extension RestaurantsListViewModel {
     
-    enum DataChange: Equatable {
-        case reload
-        case insert(indexs: [IndexPath])
+    struct Input {
+        let locationUpdated = PublishSubject<CoordinateModel?>()
+        let preload = PublishSubject<Int>()
+    }
+    
+}
+
+// MARK: RestaurantsListViewModel.Output
+extension RestaurantsListViewModel {
+    
+    struct Output {
+        fileprivate let fullScreenStateVisible = BehaviorRelay<Bool>(value: false)
+        let fullScreenStateVisibleReadOnly: Driver<Bool>
         
-        static func from(dataState: RestaurantsCollection.DataState) -> DataChange {
-            switch dataState {
-            case .uninitialized, .dataCleared, .dataFiltered:
-                return .reload
-                
-            case .newDataAvailable(let range):
-                let indexs = range.map { NSIndexPath(item: $0, section: 0) as IndexPath }
-                return .insert(indexs: indexs)
-            }
+        let fullScreenState = FullScreenStateViewModel()
+        
+        fileprivate let bottomScreenStateVisible = BehaviorRelay<Bool>(value: false)
+        let bottomScreenStateVisibleReadOnly: Driver<Bool>
+        
+        let bottomScreenState = BottomStateViewModel()
+        
+        let restaurants: Observable<[Section]>
+        let userLocation: Driver<CoordinateModel?>
+        
+        init(
+            restaurants: Observable<[Section]>,
+            userLocation: Driver<CoordinateModel?>
+        ) {
+            self.restaurants = restaurants
+            self.userLocation = userLocation
+            
+            fullScreenStateVisibleReadOnly = fullScreenStateVisible.asDriver()
+            
+            bottomScreenStateVisibleReadOnly = bottomScreenStateVisible.asDriver()
         }
     }
     
 }
 
-// MAK: RestaurantsListViewModel.State
+// MARK: RestaurantsListViewModel.State
 extension RestaurantsListViewModel {
     
     private enum State {
@@ -289,11 +302,11 @@ extension RestaurantsListViewModel {
         case errorRefreshing
         case loadingNextPage
         case errorLoadingNextPage
-        case filtering
         case empty
+        case filtering
         case withData
         
-        static func from(loadingState: RestaurantsCollection.LoadingState) -> State {
+        static func map(from loadingState: RestaurantManagerProtocol.RestaurantsCollection.State) -> State {
             switch loadingState {
             case .uninitialized:
                 return .uninitialized
@@ -310,15 +323,54 @@ extension RestaurantsListViewModel {
             case .errorLoadingNextPage:
                 return .errorLoadingNextPage
                 
-            case .withData:
-                return .withData
+            case .empty:
+                return .empty
                 
             case .filtering:
                 return .filtering
                 
-            case .empty:
-                return .empty
+            case .withData:
+                return .withData
             }
+        }
+    }
+    
+}
+
+// MARK: - Restaurants Collection
+extension RestaurantsListViewModel {
+    
+    enum SectionElement: IdentifiableType, Equatable {
+        case restaurant(RestaurantModelProtocol)
+        
+        var identity: String {
+            switch self {
+            case .restaurant(let model):
+                return model.id
+            }
+        }
+        
+        public static func == (
+            lhs: SectionElement,
+            rhs: SectionElement
+        ) -> Bool {
+            return lhs.identity == rhs.identity
+        }
+    }
+    
+    struct Section: AnimatableSectionModelType {
+        typealias Item = RestaurantsListViewModel.SectionElement
+        
+        var items: [Item]
+        var identity: String = "Restaurants"
+        
+        init(original: Section, items: [Item]) {
+            self = original
+            self.items = items
+        }
+        
+        init(restaurants: [RestaurantModelProtocol]) {
+            items = restaurants.map { Item.restaurant($0) }
         }
     }
     

@@ -32,33 +32,84 @@ final class RestaurantsViewControllerModel {
     
     let restaurantsListViewModel: RestaurantsListViewModel
     
-    let title = BehaviorRelay<String?>(
-        value: L10n.Localizable.Screen.Restaurants.title.value
-    ).asDriver()
-    
-    private let isFilterEnabled = BehaviorRelay<Bool>(value: false)
-    var isFilterEnabledReadOnly: BehaviorRelayDriver<Bool> {
-        return isFilterEnabled.readOnlyDriver
-    }
-    
-    let filterAction = PublishSubject<Void>()
-    let viewWillAppearEvent = PublishSubject<Void>()
-    
+    let input: Input
+    let output: Output
     private let disposeBag = DisposeBag()
     
     init(
         restaurantsListViewModel: RestaurantsListViewModel,
-        restaurantsCollection: RestaurantsCollection,
-        locationManager: LocationManagerProtocol,
-        coordinator: AppCoordinatorProtocol
+        restaurantsCollection: RestaurantManagerProtocol.RestaurantsCollection,
+        locationManager: LocationManagerProtocol
     ) {
         self.restaurantsListViewModel = restaurantsListViewModel
+        input = Input()
+        
+        output = Output(
+            title: L10n.Localizable.Screen.Restaurants.title,
+            showFilterOptions: OutputActionViewModel(
+                image: Asset.filter.image
+            )
+        )
         
         disposeBag.insert(
-            bindFilterAction(to: restaurantsCollection, coordinator: coordinator),
-            bindUpdateFilterEnabled(restaurantsCollection: restaurantsCollection),
-            bindViewWillAppearEvent(locationManager: locationManager, coordinator: coordinator)
+            bindShowFilterOptionsInput(with: restaurantsCollection),
+            bindApplyFilterOptionsInput(with: restaurantsCollection),
+            bindLocationInput(to: locationManager),
+            bindUpdateFilterEnabled(to: restaurantsCollection)
         )
+    }
+    
+}
+
+// MARK: Bind Input
+extension RestaurantsViewControllerModel {
+    
+    private func bindShowFilterOptionsInput(
+        with restaurantsCollection: RestaurantManagerProtocol.RestaurantsCollection
+    ) -> Disposable {
+        return input
+            .showFilterOptions
+            .withLatestFrom(restaurantsCollection.query)
+            .compactMap { $0 }
+            .map { (filter: $0.filter, sort: $0.sort) }
+            .subscribe(output.showFilterOptions.action)
+        
+    }
+    
+    private func bindApplyFilterOptionsInput(
+        with restaurantsCollection: RestaurantManagerProtocol.RestaurantsCollection
+    ) -> Disposable {
+        return input
+            .applyFilterOptions
+            .withLatestFrom(restaurantsCollection.query) { ($0, $1) }
+            .subscribe(onNext: { (filterOptions, query) in
+                guard let query = query else {
+                    return
+                }
+                
+                let newQuery = query.set(
+                    sort: filterOptions.sort,
+                    filter: filterOptions.filter
+                )
+                restaurantsCollection.input.onNext(.changeQuery(newQuery))
+            })
+    }
+    
+    private func bindLocationInput(
+        to locationManager: LocationManagerProtocol
+    ) -> Disposable {
+        return Observable.merge(input.retryLocation, input.viewWillAppear)
+            .flatMap { _ -> Observable<CoordinateModel?> in
+                locationManager
+                    .currentLocation()
+                    .do(onError: { [weak self] error in
+                        self?.output.showLocationError.onNext(error)
+                    })
+                    .catch { _ in Observable.just(nil) }
+                    .map { CoordinateModel(location: $0) }
+            }
+            .observe(on: MainScheduler.instance)
+            .subscribe(restaurantsListViewModel.input.locationUpdated)
     }
     
 }
@@ -66,27 +117,13 @@ final class RestaurantsViewControllerModel {
 // MARK: Helpers
 extension RestaurantsViewControllerModel {
     
-    private func bindFilterAction(
-        to restaurantsCollection: RestaurantsCollection,
-        coordinator: AppCoordinatorProtocol
-    ) -> Disposable {
-        return filterAction
-            .subscribe { _ in
-                coordinator.showRestaurantFilterOptions(
-                    restaurantsCollection: restaurantsCollection
-                )
-            }
-    }
-    
     private func bindUpdateFilterEnabled(
-        restaurantsCollection: RestaurantsCollection
+        to restaurantsCollection: RestaurantManagerProtocol.RestaurantsCollection
     ) -> Disposable {
         return restaurantsCollection
-            .loadingStateReadOnly
-            .asObservable()
-            .distinctUntilChanged()
-            .map { loadingState -> Bool in
-                switch loadingState {
+            .output
+            .map { state -> Bool in
+                switch state {
                 case .uninitialized,
                      .refreshing,
                      .errorRefreshing,
@@ -95,10 +132,10 @@ extension RestaurantsViewControllerModel {
                      .filtering:
                     return false
                     
-                case .empty:
+                case .empty(_, _, let query):
                     // We have a list empty but we are filtering
                     // User can choose to remove filter to have results again
-                    if restaurantsCollection.filterReadOnly.value != nil {
+                    if query?.filter != nil {
                         return true
                     } else {
                         return false
@@ -108,65 +145,52 @@ extension RestaurantsViewControllerModel {
                     return true
                 }
             }
+            .distinctUntilChanged()
             .observe(on: MainScheduler.instance)
-            .bind(to: isFilterEnabled)
-    }
-    
-    private func bindViewWillAppearEvent(
-        locationManager: LocationManagerProtocol,
-        coordinator: AppCoordinatorProtocol
-    ) -> Disposable {
-        return viewWillAppearEvent.subscribe(
-            with: self
-        ) { (me, _) in
-            me.updateLocation(locationManager: locationManager, coordinator: coordinator)
-        }
+            .bind(to: output.showFilterOptions.isEnabled)
     }
     
 }
 
-// MARK: Location
+// MARK: - RestaurantsViewControllerModel.Input
 extension RestaurantsViewControllerModel {
     
-    private func updateLocation(
-        locationManager: LocationManagerProtocol,
-        coordinator: AppCoordinatorProtocol
-    ) {
-        let disposable = locationManager
-            .currentLocation()
-            .map { CoordinateModel(location: $0) }
-            .subscribe(
-                onNext: { [weak restaurantsListViewModel] coordinate in
-                    restaurantsListViewModel?.locationUpdatedEvent.onNext(coordinate)
-                },
-                onError: { [weak self] error in
-                    self?.restaurantsListViewModel.locationUpdatedEvent.onNext(nil)
-                    self?.onLocationError(
-                        error,
-                        locationManager: locationManager,
-                        coordinator: coordinator
-                    )
-                }
-            )
-        
-        disposeBag.insert(disposable)
+    struct Input {
+        let viewWillAppear = PublishSubject<Void>()
+        let retryLocation = PublishSubject<Void>()
+        let showFilterOptions = PublishSubject<Void>()
+        let applyFilterOptions = PublishSubject<(filter: RestaurantFilterModel?, sort: Sort)>()
     }
+
+}
+
+// MARK: - RestaurantsViewControllerModel.Output
+extension RestaurantsViewControllerModel {
     
-    private func onLocationError(
-        _ error: Error,
-        locationManager: LocationManagerProtocol,
-        coordinator: AppCoordinatorProtocol
-    ) {
-        let disposable = coordinator.showLocationError(error)
-            .closeAction
-            .subscribe(
-                with: self,
-                onNext: { (me, _) in
-                    me.updateLocation(locationManager: locationManager, coordinator: coordinator)
-                }
-            )
+    struct Output {
+        let title: Driver<String>
         
-        disposeBag.insert(disposable)
+        fileprivate let showFilterOptions: OutputActionViewModel<(filter: RestaurantFilterModel?, sort: Sort)>
+        let showFilterOptionsReadOnly: ReadOnlyOutputActionViewModel<(filter: RestaurantFilterModel?, sort: Sort)>
+        
+        fileprivate let showLocationError = PublishSubject<Error>()
+        let showLocationErrorReadOnly: Observable<Error>
+        
+        init(
+            title: LocalizedString,
+            showFilterOptions: OutputActionViewModel<(filter: RestaurantFilterModel?, sort: Sort)>
+            
+        ) {
+            self.title = BehaviorRelay<String>(
+                value: title.value
+            ).asDriver()
+            
+            self.showFilterOptions = showFilterOptions
+            showFilterOptionsReadOnly = ReadOnlyOutputActionViewModel(actionModel: showFilterOptions)
+            
+            showLocationErrorReadOnly = showLocationError.asObservable()
+        }
+        
     }
     
 }

@@ -35,7 +35,7 @@ final class RestaurantsViewController: UIViewController {
     }
     
     private let filterButton = UIBarButtonItem(
-        image: Asset.filter.image,
+        image: nil,
         style: .plain,
         target: nil,
         action: nil
@@ -62,7 +62,7 @@ final class RestaurantsViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        viewModel?.viewWillAppearEvent.onNext()
+        viewModel?.input.viewWillAppear.onNext()
     }
     
 }
@@ -96,13 +96,12 @@ extension RestaurantsViewController {
         restaurantsListView.viewModel = viewModel.restaurantsListViewModel
         
         disposeBag.insert(
-            viewModel.title.drive(rx.title),
+            viewModel.output.title.drive(rx.title),
             
-            viewModel.isFilterEnabledReadOnly.driver
-                .drive(filterButton.rx.isEnabled),
-            
-            filterButton.rx.tap
-                .subscribe(viewModel.filterAction)
+            filterButton.bind(
+                input: viewModel.input.showFilterOptions,
+                output: viewModel.output.showFilterOptionsReadOnly
+            )
         )
     }
     
