@@ -29,15 +29,80 @@ import Zomato
 
 final class PriceRangeCollectionViewCellViewModel {
     
-    let priceRange: RestaurantPriceRange
+    let input: Input
+    let output: Output
     
-    let title: Driver<String?>
-    let isSelected: BehaviorRelay<Bool>
+    init(
+        priceRange: RestaurantPriceRange,
+        isSelected: Bool = false
+    ) {
+        input = Input(isSelected: isSelected)
+        
+        let colorDriver = input
+            .isSelected
+            .asDriver()
+            .map { isSelected -> UIColor in
+                if isSelected {
+                    return Theme.shared.primaryColor
+                } else {
+                    return Theme.shared.cellBackgroundColor
+                }
+            }
+        
+        let selectedPriceRange = input
+            .isSelected
+            .map { isSelected -> RestaurantPriceRange? in
+                if isSelected {
+                    return priceRange
+                } else {
+                    return nil
+                }
+            }
+        
+        output = Output(
+            title: priceRange.localized,
+            selectedPriceRange: selectedPriceRange,
+            color: colorDriver
+        )
+    }
     
-    init(priceRange: RestaurantPriceRange, isSelected: Bool = false) {
-        self.priceRange = priceRange
-        self.title = BehaviorRelay<String?>(value: priceRange.localized).asDriver()
-        self.isSelected = BehaviorRelay<Bool>(value: isSelected)
+}
+
+// MARK: - PriceRangeCollectionViewCellViewModel.Input
+extension PriceRangeCollectionViewCellViewModel {
+    
+    struct Input {
+        let isSelected: BehaviorRelay<Bool>
+        
+        init(isSelected: Bool) {
+            self.isSelected = BehaviorRelay<Bool>(value: isSelected)
+        }
+        
+    }
+    
+}
+
+// MARK: - PriceRangeCollectionViewCellViewModel.Output
+extension PriceRangeCollectionViewCellViewModel {
+    
+    struct Output {
+        let title: Driver<String?>
+        let selectedPriceRange: Observable<RestaurantPriceRange?>
+        let color: Driver<UIColor>
+        
+        init(
+            title: LocalizedString,
+            selectedPriceRange: Observable<RestaurantPriceRange?>,
+            color: Driver<UIColor>
+        ) {
+            self.title = BehaviorRelay<String?>(
+                value: title.value
+            ).asDriver()
+            
+            self.selectedPriceRange = selectedPriceRange
+            self.color = color
+        }
+        
     }
     
 }

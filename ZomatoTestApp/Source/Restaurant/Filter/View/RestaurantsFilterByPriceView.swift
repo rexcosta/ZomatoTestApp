@@ -66,8 +66,6 @@ final class RestaurantsFilterByPriceView: UIView {
         setupConstraints()
         
         priceRangeCellConfigurator.register(in: collectionView)
-        collectionView.dataSource = self
-        collectionView.delegate = self
     }
     
     required init?(coder: NSCoder) {
@@ -85,52 +83,6 @@ final class RestaurantsFilterByPriceView: UIView {
             width: width,
             height: 50
         )
-    }
-    
-}
-
-// MARK: UICollectionViewDataSource
-extension RestaurantsFilterByPriceView: UICollectionViewDataSource {
-    
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 1
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        numberOfItemsInSection section: Int
-    ) -> Int {
-        return viewModel?.numberOfPrices() ?? 0
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
-        return priceRangeCellConfigurator.dequeueReusableCell(
-            collectionView,
-            cellForItemAt: indexPath,
-            viewModel: viewModel?.price(at: indexPath.item)
-        )
-    }
-    
-}
-
-// MARK: UICollectionViewDelegate
-extension RestaurantsFilterByPriceView: UICollectionViewDelegate {
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didSelectItemAt indexPath: IndexPath
-    ) {
-        viewModel?.selectPrice(at: indexPath.item, selected: true)
-    }
-    
-    func collectionView(
-        _ collectionView: UICollectionView,
-        didDeselectItemAt indexPath: IndexPath
-    ) {
-        viewModel?.selectPrice(at: indexPath.item, selected: false)
     }
     
 }
@@ -166,7 +118,24 @@ extension RestaurantsFilterByPriceView {
         disposeBag: DisposeBag
     ) {
         disposeBag.insert(
-            viewModel.title.drive(filterByPriceRangeLabel.rx.text)
+            viewModel.output.title.drive(filterByPriceRangeLabel.rx.text),
+            
+            viewModel.output.prices.bind(
+                to: collectionView.rx.items(
+                    cellIdentifier: "filter-price-cell",
+                    cellType: PriceRangeCollectionViewCell.self
+                )
+            ) { (_, viewModel, cell) in
+                cell.viewModel = viewModel
+            },
+            
+            collectionView.rx.modelDeselected(PriceRangeCollectionViewCellViewModel.self).subscribe(onNext: { intem in
+                intem.input.isSelected.accept(false)
+            }),
+            
+            collectionView.rx.modelSelected(PriceRangeCollectionViewCellViewModel.self).subscribe(onNext: { intem in
+                intem.input.isSelected.accept(true)
+            })
         )
     }
     

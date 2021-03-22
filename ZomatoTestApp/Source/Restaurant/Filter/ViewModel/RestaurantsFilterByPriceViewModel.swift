@@ -29,52 +29,79 @@ import Zomato
 
 final class RestaurantsFilterByPriceViewModel {
     
-    private let possiblePrices: [PriceRangeCollectionViewCellViewModel]
+    let output: Output
     
-    let title = BehaviorRelay<String?>(
-        value: L10n.Localizable.Screen.Restaurants.Filter.priceRange.value
-    ).asDriver()
-    
-    init(restaurantsCollection: RestaurantsCollection) {
-        possiblePrices = [
-            PriceRangeCollectionViewCellViewModel(priceRange: .cheap),
-            PriceRangeCollectionViewCellViewModel(priceRange: .moderate),
-            PriceRangeCollectionViewCellViewModel(priceRange: .expensive),
-            PriceRangeCollectionViewCellViewModel(priceRange: .veryExpensive)
-        ]
-        
-        guard let filter = restaurantsCollection.filterReadOnly.value else {
-            return
+    init(
+        filter: RestaurantFilterModel?,
+        possibleFilters: [RestaurantPriceRange] = RestaurantsFilterByPriceViewModel.possiblePriceRangeFilters()
+    ) {
+        let shouldFilter = { (_ priceRange: RestaurantPriceRange) in
+            return filter?.shouldFilter(
+                priceRange: priceRange
+            ) ?? false
         }
         
-        possiblePrices.forEach { possiblePriceModel in
-            let shouldFilter = filter.shouldFilter(
-                priceRange: possiblePriceModel.priceRange
-            )
-            possiblePriceModel.isSelected.accept(shouldFilter)
-        }
-    }
-    
-    var pricesToFilter: [RestaurantPriceRange] {
-        return possiblePrices
-            .filter { $0.isSelected.value }
-            .map { $0.priceRange }
+        let possiblePricesModels = BehaviorRelay<[PriceRangeCollectionViewCellViewModel]>(
+            value: possibleFilters.map {
+                return PriceRangeCollectionViewCellViewModel(
+                    priceRange: $0,
+                    isSelected: shouldFilter($0)
+                )
+            }
+        )
+        
+        let selectedPricesRange = possiblePricesModels
+            .flatMap { possiblePrices -> Observable<[RestaurantPriceRange]> in
+                return Observable
+                    .combineLatest(possiblePrices.map { $0.output.selectedPriceRange })
+                    .map { $0.compactMap { $0 } }
+            }
+        
+        output = Output(
+            title: L10n.Localizable.Screen.Restaurants.Filter.priceRange,
+            prices: possiblePricesModels.asObservable(),
+            selectedPrices: selectedPricesRange
+        )
     }
     
 }
 
+// MARK: - RestaurantsFilterByPriceViewModel.Output
 extension RestaurantsFilterByPriceViewModel {
     
-    func numberOfPrices() -> Int {
-        return possiblePrices.count
+    struct Output {
+        
+        let title: Driver<String?>
+        let prices: Observable<[PriceRangeCollectionViewCellViewModel]>
+        let selectedPrices: Observable<[RestaurantPriceRange]>
+        
+        init(
+            title: LocalizedString,
+            prices: Observable<[PriceRangeCollectionViewCellViewModel]>,
+            selectedPrices: Observable<[RestaurantPriceRange]>
+        ) {
+            self.title = BehaviorRelay<String?>(
+                value: title.value
+            ).asDriver()
+            
+            self.prices = prices
+            self.selectedPrices = selectedPrices
+        }
+        
     }
     
-    func price(at index: Int) -> PriceRangeCollectionViewCellViewModel? {
-        return possiblePrices[index]
-    }
+}
+
+// MARK: Static helpers
+extension RestaurantsFilterByPriceViewModel {
     
-    func selectPrice(at index: Int, selected: Bool) {
-        possiblePrices[index].isSelected.accept(selected)
+    private static func possiblePriceRangeFilters() -> [RestaurantPriceRange] {
+        return [
+            .cheap,
+            .moderate,
+            .expensive,
+            .veryExpensive
+        ]
     }
     
 }

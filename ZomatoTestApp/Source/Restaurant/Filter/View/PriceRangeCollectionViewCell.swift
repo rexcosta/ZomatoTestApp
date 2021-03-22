@@ -111,18 +111,8 @@ extension PriceRangeCollectionViewCell {
         disposeBag: DisposeBag
     ) {
         disposeBag.insert(
-            viewModel.title.drive(priceLabel.rx.text),
-            
-            viewModel.isSelected
-                .asDriver()
-                .map { isSelected -> UIColor in
-                    if isSelected {
-                        return Theme.shared.primaryColor
-                    } else {
-                        return Theme.shared.cellBackgroundColor
-                    }
-                }
-                .drive(contentView.rx.backgroundColor)
+            viewModel.output.title.drive(priceLabel.rx.text),
+            viewModel.output.color.drive(contentView.rx.backgroundColor)
         )
     }
     

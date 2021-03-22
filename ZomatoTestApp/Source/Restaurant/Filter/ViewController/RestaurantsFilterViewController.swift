@@ -30,8 +30,8 @@ import ZomatoUIKit
 
 final class RestaurantsFilterViewController: UIViewController {
     
-    private let closeButton = UIBarButtonItem(
-        title: L10n.Localizable.Global.Button.cancel.value,
+    private let cancelButton = UIBarButtonItem(
+        title: nil,
         style: .plain,
         target: nil,
         action: nil
@@ -51,12 +51,7 @@ final class RestaurantsFilterViewController: UIViewController {
     private let restaurantsFilterByPriceView = RestaurantsFilterByPriceView().with {
         $0.translatesAutoresizingMaskIntoConstraints = false
     }
-    private let applyFilterButton = UIButton().withPrimaryStyle.with {
-        $0.setTitle(
-            L10n.Localizable.Screen.Restaurants.Filter.applyFilter.value,
-            for: .normal
-        )
-    }
+    private let applyFilterButton = UIButton().withPrimaryStyle
     
     private var disposeBag = DisposeBag()
     var viewModel: RestaurantsFilterViewControllerModel?
@@ -83,7 +78,7 @@ extension RestaurantsFilterViewController {
         view.backgroundColor = Theme.shared.backgroundColor
         
         navigationItem.rightBarButtonItems = [
-            closeButton
+            cancelButton
         ]
     }
     
@@ -117,13 +112,17 @@ extension RestaurantsFilterViewController {
         restaurantsFilterByPriceView.viewModel = viewModel.filterByPriceViewModel
         
         disposeBag.insert(
-            viewModel.title.drive(rx.title),
+            viewModel.output.title.drive(rx.title),
             
-            closeButton.rx.tap
-                .subscribe(viewModel.closeAction),
+            applyFilterButton.bind(
+                input: viewModel.input.applyFilterOptions,
+                output: viewModel.output.applyFilterReadOnly
+            ),
             
-            applyFilterButton.rx.tap
-                .subscribe(viewModel.applyFilterAction)
+            cancelButton.bind(
+                input: viewModel.input.cancel,
+                output: viewModel.output.cancelReadOnly
+            )
         )
     }
     

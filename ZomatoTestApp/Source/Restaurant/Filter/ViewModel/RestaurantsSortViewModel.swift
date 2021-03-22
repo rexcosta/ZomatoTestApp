@@ -29,28 +29,70 @@ import Zomato
 
 final class RestaurantsSortViewModel {
     
-    var sort: Sort {
-        if isSortActive.value {
-            return .distance
-        } else {
-            return .dontSort
-        }
-    }
+    let input: Input
+    let output: Output
     
-    let title = BehaviorRelay<String?>(
-        value: L10n.Localizable.Screen.Restaurants.Filter.Sort.location.value
-    ).asDriver()
-    
-    let isSortActive: BehaviorRelay<Bool>
-    
-    init(restaurantsCollection: RestaurantsCollection) {
-        switch restaurantsCollection.sortReadOnly.value {
+    init(sort: Sort) {
+        switch sort {
         case .distance:
-            isSortActive = BehaviorRelay<Bool>(value: true)
+            input = Input(isSortActive: true)
             
         case .dontSort:
-            isSortActive = BehaviorRelay<Bool>(value: false)
+            input = Input(isSortActive: false)
         }
+        
+        output = Output(
+            title: L10n.Localizable.Screen.Restaurants.Filter.Sort.location,
+            isSortActive: input.isSortActive.asDriver(),
+            sort: input
+                .isSortActive
+                .map { isSortActive -> Sort in
+                    if isSortActive {
+                        return .distance
+                    } else {
+                        return .dontSort
+                    }
+                }
+        )
+    }
+    
+}
+
+// MARK: - RestaurantsSortViewModel.Input
+extension RestaurantsSortViewModel {
+    
+    struct Input {
+        let isSortActive: BehaviorRelay<Bool>
+        
+        init(isSortActive: Bool) {
+            self.isSortActive = BehaviorRelay<Bool>(value: isSortActive)
+        }
+        
+    }
+    
+}
+
+// MARK: - RestaurantsSortViewModel.Output
+extension RestaurantsSortViewModel {
+    
+    struct Output {
+        let title: Driver<String?>
+        let isSortActive: Driver<Bool>
+        let sort: Observable<Sort>
+        
+        init(
+            title: LocalizedString,
+            isSortActive: Driver<Bool>,
+            sort: Observable<Sort>
+        ) {
+            self.title = BehaviorRelay<String?>(
+                value: title.value
+            ).asDriver()
+            
+            self.isSortActive = isSortActive
+            self.sort = sort
+        }
+        
     }
     
 }

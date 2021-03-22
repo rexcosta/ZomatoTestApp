@@ -83,7 +83,7 @@ extension RestaurantsSortView {
     
     private func bind(to viewModel: RestaurantsSortViewModel) {
         disposeBag.insert(
-            viewModel.title.drive(sortByLocationLabel.rx.text),
+            viewModel.output.title.drive(sortByLocationLabel.rx.text),
             
             viewModel.isSortActive.twoWayBind(to: sortByLocationSwitch.rx.isOn)
         )
