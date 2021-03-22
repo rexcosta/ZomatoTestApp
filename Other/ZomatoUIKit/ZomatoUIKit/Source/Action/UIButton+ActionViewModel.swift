@@ -27,23 +27,72 @@ import RxCocoa
 
 extension UIButton {
     
-    public func bind(action: ActionViewModel) -> Disposable {
+    public func bind(
+        input: PublishSubject<Void>,
+        output: ReadOnlyActionViewModel
+    ) -> Disposable {
         return CompositeDisposable(
-            action.title.asDriver().drive(rx.title(for: .normal)),
-            action.image.asDriver().drive(rx.image(for: .normal)),
-            action.isEnabled.asDriver().drive(rx.isEnabled),
-            action.isHidden.asDriver().drive(rx.isHidden),
-            rx.controlEvent(.touchUpInside).subscribe(action.action)
+            output.title.drive(rx.title(for: .normal)),
+            output.image.drive(rx.image(for: .normal)),
+            output.isEnabled.drive(rx.isEnabled),
+            output.isHidden.drive(rx.isHidden),
+            
+            rx.controlEvent(.touchUpInside)
+                .mapToVoid()
+                .subscribe(input)
         )
     }
     
-    public func bind(action: ReadOnlyActionViewModel) -> Disposable {
+    public func bind<Output>(
+        input: PublishSubject<Void>,
+        output: ReadOnlyOutputActionViewModel<Output>
+    ) -> Disposable {
         return CompositeDisposable(
-            action.title.drive(rx.title(for: .normal)),
-            action.image.drive(rx.image(for: .normal)),
-            action.isEnabled.drive(rx.isEnabled),
-            action.isHidden.drive(rx.isHidden),
-            rx.controlEvent(.touchUpInside).subscribe(action.action)
+            output.title.drive(rx.title(for: .normal)),
+            output.image.drive(rx.image(for: .normal)),
+            output.isEnabled.drive(rx.isEnabled),
+            output.isHidden.drive(rx.isHidden),
+            
+            rx.controlEvent(.touchUpInside)
+                .mapToVoid()
+                .subscribe(input)
+        )
+    }
+    
+}
+
+
+
+
+extension UIBarButtonItem {
+    
+    public func bind(
+        input: PublishSubject<Void>,
+        output: ReadOnlyActionViewModel
+    ) -> Disposable {
+        return CompositeDisposable(
+            output.title.asDriver().drive(rx.title),
+            output.image.asDriver().drive(rx.image),
+            output.isEnabled.asDriver().drive(rx.isEnabled),
+            
+            rx.tap
+                .mapToVoid()
+                .subscribe(input)
+        )
+    }
+    
+    public func bind<Output>(
+        input: PublishSubject<Void>,
+        output: ReadOnlyOutputActionViewModel<Output>
+    ) -> Disposable {
+        return CompositeDisposable(
+            output.title.asDriver().drive(rx.title),
+            output.image.asDriver().drive(rx.image),
+            output.isEnabled.asDriver().drive(rx.isEnabled),
+            
+            rx.tap
+                .mapToVoid()
+                .subscribe(input)
         )
     }
     

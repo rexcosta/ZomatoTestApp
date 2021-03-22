@@ -27,17 +27,29 @@ import RxCocoa
 
 extension UITapGestureRecognizer {
     
-    public func bind(action: ActionViewModel) -> Disposable {
+    public func bind(
+        input: PublishSubject<Void>,
+        output: ReadOnlyActionViewModel
+    ) -> Disposable {
         return CompositeDisposable(
-            rx.event.mapToVoid().subscribe(action.action),
-            action.isEnabled.asDriver().drive(rx.isEnabled)
+            rx.event
+                .mapToVoid()
+                .subscribe(input),
+            
+            output.isEnabled.drive(rx.isEnabled)
         )
     }
     
-    public func bind(action: ReadOnlyActionViewModel) -> Disposable {
+    public func bind<Output>(
+        input: PublishSubject<Void>,
+        output: ReadOnlyOutputActionViewModel<Output>
+    ) -> Disposable {
         return CompositeDisposable(
-            rx.event.mapToVoid().subscribe(action.action),
-            action.isEnabled.drive(rx.isEnabled)
+            rx.event
+                .mapToVoid()
+                .subscribe(input),
+            
+            output.isEnabled.drive(rx.isEnabled)
         )
     }
     
