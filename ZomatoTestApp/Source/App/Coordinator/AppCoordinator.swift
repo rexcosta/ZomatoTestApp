@@ -22,47 +22,40 @@
 // SOFTWARE.
 //
 
-import UIKit
 import RxSwift
-import ZomatoFoundation
+import RxCocoa
 import Zomato
 
-@main
-final class AppDelegate: UIResponder, UIApplicationDelegate {
+final class AppCoordinator: BaseCoordinator<Void> {
     
-    private var appCoordinator: AppCoordinator?
-    private let disposeBag = DisposeBag()
+    private let zomato: Zomato
+    private let window: UIWindow
+    private var launchOptions: [UIApplication.LaunchOptionsKey: Any]?
     
-    var window: UIWindow?
-    
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-    ) -> Bool {
-        Log.logAppInfo()
-        
-        let zomato = Zomato(
-            apiKey: "",
-            userAgent: "dummy user agent",
-            network: HttpClient(
-                session: URLSession.shared
-            )
-        )
-        
-        let window = UIWindow(frame: UIScreen.main.bounds)
+    init(
+        zomato: Zomato,
+        window: UIWindow,
+        launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+    ) {
+        self.zomato = zomato
         self.window = window
-        
-        appCoordinator = AppCoordinator(
+        self.launchOptions = launchOptions
+    }
+    
+    override func start() -> Observable<CoordinationResult> {
+        let navigationController = UINavigationController()
+        let navigation = NavigationControllerNavigation(
+            navigationController: navigationController
+        )
+        let searchCoordinator = SearchCoordinator(
             zomato: zomato,
-            window: window,
-            launchOptions: launchOptions
+            navigation: navigation
         )
         
-        appCoordinator?.start()
-            .subscribe()
-            .disposed(by: disposeBag)
+        window.rootViewController = navigationController
+        window.makeKeyAndVisible()
         
-        return true
+        return coordinate(to: searchCoordinator)
     }
     
 }
